@@ -10,21 +10,18 @@ function Actions({ post }: { post: IPost }) {
 
   if (!user) return;
 
+  if (user._id !== post.creator._id) return;
+
   return (
     <div className="flex-center">
-      <Link
-        to={`/update-post/${post?._id}`}
-        className={`${user._id !== post?.creator?._id && "hidden"}`}
-      >
+      <Link to={`/update-post/${post?._id}`}>
         <img src="/assets/icons/edit.svg" alt="edit" width={24} height={24} />
       </Link>
 
       <Button
         onClick={handleDelete}
         disabled={isDeletingPost}
-        className={`ghost_details-delete_btn ${
-          user._id !== post?.creator?._id && "hidden"
-        }`}
+        className={`ghost_details-delete_btn !bg-inherit  `}
       >
         <img
           src={"/assets/icons/delete.svg"}

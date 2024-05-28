@@ -1,5 +1,5 @@
 import { getPostUrl } from "../config/api.config";
-import { IEditPost, IPost } from "../shared/types/post.interface";
+import { IEditPost, IGetPosts, IPost } from "../shared/types/post.interface";
 import { request } from "./api/reguest.api";
 
 export const PostService = {
@@ -30,6 +30,16 @@ export const PostService = {
     return request<{ status: string }>({
       url: getPostUrl(`/${_id}`),
       method: "DELETE",
+    });
+  },
+
+  async getAll({ pageParam = 1 }: { pageParam: number }) {
+    return request<IGetPosts>({
+      url: getPostUrl(""),
+      method: "GET",
+      params: {
+        page: pageParam,
+      },
     });
   },
 };

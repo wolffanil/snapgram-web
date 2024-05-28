@@ -9,6 +9,7 @@ interface ICommentItem {
 
 function CommentItem({ comment, isParent }: ICommentItem) {
   const navigate = useNavigate();
+  console.log(comment, "COmment");
   const { count, isLike, onLike } = useLike(comment._id, comment.likes);
 
   return (
@@ -57,7 +58,7 @@ ${isParent ? "bg-slate-400" : ""} `}
           className="cursor-pointer"
         />
 
-        <p className="text-[10px] text-light-3">{count || ""}</p>
+        <p className="text-[10px] text-light-3">{count || 0}</p>
       </div>
     </div>
   );

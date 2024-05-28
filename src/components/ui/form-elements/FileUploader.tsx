@@ -3,6 +3,7 @@ import { useDropzone, FileWithPath } from "react-dropzone";
 import { useTheme } from "../../../hooks/useTheme";
 
 import cn from "clsx";
+import { getMedia } from "../../../utils";
 
 interface IFileUploader {
   fieldChange: (FILES: File[]) => void;
@@ -38,7 +39,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
             <img
-              src={fileUrl}
+              src={getMedia(fileUrl)}
               alt="image"
               className={cn("file_uploader-img", {
                 "!fill-black": !isDarkMode,

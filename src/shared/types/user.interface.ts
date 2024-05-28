@@ -1,3 +1,4 @@
+import { IPost } from "./post.interface";
 import { ITimestamps } from "./timestamps.interface";
 
 export interface IUser extends ITimestamps {
@@ -12,3 +13,7 @@ export interface IUser extends ITimestamps {
 
 export interface IEditUser
   extends Pick<IUser, "name" | "nick" | "bio" | "imageUrl"> {}
+
+export interface IUserAndPosts extends IUser {
+  posts: IPost[];
+}

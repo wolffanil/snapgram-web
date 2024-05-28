@@ -41,7 +41,7 @@ function AddComment() {
           type="text"
           required
           placeholder="Напишите свой комментарий..."
-          className="bg-[#101012] focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full"
+          className="bg-main-color focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           disabled={isCreatingComment}

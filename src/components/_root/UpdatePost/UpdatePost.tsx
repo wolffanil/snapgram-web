@@ -1,12 +1,11 @@
-import { useParams } from "react-router-dom";
 import { useGetPostById } from "../../../hooks/useGetPostById";
+import { useTheme } from "../../../hooks/useTheme";
 import { Loader, PostForm } from "../../ui";
 
 function UpdatePost() {
-  const { id } = useParams();
-
-  const { post, isPostLoading } = useGetPostById(id || "");
+  const { post, isPostLoading } = useGetPostById();
   if (isPostLoading) return <Loader />;
+  const { isDarkMode } = useTheme();
 
   return (
     <div className="flex flex-1">
@@ -17,6 +16,7 @@ function UpdatePost() {
             alt="add"
             width={36}
             height={36}
+            className={`${!isDarkMode && "invert-black"}`}
           />
           <h2 className="h3-bold md:h2-bold text-left w-full text-main-color">
             Редактировать пост

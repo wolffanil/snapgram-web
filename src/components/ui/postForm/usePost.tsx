@@ -38,7 +38,7 @@ export const usePost = (
             updatedAt: post.updatedAt,
           } as IPost)
       );
-      navigate(`/post/${_id}`);
+      navigate(`/posts/${_id}`);
     },
     onError: (error: string) => {
       errorToast(getErrorMessage(error));
@@ -59,7 +59,7 @@ export const usePost = (
             ...post,
           } as IPost)
       );
-      navigate(`/post/${post._id}`);
+      navigate(`/posts/${post._id}`);
     },
   });
 

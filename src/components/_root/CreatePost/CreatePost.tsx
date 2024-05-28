@@ -14,7 +14,7 @@ const CreatePost = () => {
             width={36}
             height={36}
             className={cn("", {
-              "!fill-black": !isDarkMode,
+              "invert-black": !isDarkMode,
             })}
           />
           <h2 className="h3-bold md:h2-bold text-left w-full text-main-color">

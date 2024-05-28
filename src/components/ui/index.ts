@@ -17,3 +17,4 @@ export { default as PostForm } from "./postForm/PostForm";
 export { default as PostStats } from "./postStats/PostStats";
 
 export { default as PostDetails } from "./post/PostDetails";
+export { default as GridPostList } from "./grid/GridPostList";

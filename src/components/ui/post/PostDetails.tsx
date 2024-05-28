@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { IPost } from "../../../shared/types/post.interface";
-import { formatDateString } from "../../../utils";
+import { formatDateString, getMedia } from "../../../utils";
 import Actions from "./actions/Actions";
 import PostStats from "../postStats/PostStats";
 import Comments from "./comment/Comments";
@@ -9,10 +9,14 @@ import AddComment from "./comment/AddComment";
 function PostDetails({ post }: { post: IPost }) {
   return (
     <div className="post_details-container">
-      <div className="post_details-card bg-main-color">
-        <img src={post?.imageUrl} alt="post" className="post_details-img" />
+      <div className="post_details-card bg-third-color">
+        <img
+          src={getMedia(post.imageUrl)}
+          alt="post"
+          className="post_details-img bg-third-color"
+        />
 
-        <div className="post_details-info">
+        <div className="post_details-info bg-third-color">
           <div className="flex-between w-full">
             <Link
               to={`/profile/${post?.creator?._id}`}
@@ -50,7 +54,7 @@ function PostDetails({ post }: { post: IPost }) {
           <hr className="border w-full border-dark-4/80" />
 
           <div className="flex flex-col w-full small-medium lg:base-regular">
-            <p>{post?.caption}</p>
+            <p className="text-main-color">{post?.caption}</p>
             <ul className="flex gap-1 mt-2">
               {post?.tags.map((tag: string) => (
                 <li key={tag} className="text-light-3">

@@ -4,7 +4,7 @@ import CommentItem from "./CommentItem";
 const Comments = ({ comments }: { comments: IComment[] }) => {
   if (comments.length == 0) {
     return (
-      <div className="flex justify-center small-medium lg:base-regular mt-5">
+      <div className="flex justify-center small-medium lg:base-regular mt-5 text-main-color">
         Нет коментарий
       </div>
     );

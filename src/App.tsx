@@ -4,7 +4,14 @@ import { Suspense } from "react";
 import { Login, Register } from "./components/_auth";
 import { Loader } from "./components/ui";
 import RootLayout from "./components/_root/RootLayout";
-import { CreatePost, Home, Post, UpdatePost } from "./components/_root";
+import {
+  CreatePost,
+  Home,
+  Post,
+  Profile,
+  Saved,
+  UpdatePost,
+} from "./components/_root";
 
 import "./App.css";
 
@@ -64,6 +71,24 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <Post />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/saved"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Saved />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/profile/:id/*"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Profile />
               </Suspense>
             }
           />
