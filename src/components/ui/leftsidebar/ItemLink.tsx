@@ -27,7 +27,7 @@ function ItemLink({
       <NavLink
         to={route}
         className={cn(
-          "flex gap-4 items-center p-4 text-main-color hover:text-white",
+          "flex gap-4 items-center p-4 text-main-color font-bold hover:text-white",
           {
             "!text-white": isActive,
           }
@@ -36,8 +36,8 @@ function ItemLink({
         <img
           src={imgURL}
           alt={label}
-          className={`group-hover:invert-white svg-color ${
-            isActive && "invert-white fill-white"
+          className={`group-hover:invert-white text-blue-color ${
+            isActive && "invert-white "
           }`}
         />
         {label}

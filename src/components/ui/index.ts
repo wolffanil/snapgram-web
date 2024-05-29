@@ -18,3 +18,5 @@ export { default as PostStats } from "./postStats/PostStats";
 
 export { default as PostDetails } from "./post/PostDetails";
 export { default as GridPostList } from "./grid/GridPostList";
+
+export { default as ProfileUploader } from "./form-elements/profileUploader/ProfileUploader";

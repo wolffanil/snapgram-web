@@ -1,6 +1,10 @@
 import { getUserUrl } from "../config/api.config";
 import { IPost } from "../shared/types/post.interface";
-import { IUser, IUserAndPosts } from "../shared/types/user.interface";
+import {
+  IEditUser,
+  IUser,
+  IUserAndPosts,
+} from "../shared/types/user.interface";
 import { request } from "./api/reguest.api";
 
 export const UserService = {
@@ -10,7 +14,7 @@ export const UserService = {
       method: "GET",
       params: searchTerm
         ? {
-            searchTerm,
+            q: searchTerm,
           }
         : {},
     });
@@ -27,6 +31,14 @@ export const UserService = {
     return request<IUserAndPosts>({
       url: getUserUrl(`/${userId}`),
       method: "GET",
+    });
+  },
+
+  async update(data: IEditUser) {
+    return request<IUser>({
+      url: getUserUrl("/update-profile"),
+      method: "PATCH",
+      data,
     });
   },
 };

@@ -6,11 +6,14 @@ import { Loader } from "./components/ui";
 import RootLayout from "./components/_root/RootLayout";
 import {
   CreatePost,
+  Explore,
   Home,
   Post,
   Profile,
   Saved,
+  SearchUsers,
   UpdatePost,
+  UpdateProfile,
 } from "./components/_root";
 
 import "./App.css";
@@ -89,6 +92,33 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <Profile />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/update-profile"
+            element={
+              <Suspense fallback={<Loader />}>
+                <UpdateProfile />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/all-users"
+            element={
+              <Suspense fallback={<Loader />}>
+                <SearchUsers />
+              </Suspense>
+            }
+          />
+
+          <Route
+            path="/explore"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Explore />
               </Suspense>
             }
           />

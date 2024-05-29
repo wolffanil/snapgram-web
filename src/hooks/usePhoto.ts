@@ -13,10 +13,10 @@ export const usePhoto = (folder: folderPath) => {
     return imageUrl;
   };
 
-  const deletePhoto = async (name: string) => {
+  const deletePhoto = (name: string) => {
     if (!name) return;
-    await PhotoService.deletePhoto(name, folder);
-    return;
+    PhotoService.deletePhoto(name, folder);
+    return { status: "seccuss" };
   };
 
   return useMemo(

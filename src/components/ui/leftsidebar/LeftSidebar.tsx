@@ -4,6 +4,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import Logo from "../Logo";
 import ItemLink from "./ItemLink";
 import SettingsButtons from "./SettingsButtons";
+import { getMedia } from "../../../utils";
 
 function LeftSidebar() {
   const { user } = useAuth();
@@ -20,7 +21,7 @@ function LeftSidebar() {
           className="flex-start gap-3 items-center"
         >
           <img
-            src={user?.imageUrl || "/assets/icons/profile-placeholder.svg"}
+            src={getMedia(user?.imageUrl || "")}
             alt="profile"
             className="h-14 w-14 rounded-full"
           />
@@ -32,7 +33,7 @@ function LeftSidebar() {
           </div>
         </Link>
 
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-[16px] max-xl:gap-[20px]">
           {sidebarLinks.map((link) => {
             const isActive = pathname === link.route;
 

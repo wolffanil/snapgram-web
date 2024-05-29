@@ -29,19 +29,19 @@ function AddComment() {
   });
 
   return (
-    <div className="flex gap-[12px] mt-10 items-center">
+    <div className="flex gap-[12px] mt-10 items-center bg-main-color">
       <img
         src={user?.imageUrl}
         alt="profile"
         className="h-6 w-6 rounded-full"
       />
 
-      <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color">
+      <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color bg-main-color">
         <input
           type="text"
           required
           placeholder="Напишите свой комментарий..."
-          className="bg-main-color focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full"
+          className="!bg-main-color focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           disabled={isCreatingComment}

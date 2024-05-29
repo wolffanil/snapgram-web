@@ -31,7 +31,7 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
               alt="creator"
               className="h-8 w-8 rounded-full"
             />
-            <p className="line-clamp-1">{post.creator.name}</p>
+            <p className="line-clamp-1 text-white">{post.creator.name}</p>
           </div>
         )}
 

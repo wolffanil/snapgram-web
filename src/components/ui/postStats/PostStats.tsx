@@ -9,7 +9,7 @@ interface IPostStats {
   post: IPost;
 }
 
-const changeStyle = ["/saved"];
+const changeStyle = ["/saved", "/explore"];
 
 function PostStats({ post }: IPostStats) {
   const { count, isLike, onLike } = useLike(post?._id, post?.likes);

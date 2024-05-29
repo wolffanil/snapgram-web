@@ -12,7 +12,9 @@ export interface IUser extends ITimestamps {
 }
 
 export interface IEditUser
-  extends Pick<IUser, "name" | "nick" | "bio" | "imageUrl"> {}
+  extends Pick<IUser, "name" | "nick" | "bio" | "imageUrl" | "email"> {
+  file: File[];
+}
 
 export interface IUserAndPosts extends IUser {
   posts: IPost[];

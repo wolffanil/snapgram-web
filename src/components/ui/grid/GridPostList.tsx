@@ -15,8 +15,13 @@ function GridPostList({ posts, showStats, showUser, show }: IGridPost) {
     <React.Fragment key={posts.length}>
       {show === "Home"
         ? posts.map((post) => <PostCard post={post} key={post.caption} />)
-        : posts.map((post) => (
-            <PostCardV2 post={post} showUser={showUser} showStats={showStats} />
+        : posts.map((post, index) => (
+            <PostCardV2
+              post={post}
+              showUser={showUser}
+              showStats={showStats}
+              key={index}
+            />
           ))}
     </React.Fragment>
   );

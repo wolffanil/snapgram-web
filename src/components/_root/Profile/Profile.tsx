@@ -46,7 +46,7 @@ function Profile() {
                 {user?.name}
               </h1>
               <p className="small-regular md:body-medium text-light-3 text-center xl:text-left">
-                @{user?.nick}
+                {user?.nick ? "@" + user.nick : ""}
               </p>
             </div>
 
@@ -62,24 +62,30 @@ function Profile() {
           </div>
 
           <div className="flex justify-center gap-4">
-            <div className={`${user._id !== currentUser._id && "hidden"}`}>
-              <Link
-                to={`/update-profile`}
-                className={`h-12 bg-third-color px-5  flex-center gap-2 rounded-lg ${
-                  user._id !== currentUser._id && "hidden"
-                }`}
-              >
-                <img
-                  src={"/assets/icons/edit.svg"}
-                  alt="edit"
-                  width={20}
-                  height={20}
-                />
-                <p className="flex whitespace-nowrap small-medium text-main-color">
-                  Редактировать профиль
-                </p>
-              </Link>
-            </div>
+            {currentUser._id === user._id ? (
+              <div className={`${user._id !== currentUser._id && "hidden"}`}>
+                <Link
+                  to={`/update-profile`}
+                  className={`h-12 bg-third-color px-5  flex-center gap-2 rounded-lg ${
+                    user._id !== currentUser._id && "hidden"
+                  }`}
+                >
+                  <img
+                    src={"/assets/icons/edit.svg"}
+                    alt="edit"
+                    width={20}
+                    height={20}
+                  />
+                  <p className="flex whitespace-nowrap small-medium text-main-color">
+                    Редактировать профиль
+                  </p>
+                </Link>
+              </div>
+            ) : (
+              <button className="h-[37px] blue-color text-white text-[14px] px-[42px]  flex-center gap-2 rounded-lg">
+                Написать сообщение
+              </button>
+            )}
             {/* <div className={`${user.id === id && "hidden"}`}>
             <Button type="button" className="shad-button_primary px-8">
               Follow

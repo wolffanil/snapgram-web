@@ -42,4 +42,12 @@ export const PostService = {
       },
     });
   },
+
+  async search(q: string) {
+    return request<IPost[]>({
+      url: getPostUrl("/search"),
+      method: "GET",
+      params: q ? { q } : {},
+    });
+  },
 };
