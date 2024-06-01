@@ -5,6 +5,7 @@ import { CommentService } from "../../../../services/comment.service";
 import { QUERY_KEYS } from "../../../../shared/enums/queryKeys";
 import { IPost } from "../../../../shared/types/post.interface";
 import { useParams } from "react-router-dom";
+import { getMedia } from "../../../../utils";
 
 function AddComment() {
   const [comment, setComment] = useState("");
@@ -29,11 +30,11 @@ function AddComment() {
   });
 
   return (
-    <div className="flex gap-[12px] mt-10 items-center bg-main-color">
+    <div className="flex gap-[11px] mt-10 items-center">
       <img
-        src={user?.imageUrl}
+        src={getMedia(user?.imageUrl || "")}
         alt="profile"
-        className="h-6 w-6 rounded-full"
+        className="h-[40px] w-[40px] rounded-full object-cover max-sm:w-[32px] max-sm:h-[32px]"
       />
 
       <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color bg-main-color">

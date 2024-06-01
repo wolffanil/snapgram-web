@@ -9,6 +9,7 @@ import { getMedia } from "../../../utils";
 function LeftSidebar() {
   const { user } = useAuth();
   const { pathname } = useLocation();
+
   return (
     <nav className="leftsidebar sidebar-bg-color">
       <div className="flex flex-col gap-11">

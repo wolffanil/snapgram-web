@@ -23,10 +23,7 @@ function PostDetails({ post }: { post: IPost }) {
               className="flex items-center gap-3"
             >
               <img
-                src={
-                  post?.creator?.imageUrl ||
-                  "/assets/icons/profile-placeholder.svg"
-                }
+                src={getMedia(post?.creator?.imageUrl || "")}
                 alt="creator"
                 className="rounded-full w-8 h-8 lg:h-12 lg:w-12"
               />

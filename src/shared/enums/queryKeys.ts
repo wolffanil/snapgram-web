@@ -15,9 +15,18 @@ export enum QUERY_KEYS {
   GET_FILE_PREVIEW = "getFilePreview",
   GET_LIKED_POSTS = "getLikedPosts",
 
+  // CHAT KEYS
+  GET_MY_CHATS = "getMyChats",
+
+  // MESSAGE KEYS
+  GET_MESSAGES_BY_CHAT_ID = "getMessagesByChatId",
+
   //  SEARCH KEYS
   SEARCH_POSTS = "getSearchPosts",
   SEARCH_USERS = "getSearchUsers",
+
+  // TOKENS
+  GET_MY_TOKENS = "getMyTokens",
 
   // COMMENT KEYS
 

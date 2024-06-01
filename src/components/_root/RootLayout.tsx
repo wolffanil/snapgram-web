@@ -1,21 +1,24 @@
 import { Outlet } from "react-router-dom";
 import { LeftSidebar, Protect, RightSidebar } from "../ui";
+import SocketProvider from "../../context/socket/SocketProvider";
 
 function RootLayout() {
   return (
     <Protect isProtect>
-      <div className="w-full md:flex">
-        {/* <Topbar /> */}
-        <LeftSidebar />
+      <SocketProvider>
+        <div className="w-full md:flex">
+          {/* <Topbar /> */}
+          <LeftSidebar />
 
-        <section className="flex flex-1 h-full">
-          <Outlet />
-        </section>
+          <section className="flex flex-1 h-full">
+            <Outlet />
+          </section>
 
-        <RightSidebar />
+          <RightSidebar />
 
-        {/* <Bottombar /> */}
-      </div>
+          {/* <Bottombar /> */}
+        </div>
+      </SocketProvider>
     </Protect>
   );
 }

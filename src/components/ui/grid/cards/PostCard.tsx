@@ -14,10 +14,7 @@ function PostCard({ post }: { post: IPost }) {
         <div className="flex items-center gap-3">
           <Link to={`/profile/${post.creator._id}`}>
             <img
-              src={
-                post.creator?.imageUrl ||
-                "/assets/icons/profile-placeholder.svg"
-              }
+              src={getMedia(post.creator?.imageUrl || "")}
               alt="creator"
               className="rounded-full w-12 lg:h-12"
             />

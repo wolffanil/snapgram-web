@@ -25,6 +25,14 @@
     @apply bg-primary-600 dark:bg-primary-500 hover:bg-primary-500 dark:hover:bg-primary-600;
   }
 
+  .message-companion-bg-color {
+    @apply bg-light-5 dark:bg-dark-4;
+  }
+
+  .message-my-bg-color {
+    @apply bg-primary-600 dark:bg-primary-500;
+  }
+
   .text-blue-color {
     @apply text-primary-600 dark:text-primary-500 hover:text-primary-500 dark:hover:text-primary-600;
   }

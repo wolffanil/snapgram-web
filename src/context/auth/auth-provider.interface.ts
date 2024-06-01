@@ -1,7 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import { IUser } from "../../shared/types/user.interface";
+import { IChat } from "../../shared/types/chat.interface";
 
 export type TypeUserState = IUser | null;
+export type TypeChatState = IChat | null;
 
 export interface IContext {
   user: TypeUserState;
@@ -10,4 +12,6 @@ export interface IContext {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   isAuth: boolean;
   setIsAuth: Dispatch<SetStateAction<boolean>>;
+  selectedChat: TypeChatState;
+  setSelectedChat: Dispatch<SetStateAction<TypeChatState>>;
 }

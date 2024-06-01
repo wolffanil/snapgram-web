@@ -1,4 +1,5 @@
-import { GridPostList, Loader } from "../../ui";
+import { Loader } from "lucide-react";
+import { GridPostList } from "../../ui";
 import { useHome } from "./useHome";
 
 function Home() {
@@ -35,7 +36,7 @@ function Home() {
 
         {hasNextPage && (
           <div ref={ref} className="mt-10">
-            <Loader />
+            <Loader className="text-black dark:text-white" />
           </div>
         )}
       </div>

@@ -25,9 +25,7 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
         {showUser && (
           <div className="flex items-center justify-start gap-2 flex-1">
             <img
-              src={
-                post.creator.imageUrl || "/assets/icons/profile-placeholder.svg"
-              }
+              src={getMedia(post.creator.imageUrl || "")}
               alt="creator"
               className="h-8 w-8 rounded-full"
             />

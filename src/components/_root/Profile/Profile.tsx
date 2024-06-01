@@ -6,12 +6,18 @@ import { getMedia } from "../../../utils";
 import StatBlock from "./StackBlock";
 import { GridPostList } from "../../ui";
 import LikedPosts from "./likedPosts/LikedPosts";
+import { useCreateChat } from "../../../hooks/useCreateChat";
 
 function Profile() {
   const { user: currentUser } = useAuth();
   const { pathname } = useLocation();
 
   const { user, isLoadingUser } = useProfile();
+
+  const { handleCreateChat, isCreatingChat } = useCreateChat(
+    user?._id || "",
+    user?.name || ""
+  );
 
   if (isLoadingUser) {
     return (
@@ -82,7 +88,11 @@ function Profile() {
                 </Link>
               </div>
             ) : (
-              <button className="h-[37px] blue-color text-white text-[14px] px-[42px]  flex-center gap-2 rounded-lg">
+              <button
+                className="h-[37px] blue-color text-white text-[14px] px-[42px]  flex-center gap-2 rounded-lg"
+                onClick={handleCreateChat}
+                disabled={isCreatingChat}
+              >
                 Написать сообщение
               </button>
             )}

@@ -5,6 +5,7 @@ import { Login, Register } from "./components/_auth";
 import { Loader } from "./components/ui";
 import RootLayout from "./components/_root/RootLayout";
 import {
+  Chat,
   CreatePost,
   Explore,
   Home,
@@ -119,6 +120,14 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <Explore />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/chats"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Chat />
               </Suspense>
             }
           />
