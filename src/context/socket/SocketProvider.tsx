@@ -14,6 +14,8 @@ import {
   ISocketProvider,
   removeFromGroupType,
 } from "./socket-provider.interface";
+import { useNotification } from "../../hooks/useNotification";
+import { INotification, type } from "../../shared/types/notification.interface";
 
 let socket: string;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
@@ -26,6 +28,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { chats: existChats } = useMyChats();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { getNewNotification, deleteNotification } = useNotification();
 
   // connect
   useEffect(() => {
@@ -86,7 +89,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socket.emit(SOCKET_KEYS.ONLINE, { users, id: user?._id });
-  }, [existChats]);
+  }, [existChats, selectedChat]);
 
   // on offline
   useEffect(() => {
@@ -104,7 +107,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
               ),
             };
             if (selectedChat?._id === chat._id) {
-              console.log("fix");
               setSelectedChat(fixChat);
             }
             return fixChat;
@@ -328,6 +330,39 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
+  // on new notification
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(
+      SOCKET_KEYS.GET_NEW_NOTIFICATION,
+      (notification: INotification) => {
+        if (!notification) return;
+        getNewNotification(notification);
+      }
+    );
+
+    return () => {
+      socket.off(SOCKET_KEYS.GET_NEW_NOTIFICATION);
+    };
+  }, []);
+
+  // on delete notification
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(
+      SOCKET_KEYS.REMOVE_NOTIFICATION,
+      ({ postId, type }: { postId: string; type: type }) => {
+        deleteNotification({ postId, type });
+      }
+    );
+
+    return () => {
+      socket.off(SOCKET_KEYS.REMOVE_NOTIFICATION);
+    };
+  }, []);
+
   // on deleteUserGromGroup and on addUserInGroup
 
   useEffect(() => {
@@ -454,6 +489,30 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.emit(SOCKET_KEYS.CREATE_GROUP, { users, chatName, groupAdmin });
   };
 
+  const handleSendNewNotificationToSocket = ({
+    notificaion,
+    to,
+  }: {
+    notificaion: INotification;
+    to: string;
+  }) => {
+    if (!socket) return;
+    socket.emit(SOCKET_KEYS.SEND_NEW_NOTIFICATION, { notificaion, to });
+  };
+
+  const handleDeleteNotificationSocket = ({
+    to,
+    postId,
+    type,
+  }: {
+    to: string;
+    postId: string;
+    type: type;
+  }) => {
+    if (!socket) return;
+    socket.emit(SOCKET_KEYS.SEND_REMOVE_NOTICATION, { to, postId, type });
+  };
+
   return (
     <SocketContext.Provider
       value={{
@@ -463,6 +522,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         handleLogoutFromSocket,
         handleRemoveFromGroupSocket,
         sendMessageToSocket,
+        handleSendNewNotificationToSocket,
+        handleDeleteNotificationSocket,
       }}
     >
       {children}

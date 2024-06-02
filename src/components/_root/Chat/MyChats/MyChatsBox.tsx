@@ -13,8 +13,8 @@ function MyChatsBox() {
   return (
     <div
       className={`${
-        selectedChat ? "hidden" : "flex"
-      } md:flex flex-col items-start gap-y-[64px] max-sm:gap-y-[25px] md:mt-[46px] w-[35%] max-sm:w-full`}
+        selectedChat?._id ? "hidden" : "flex"
+      } xl:flex flex-col items-start gap-y-[64px] max-sm:gap-y-[25px] md:mt-[46px] w-[35%] max-xl:w-full`}
     >
       <div className="w-full flex-start gap-3 justify-start">
         <img

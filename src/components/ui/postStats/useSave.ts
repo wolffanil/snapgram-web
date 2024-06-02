@@ -4,11 +4,19 @@ import { ISave } from "../../../shared/types/save.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SaveService } from "../../../services/save.service";
 import { QUERY_KEYS } from "../../../shared/enums/queryKeys";
+import { useNotification } from "../../../hooks/useNotification";
+import { IPost } from "../../../shared/types/post.interface";
 
-export const useSave = (postId: string, saves: ISave[]) => {
+export const useSave = (
+  postId: string,
+  saves: ISave[],
+  creator: string,
+  post: IPost
+) => {
   const { user } = useAuth();
   const [isSave, setIsSave] = useState(false);
   const queryClient = useQueryClient();
+  const { createNotification, removeNotification } = useNotification();
 
   const { mutate: createSave, isPending: isCreatingSave } = useMutation({
     mutationKey: ["create save"],
@@ -23,6 +31,11 @@ export const useSave = (postId: string, saves: ISave[]) => {
       //@ts-ignore
 
       await queryClient.invalidateQueries([QUERY_KEYS.GET_POST_BY_ID, postId]);
+
+      if (creator === user?._id) return;
+
+      //@ts-ignore
+      createNotification({ to: creator, type: "save", postId: post });
     },
   });
 
@@ -39,6 +52,10 @@ export const useSave = (postId: string, saves: ISave[]) => {
       //@ts-ignore
 
       await queryClient.invalidateQueries([QUERY_KEYS.GET_POST_BY_ID, postId]);
+
+      if (creator === user?._id) return;
+
+      removeNotification({ postId, to: creator, type: "save" });
     },
   });
 

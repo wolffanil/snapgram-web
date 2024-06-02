@@ -16,7 +16,7 @@ function PostCard({ post }: { post: IPost }) {
             <img
               src={getMedia(post.creator?.imageUrl || "")}
               alt="creator"
-              className="rounded-full w-12 lg:h-12"
+              className="rounded-full w-[54px] h-[54px]"
             />
           </Link>
 

@@ -1,4 +1,5 @@
 import { IMessage } from "../../shared/types/message.interface";
+import { INotification, type } from "../../shared/types/notification.interface";
 
 export type createGroupType = {
   users: string[];
@@ -24,4 +25,20 @@ export interface ISocketProvider {
   handleCreateGroupToSocket: (data: createGroupType) => void;
   handleRemoveFromGroupSocket: (data: removeFromGroupType) => void;
   handleAddToGroupSocket: (data: addToGroupType) => void;
+  handleDeleteNotificationSocket: ({
+    to,
+    postId,
+    type,
+  }: {
+    to: string;
+    postId: string;
+    type: type;
+  }) => void;
+  handleSendNewNotificationToSocket: ({
+    notificaion,
+    to,
+  }: {
+    notificaion: INotification;
+    to: string;
+  }) => void;
 }

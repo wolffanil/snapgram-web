@@ -5,13 +5,18 @@ import Logo from "../Logo";
 import ItemLink from "./ItemLink";
 import SettingsButtons from "./SettingsButtons";
 import { getMedia } from "../../../utils";
+import { useNotification } from "../../../hooks/useNotification";
 
 function LeftSidebar() {
   const { user } = useAuth();
   const { pathname } = useLocation();
+  const { notifications, needToSetIsView } = useNotification();
+
+  const countNotifications =
+    notifications?.filter((n) => n.isView === false)?.length || 0;
 
   return (
-    <nav className="leftsidebar sidebar-bg-color">
+    <nav className="leftsidebar sidebar-bg-color max-xl:w-[290px] max-xl:min-w-[unset]">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <Logo className="w-[170px] h-[36px]" />
@@ -38,7 +43,15 @@ function LeftSidebar() {
           {sidebarLinks.map((link) => {
             const isActive = pathname === link.route;
 
-            return <ItemLink key={link.route} isActive={isActive} {...link} />;
+            return (
+              <ItemLink
+                key={link.route}
+                isActive={isActive}
+                handleForNotfication={needToSetIsView}
+                count={countNotifications}
+                {...link}
+              />
+            );
           })}
         </ul>
       </div>

@@ -62,12 +62,12 @@ function PostDetails({ post }: { post: IPost }) {
           </div>
 
           <div className="w-full">
-            <PostStats post={post} />
+            <PostStats post={post} key={post?.likes?.length || ""} />
             <hr className="border w-full border-dark-4/80 mt-3" />
             <Comments comments={post?.comments} />
           </div>
           <div className="w-full">
-            <AddComment />
+            <AddComment post={post} />
           </div>
         </div>
       </div>

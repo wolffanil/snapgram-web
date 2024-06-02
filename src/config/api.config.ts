@@ -10,4 +10,4 @@ export const getPhotoUrl = (string: string) => `/photo${string}`;
 export const getUserUrl = (string: string) => `/users${string}`;
 export const getChatUrl = (string: string) => `/chats${string}`;
 export const getMessageUrl = (string: string) => `/messages${string}`;
-export const getNotificationUrl = (string: string) => `/notificatins${string}`;
+export const getNotificationUrl = (string: string) => `/notifications${string}`;

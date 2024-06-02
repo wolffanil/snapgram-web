@@ -23,7 +23,7 @@ function MessageItem({
   return (
     <li
       className={cn(
-        `flex flex-col     mb-[20px] max-sm:mb-[15px]   items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4  w-full`,
+        `flex flex-col mb-[20px] max-sm:mb-[15px] items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4 max-w-[83%]`,
         {
           "!items-end": isMyMessage,
           "ml-[auto]": isMyMessage,
@@ -62,7 +62,7 @@ function MessageItem({
         </svg>
 
         <div
-          className={`rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-[83%] min-w-[120px] max-sm:max-w-[80%] max-sm:min-w-[80px] ${
+          className={`rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px] max-sm:max-w-[80%] max-sm:min-w-[80px] ${
             isMyMessage
               ? "message-my-bg-color ml-[10px]"
               : "message-companion-bg-color"
@@ -70,7 +70,7 @@ function MessageItem({
         >
           {content && (
             <p
-              className={`text-[16px] text-main-color font-medium  text-wrap max-sm:text-[12px] w-full ${
+              className={`text-[16px] text-main-color font-medium  text-wrap max-sm:text-[12px] w-full max-xl:max-w-[300px]  ${
                 isMyMessage && "!text-white"
               }`}
             >

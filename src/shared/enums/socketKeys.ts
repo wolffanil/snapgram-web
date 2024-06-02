@@ -11,6 +11,13 @@ export enum SOCKET_KEYS {
   MESSAGE_RECIEVED = "message recieved",
   NEW_MESSAGE = "new message",
 
+  /// NOTIFICATIONS
+
+  SEND_NEW_NOTIFICATION = "sendNewNotification",
+  SEND_REMOVE_NOTICATION = "sendRemoveNotification",
+  GET_NEW_NOTIFICATION = "getNewNotification",
+  REMOVE_NOTIFICATION = "removeNotification",
+
   // GROUP
   ADD_TO_GROUP = "addToGroup",
   CREATE_GROUP = "createGroup",

@@ -1,12 +1,18 @@
+import { useLocation } from "react-router-dom";
 import { useGetUsers } from "../../../hooks/useGetUsers";
 import ButtonLoader from "../ButtonLoader";
 import UserCard from "../UserCard";
 
 function RightSidebar() {
   const { users, isUsersLoading } = useGetUsers();
+  const { pathname } = useLocation();
 
   return (
-    <div className="rightsidebar sidebar-bg-color ">
+    <div
+      className={`rightsidebar sidebar-bg-color ${
+        pathname === "/all-users" && "!hidden"
+      }`}
+    >
       <div className="flex flex-col gap-[40px]">
         <p className="h3-bold text-main-color">Рекомендаций</p>
 

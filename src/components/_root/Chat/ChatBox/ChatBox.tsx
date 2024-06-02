@@ -13,7 +13,7 @@ function ChatBox() {
 
   if (!selectedChat?._id)
     return (
-      <div className=" w-[63%] text-main-color  text-[26px] flex-center max-sm:hidden">
+      <div className=" w-[63%] text-main-color  text-[26px] flex-center max-xl:hidden">
         Веберите чат
       </div>
     );
@@ -27,25 +27,25 @@ function ChatBox() {
     <div
       className={`${
         selectedChat?._id ? "flex" : "hidden"
-      } md:flex flex-col w-[61%] max-md:w-[67%] max-sm:w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px] `}
+      } xl:flex flex-col xl:max-w-[666px]  w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px] `}
     >
       <div
         className="flex items-center gap-x-[16px]
-      max-sm:gap-x-[25px]"
+      max-sm:gap-x-[25px] "
       >
-        <div className="flex items-center">
+        <div className="flex-center items-center">
           <button
-            className="mr-[6px] hidden max-sm:block"
+            className="mr-[6px] hidden max-xl:block w-[26px] h-[17px]"
             onClick={handleBackForMobile}
           >
             <img
               src="/assets/icons/back-chat.svg"
               alt="back"
-              className="bg-primary-600 dark:bg-primary-500 w-[26px] h-[17px]"
+              className="!w-[26px] !h-[17px] object-cover"
             />
           </button>
           <Link to={`/profile/${companion._id}`}>
-            <div className="relative">
+            <div className="relative w-[70px] max-sm:w-[56px]">
               <img
                 src={getMedia(companion?.imageUrl || "")}
                 alt="photoProfile"
@@ -57,7 +57,7 @@ function ChatBox() {
             </div>
           </Link>
         </div>
-        <div className="flex flex-col justify-around items-start">
+        <div className="flex flex-col justify-around items-start w-full">
           <p className="text-[20px] text-main-color font-bold max-sm:text-[18px]">
             {companion?.name}
           </p>
@@ -69,9 +69,9 @@ function ChatBox() {
 
       <div className="w-full h-[1px] bg-light-3 mt-[27px] max-sm:mt-[13px]" />
 
-      <div className="flex flex-col w-full min-h-[550px] max-h-[550px] max-sm:min-h-[445px] max-sm:max-h-[445px] mt-[57px] max-sm:mt-[24px] overflow-y-scroll custom-scrollbar-without">
+      <div className="flex flex-col min-h-[550px] max-h-[550px] max-sm:min-h-[445px] max-sm:max-h-[445px] mt-[57px] max-sm:mt-[24px] overflow-y-scroll custom-scrollbar-without w-full">
         {isLoadingMessages ? (
-          <p>Загрузка сообщений</p>
+          <p className="text-main-color flex-center">Загрузка сообщений...</p>
         ) : (
           messages?.map((m, i) => (
             <MessageItem key={i} message={m} myId={user?._id || ""} />

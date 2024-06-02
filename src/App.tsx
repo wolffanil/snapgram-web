@@ -9,6 +9,7 @@ import {
   CreatePost,
   Explore,
   Home,
+  Notification,
   Post,
   Profile,
   Saved,
@@ -128,6 +129,14 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <Chat />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Notification />
               </Suspense>
             }
           />

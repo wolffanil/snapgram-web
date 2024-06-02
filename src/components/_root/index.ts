@@ -10,6 +10,7 @@ const UpdateProfile = lazy(() => import("./UpdateProfile/UpdateProfile"));
 const SearchUsers = lazy(() => import("./SearchUser/SearchUser"));
 const Explore = lazy(() => import("./Explore/Explore"));
 const Chat = lazy(() => import("./Chat/Chat"));
+const Notification = lazy(() => import("./Notifications/Notification"));
 
 export {
   Home,
@@ -22,4 +23,5 @@ export {
   SearchUsers,
   Explore,
   Chat,
+  Notification,
 };

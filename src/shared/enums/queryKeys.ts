@@ -28,6 +28,9 @@ export enum QUERY_KEYS {
   // TOKENS
   GET_MY_TOKENS = "getMyTokens",
 
+  // NOTIFICATION
+  GET_NOTIFICATION = "getNotification",
+
   // COMMENT KEYS
 
   GET_COMMENT_BY_ID = "getCommentById",

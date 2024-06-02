@@ -6,11 +6,14 @@ import { QUERY_KEYS } from "../../../../shared/enums/queryKeys";
 import { IPost } from "../../../../shared/types/post.interface";
 import { useParams } from "react-router-dom";
 import { getMedia } from "../../../../utils";
+import { useNotification } from "../../../../hooks/useNotification";
 
-function AddComment() {
+function AddComment({ post }: { post: IPost }) {
   const [comment, setComment] = useState("");
   const { user } = useAuth();
   const { id } = useParams();
+
+  const { createNotification } = useNotification();
 
   const queryClient = useQueryClient();
   const { mutate: createComment, isPending: isCreatingComment } = useMutation({
@@ -23,9 +26,21 @@ function AddComment() {
         (oldPost: IPost) =>
           ({
             ...oldPost,
-            comments: [...oldPost.comments, comment],
+            comments: [
+              ...oldPost.comments,
+              { ...comment, author: { ...user } },
+            ],
           } as IPost)
       );
+
+      if (post?.creator?._id === user?._id) return;
+
+      //@ts-ignore
+      createNotification({
+        postId: post,
+        to: post.creator._id,
+        type: "comment",
+      });
     },
   });
 
@@ -50,7 +65,7 @@ function AddComment() {
         <img
           src="/assets/icons/send.svg"
           alt="send"
-          className="cursor-pointer"
+          className="!text-black dark:!invert-white"
           onClick={() => createComment()}
         />
       </div>

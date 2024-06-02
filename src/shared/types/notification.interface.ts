@@ -9,4 +9,19 @@ export interface INotification extends ITimestamps {
   to: string;
   user: IUser;
   type: type;
+  isView: boolean;
+}
+
+export interface ICreateNotificaion
+  extends Omit<INotification, "isView" | "createdAt" | "updatedAt" | "user"> {
+  user: {
+    _id: string;
+    name: string;
+  };
+}
+
+export interface IDeleteNotification {
+  type: type;
+  postId: string;
+  to: string;
 }

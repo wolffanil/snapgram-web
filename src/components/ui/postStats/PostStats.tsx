@@ -12,9 +12,19 @@ interface IPostStats {
 const changeStyle = ["/saved", "/explore"];
 
 function PostStats({ post }: IPostStats) {
-  const { count, isLike, onLike } = useLike(post?._id, post?.likes);
+  const { count, isLike, onLike } = useLike(
+    post?._id,
+    post?.likes,
+    post?.creator._id || "",
+    post
+  );
 
-  const { isSave, onSave, isLoading } = useSave(post._id, post.saves);
+  const { isSave, onSave, isLoading } = useSave(
+    post._id,
+    post.saves,
+    post?.creator._id || "",
+    post
+  );
 
   const { pathname } = useLocation();
   const change = changeStyle.includes(pathname);

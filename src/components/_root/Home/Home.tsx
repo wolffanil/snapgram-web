@@ -9,8 +9,6 @@ function Home() {
     return <h2 className="text-[24px] text-main-color">Что-то пошло не так</h2>;
   }
 
-  console.log(posts);
-
   return (
     <div className="flex flex-1">
       <div className="home-container">
