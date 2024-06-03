@@ -27,8 +27,8 @@ function ChatItem({ chat, n, setSelectedChat }: IChatItem) {
           {companion.name}
         </p>
         <p className="text-[16px] text-light-3 max-sm:text-[12px] font-normal">
-          {chat?.latestMessage?.content!?.length > 25
-            ? chat?.latestMessage.content?.slice(0, 25) + "..." || ""
+          {chat?.latestMessage?.content!?.length > 15
+            ? chat?.latestMessage.content?.slice(0, 15) + "..." || ""
             : chat?.latestMessage?.content || ""}
         </p>
       </div>

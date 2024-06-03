@@ -62,7 +62,7 @@ function Profile() {
               <StatBlock value={20} label="Following" /> */}
             </div>
 
-            <p className="small-medium md:base-medium text-center xl:text-left mt-7 max-w-screen-sm text-main-color">
+            <p className="small-medium md:base-medium text-start xl:text-left mt-7 max-w-screen-sm text-main-color max-sm:w-[320px] text-wrap">
               {user?.bio}
             </p>
           </div>

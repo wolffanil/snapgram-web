@@ -1,4 +1,4 @@
-import { UseFormReset } from "react-hook-form";
+import { UseFormReset, UseFormSetError } from "react-hook-form";
 import { IEditPost, IPost } from "../../../shared/types/post.interface";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -12,6 +12,7 @@ import { usePhoto } from "../../../hooks/usePhoto";
 export const usePost = (
   action: "Create" | "Update",
   reset: UseFormReset<IEditPost>,
+  setError: UseFormSetError<IEditPost>,
   _id?: string
 ) => {
   const { loadingToast, errorToast, successToast } = useToast();
@@ -64,6 +65,10 @@ export const usePost = (
   });
 
   const onSubmit = async (data: IEditPost & { file: File[] }) => {
+    if (data?.file.length < 1 && !data?.imageUrl) {
+      setError("file", { message: "Фото обязательны" });
+      return;
+    }
     loadingToast("Загрузка...");
 
     //@ts-ignore

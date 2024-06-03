@@ -11,7 +11,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         <AuthProvider>{children}</AuthProvider>
 
         <Toaster

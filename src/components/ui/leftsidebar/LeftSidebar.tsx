@@ -16,7 +16,7 @@ function LeftSidebar() {
     notifications?.filter((n) => n.isView === false)?.length || 0;
 
   return (
-    <nav className="leftsidebar sidebar-bg-color max-xl:w-[290px] max-xl:min-w-[unset]">
+    <nav className="leftsidebar sidebar-bg-color max-lgt:min-w-[290px] max-xl:min-w-[unset]">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <Logo className="w-[170px] h-[36px]" />

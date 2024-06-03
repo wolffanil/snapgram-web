@@ -16,7 +16,7 @@ interface IPostForm {
 function PostForm({ post, action }: IPostForm) {
   const navigate = useNavigate();
 
-  const { control, handleSubmit, reset } = useForm<IEditPost>({
+  const { control, handleSubmit, reset, setError } = useForm<IEditPost>({
     resolver: zodResolver(PostValidation),
     defaultValues: {
       caption: post ? post?.caption : "",
@@ -26,7 +26,7 @@ function PostForm({ post, action }: IPostForm) {
     },
   });
 
-  const { onSubmit, isLoading } = usePost(action, reset, post?._id);
+  const { onSubmit, isLoading } = usePost(action, reset, setError, post?._id);
 
   return (
     <form
@@ -38,12 +38,17 @@ function PostForm({ post, action }: IPostForm) {
       <Controller
         control={control}
         name="file"
-        render={({ field: { onChange } }) => (
+        render={({ field: { onChange }, formState: { errors } }) => (
           <>
             <FileUploader
               fieldChange={onChange}
               mediaUrl={post?.imageUrl || ""}
             />
+            {errors?.file && errors.file?.message && (
+              <p className="shad-form_message mt-[-20px]">
+                {errors.file.message}
+              </p>
+            )}
           </>
         )}
       />

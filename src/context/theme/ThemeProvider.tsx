@@ -10,8 +10,6 @@ function ThemeProvider({ children }: { children: ReactNode }) {
     "isDark"
   );
 
-  console.log(isDarkMode);
-
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");

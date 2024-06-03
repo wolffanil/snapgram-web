@@ -13,7 +13,7 @@ function PostDetails({ post }: { post: IPost }) {
         <img
           src={getMedia(post.imageUrl)}
           alt="post"
-          className="post_details-img bg-third-color"
+          className="post_details-img bg-third-color "
         />
 
         <div className="post_details-info bg-third-color">
@@ -25,7 +25,7 @@ function PostDetails({ post }: { post: IPost }) {
               <img
                 src={getMedia(post?.creator?.imageUrl || "")}
                 alt="creator"
-                className="rounded-full w-8 h-8 lg:h-12 lg:w-12"
+                className="rounded-full w-8 h-8 lg:h-12 lg:w-12 max-sm:h-[32px] max-sm:min-w-[32px]"
               />
 
               <div className="flex flex-col">

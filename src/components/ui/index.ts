@@ -10,6 +10,8 @@ export { default as Logo } from "./Logo";
 
 export { default as LeftSidebar } from "./leftsidebar/LeftSidebar";
 export { default as RightSidebar } from "./rightsidebar/RightSidebar";
+export { default as Bottombar } from "./Bottombar";
+export { default as Topbar } from "./Topbar";
 
 export { default as UserCard } from "./UserCard";
 

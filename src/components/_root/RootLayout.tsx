@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { LeftSidebar, Protect, RightSidebar } from "../ui";
+import { Bottombar, LeftSidebar, Protect, RightSidebar, Topbar } from "../ui";
 import SocketProvider from "../../context/socket/SocketProvider";
 
 function RootLayout() {
@@ -7,7 +7,7 @@ function RootLayout() {
     <Protect isProtect>
       <SocketProvider>
         <div className="w-full md:flex">
-          {/* <Topbar /> */}
+          <Topbar />
           <LeftSidebar />
 
           <section className="flex flex-1 h-full">
@@ -16,7 +16,7 @@ function RootLayout() {
 
           <RightSidebar />
 
-          {/* <Bottombar /> */}
+          <Bottombar />
         </div>
       </SocketProvider>
     </Protect>

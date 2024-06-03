@@ -11,7 +11,7 @@ const Comments = ({ comments }: { comments: IComment[] }) => {
   }
 
   return (
-    <div className="flex flex-col w-full min-h-[200px] mt-5">
+    <div className="flex flex-col w-full min-h-[200px] max-h-[200px] max-sm:min-h-[150px] max-sm:max-h-[150px] mt-5 overflow-y-scroll overflow-x-hidden custom-scrollbar">
       {comments?.map((comment: IComment) => (
         <CommentItem comment={comment} key={comment._id} />
       ))}

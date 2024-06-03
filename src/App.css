@@ -230,7 +230,7 @@
   }
 
   .post_details-img {
-    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1;
+    @apply h-80 lg:h-[480px] xl:w-[48%] rounded-t-[30px] xl:rounded-l-[24px] xl:rounded-tr-none object-cover p-5 bg-dark-1 max-sm:h-[280px];
   }
 
   .post_details-info {
@@ -261,7 +261,7 @@
 
   /* Bottom bar */
   .bottom-bar {
-    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-dark-2 px-5 py-4 md:hidden;
+    @apply z-50 flex-between w-full sticky bottom-0 rounded-t-[20px] bg-[#E0E0E0]/90 dark:bg-[#101012]/90 pl-[27px] pr-[22px] pt-[12px] pb-[15px] md:hidden h-[70px];
   }
 
   /* File uploader */
@@ -314,7 +314,7 @@
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
+    @apply sticky top-0 z-50 md:hidden bg-[#EFEFEF] dark:bg-[#09090A] border-b border-[#7878A3] w-full h-[72px] pl-[16px] pr-[8px] py-[16px] flex items-center justify-between;
   }
 
   /* User card */

@@ -3,15 +3,20 @@ import { useGetUsers } from "../../../hooks/useGetUsers";
 import ButtonLoader from "../ButtonLoader";
 import UserCard from "../UserCard";
 
+const deleteOnTablet = ["saved", "profile", "chats", "posts", "explore"];
+
 function RightSidebar() {
   const { users, isUsersLoading } = useGetUsers();
   const { pathname } = useLocation();
 
+  const isDelete = deleteOnTablet.includes(pathname.split("/")[1]);
+
+  console.log(pathname.split("/")[1]);
   return (
     <div
       className={`rightsidebar sidebar-bg-color ${
         pathname === "/all-users" && "!hidden"
-      }`}
+      } ${isDelete && "max-lgt:hidden"}`}
     >
       <div className="flex flex-col gap-[40px]">
         <p className="h3-bold text-main-color">Рекомендаций</p>

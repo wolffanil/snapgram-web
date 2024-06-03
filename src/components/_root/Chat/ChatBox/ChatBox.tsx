@@ -27,7 +27,7 @@ function ChatBox() {
     <div
       className={`${
         selectedChat?._id ? "flex" : "hidden"
-      } xl:flex flex-col xl:max-w-[666px]  w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px] `}
+      } xl:flex flex-col xl:max-w-[666px]  w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px]`}
     >
       <div
         className="flex items-center gap-x-[16px]
@@ -49,7 +49,7 @@ function ChatBox() {
               <img
                 src={getMedia(companion?.imageUrl || "")}
                 alt="photoProfile"
-                className="h-[70px] w-[70px] max-sm:h-[60px] max-sm:w-[56px] object-cover rounded-[45px] max-sm:rounded-[43px]"
+                className="h-[70px] w-[70px] max-sm:h-[60px] max-sm:min-w-[60px] object-cover rounded-[45px] max-sm:rounded-[43px]"
               />
               {companion?.isOnline && (
                 <div className="absolute w-[15px] h-[15px] bg-[#00ff75] border-[1.5px] border-white right-0 bottom-0 rounded-[24px]" />
@@ -69,7 +69,7 @@ function ChatBox() {
 
       <div className="w-full h-[1px] bg-light-3 mt-[27px] max-sm:mt-[13px]" />
 
-      <div className="flex flex-col min-h-[550px] max-h-[550px] max-sm:min-h-[445px] max-sm:max-h-[445px] mt-[57px] max-sm:mt-[24px] overflow-y-scroll custom-scrollbar-without w-full">
+      <div className="flex flex-col min-h-[550px] max-h-[550px] max-sm:min-h-[72%] max-sm:max-h-[72%] mt-[57px] max-sm:mt-[24px] overflow-y-scroll custom-scrollbar-without w-full">
         {isLoadingMessages ? (
           <p className="text-main-color flex-center">Загрузка сообщений...</p>
         ) : (

@@ -39,7 +39,11 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
         <>
           <div className="flex flex-1 justify-center w-full p-5 lg:p-10">
             <img
-              src={getMedia(fileUrl)}
+              src={
+                fileUrl?.split("/")?.includes("upload")
+                  ? getMedia(fileUrl)
+                  : fileUrl
+              }
               alt="image"
               className={cn("file_uploader-img", {
                 "!fill-black": !isDarkMode,
@@ -51,7 +55,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
           </p>
         </>
       ) : (
-        <div className="file_uploader-box bg-second-color">
+        <div className="file_uploader-box bg-second-color rounded-[14px]">
           <img
             src="/assets/icons/file-upload.svg"
             alt="file-upload"
@@ -64,7 +68,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
           </h3>
           <p className="text-light-4 small-regular mb-6">SVG, PNG, JPG</p>
 
-          <button className="shad-button_dark_4 text-main-color bg-main-color">
+          <button className="shad-button_dark_4 text-main-color bg-main-color flex-center rounded-[10px] max-sm:!hidden">
             Выбрать с компьютера
           </button>
         </div>

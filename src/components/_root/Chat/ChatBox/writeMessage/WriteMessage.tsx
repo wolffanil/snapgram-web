@@ -36,7 +36,7 @@ function WriteMessage() {
       </div>
       <button
         onClick={handleSendMessage}
-        className="flex-center w-[54px] h-full main-color max-sm:w-[48px] rounded-[10px]"
+        className="flex-center w-[54px] h-full main-color  rounded-[10px]"
       >
         <img src="/assets/icons/send.svg" alt="send" />
       </button>

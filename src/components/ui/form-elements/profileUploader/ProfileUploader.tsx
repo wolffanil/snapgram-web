@@ -29,7 +29,11 @@ const ProfileUploader = ({ fieldChange, mediaUrl }: IProfileUploader) => {
 
       <div className="cursor-pointer flex-center gap-4 ">
         <img
-          src={getMedia(fileUrl) || getMedia("upload/profile/default.svg")}
+          src={
+            fileUrl?.split("/")?.includes("upload")
+              ? getMedia(fileUrl)
+              : fileUrl || getMedia("upload/profile/default.svg")
+          }
           alt="image"
           className="h-24 w-24 rounded-full object-cover object-top"
         />

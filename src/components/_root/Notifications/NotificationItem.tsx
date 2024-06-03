@@ -16,15 +16,15 @@ function NotificationItem({ notificaion }: { notificaion: INotification }) {
 
   return (
     <li className="flex items-center gap-x-[40px] h-[110px] w-full pl-[20px] pt-[20px] pb-[30px] max-sm:flex-row-reverse max-sm:pr-[13px] max-sm:gap-x-[10px] border-b border-main-color max-sm:pb-[9px] max-sm:pt-[9px] max-sm:h-[74px]">
-      <div className="w-[36px] h-[36px] rounded-[51px] bg-light-2 dark:bg-dark-4 flex-center">
-        <img src={iconUrl} alt="icon" className="" />
+      <div className="w-[36px] h-[36px] rounded-[51px] max-sm:min-w-[34px] max-sm:min-h-[30px] bg-light-2 dark:bg-dark-4 flex-center">
+        <img src={iconUrl} alt="icon" />
       </div>
       <div className="flex items-center gap-x-[11px] max-sm:gap-x-[8px]">
         <Link to={"/profile/" + notificaion?.user?._id}>
           <img
             src={getMedia(notificaion?.user?.imageUrl || "")}
             alt="photoProfile"
-            className="w-[60px] h-[60px] object-cover rounded-[41px] max-sm:w-[56px] max-sm:h-[56px]"
+            className="w-[60px] h-[60px] object-cover rounded-[41px] max-sm:min-w-[56px] max-sm:h-[56px]"
           />
         </Link>
         <div className="flex flex-col items-start gap-y-[5px] max-sm:gap-y-[2px]">

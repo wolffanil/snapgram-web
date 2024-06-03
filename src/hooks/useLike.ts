@@ -11,16 +11,20 @@ export const useLike = (
   id: string,
   likes: ILike[],
   creator: string,
-  post?: IPost
+  post?: IPost,
+  type?: "post" | "comment"
 ) => {
   const { user } = useAuth();
   const [isLike, setIsLike] = useState(false);
   const [count, setCount] = useState<number>(likes?.length || 0);
   const { createNotification, removeNotification } = useNotification();
 
+  const isComment = type === "comment";
+
   const { mutate: createLike, isPending: isCreatingLike } = useMutation({
     mutationKey: ["create like"],
-    mutationFn: () => LikeService.like(id),
+    mutationFn: () =>
+      LikeService.like(isComment ? undefined : id, isComment ? id : undefined),
     onSuccess: async () => {
       //@ts-ignore
       await queryClient.invalidateQueries([QUERY_KEYS.GET_LIKED_POSTS]);
@@ -35,6 +39,23 @@ export const useLike = (
 
       await queryClient.invalidateQueries([QUERY_KEYS.GET_POST_BY_ID, id]);
 
+      // if (type === "comment") {
+      //   queryClient.setQueryData(
+      //     [QUERY_KEYS.GET_POST_BY_ID, id],
+      //     (oldP: IPost) => {
+      //       const fixcomments = oldP.comments.map((c) =>
+      //         c._id === id ? { ...c, likes: likes.push(user?._id) } : c
+      //       );
+
+      //       return {
+      //         ...oldP,
+      //         fixcomments,
+      //       };
+      //     }
+      //   );
+      // }
+
+      if (!creator) return;
       if (creator === user?._id) return;
 
       //@ts-ignore

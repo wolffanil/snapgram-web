@@ -86,7 +86,7 @@ function PostStats({ post }: IPostStats) {
 
       <div className="flex gap-2">
         {isLoading ? (
-          <Loader />
+          <Loader className="invert-black dark:invert-white" />
         ) : (
           <img
             src={isSave ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}

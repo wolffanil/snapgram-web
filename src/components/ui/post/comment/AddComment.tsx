@@ -49,7 +49,7 @@ function AddComment({ post }: { post: IPost }) {
       <img
         src={getMedia(user?.imageUrl || "")}
         alt="profile"
-        className="h-[40px] w-[40px] rounded-full object-cover max-sm:w-[32px] max-sm:h-[32px]"
+        className="h-[40px] min-w-[40px] rounded-full object-cover max-sm:min-w-[32px] max-sm:h-[32px]"
       />
 
       <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color bg-main-color">
@@ -57,7 +57,7 @@ function AddComment({ post }: { post: IPost }) {
           type="text"
           required
           placeholder="Напишите свой комментарий..."
-          className="!bg-main-color focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full"
+          className=" focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full !bg-main-color"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           disabled={isCreatingComment}

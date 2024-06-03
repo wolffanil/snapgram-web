@@ -68,8 +68,6 @@ export const useNotification = () => {
     mutationFn: (data: ICreateNotificaion) => NotificationService.create(data),
     retry: false,
     onSuccess: (data, variables) => {
-      console.log(data, "DATA"), console.log(variables, "var");
-
       handleSendNewNotificationToSocket({
         //@ts-ignore
 
@@ -98,7 +96,6 @@ export const useNotification = () => {
     console.log(location, location.pathname === "/notifications");
     if (location.pathname === "/notifications") {
       let fixNotificaton = { ...notification, isView: true };
-      console.log(fixNotificaton, "fIX");
       queryClient.setQueryData(
         [QUERY_KEYS.GET_NOTIFICATION],
         (notifications: INotification[]) => [fixNotificaton, ...notifications]
