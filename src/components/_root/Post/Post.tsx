@@ -9,7 +9,7 @@ function Post() {
   if (isPostLoading)
     return (
       <div className="flex justify-center items-center h-screen w-full">
-        <Loader />
+        <Loader className="invert-black dark:invert-white" />
       </div>
     );
 
