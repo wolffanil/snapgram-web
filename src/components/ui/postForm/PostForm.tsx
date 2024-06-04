@@ -23,6 +23,7 @@ function PostForm({ post, action }: IPostForm) {
       file: [],
       location: post ? post?.location : "",
       tags: post ? post?.tags.join(",") : "",
+      imageUrl: post ? post?.imageUrl : "",
     },
   });
 

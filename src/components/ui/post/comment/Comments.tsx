@@ -2,7 +2,7 @@ import { IComment } from "../../../../shared/types/comment.interface";
 import CommentItem from "./CommentItem";
 
 const Comments = ({ comments }: { comments: IComment[] }) => {
-  if (comments.length == 0) {
+  if (comments?.length == 0 || !comments) {
     return (
       <div className="flex justify-center small-medium lg:base-regular mt-5 text-main-color">
         Нет коментарий

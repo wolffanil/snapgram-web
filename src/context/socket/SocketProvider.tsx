@@ -16,6 +16,7 @@ import {
 } from "./socket-provider.interface";
 import { useNotification } from "../../hooks/useNotification";
 import { INotification, type } from "../../shared/types/notification.interface";
+import { getMedia } from "../../utils";
 
 let socket: string;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
@@ -166,9 +167,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on(
       SOCKET_KEYS.MESSAGE_RECIEVED,
       ({ chatId, message }: { chatId: string; message: IMessage }) => {
-        console.log(chatId, "chatId");
-        console.log(message, "newMessage");
-        let currentChat;
+        let currentChat: IChat;
 
         queryClient.setQueryData(
           [QUERY_KEYS.GET_MY_CHATS],
@@ -189,6 +188,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             const targetIndex = updatedChats.findIndex(
               (chat) => chat._id === chatId
             );
+
             currentChat = updatedChats.find((chat) => chat._id === chatId);
 
             if (targetIndex !== -1) {
@@ -213,33 +213,36 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           }
         );
 
-        if (chatId !== selectedChat?._id || pathname !== "/chats") {
-          //   toast((t) => (
-          //     <MessageBlock>
-          //       <MessageImg
-          //         src={message.sender?.photoProfile}
-          //         alt="photoProfile"
-          //       />
-          //       <MessageContent>
-          //         {!currentChat
-          //           ? "У вас новый собеседник"
-          //           : message.content.length > 10
-          //           ? message.content.slice(1, 10) + "..."
-          //           : message.content}
-          //       </MessageContent>
-          //       {currentChat && (
-          //         <MessageButton
-          //           onClick={() => {
-          //             setSelectedChat(currentChat);
-          //             navigate("/chat");
-          //             toast.dismiss(t.id);
-          //           }}
-          //         >
-          //           Чат
-          //         </MessageButton>
-          //       )}
-          //     </MessageBlock>
-          //   ));
+        if (pathname !== "/chats") {
+          if (pathname === "chats") return;
+          toast((t) => (
+            <div className="flex justify-between items-center w-[200px] max-h-[50px] max-sm:max-h-[30px] max-sm:max-w-[150px]">
+              <img
+                src={getMedia(message?.sender?.imageUrl || "")}
+                alt="photoProfile"
+                className="rounded-[60px] min-w-[40px] max-w-[40px] max-h-[40px] object-cover"
+              />
+              <div className="text-[20px] max-sm:text-[18px] text-white p-[5px]">
+                {!currentChat
+                  ? "У вас новый собеседник"
+                  : message?.content?.length > 10
+                  ? message?.content?.slice(1, 10) + "..."
+                  : message.content}
+              </div>
+              {currentChat && (
+                <button
+                  onClick={() => {
+                    setSelectedChat(currentChat);
+                    navigate("/chats");
+                    toast.dismiss(t.id);
+                  }}
+                  className="text-[15px] ml-[10px] bg-primary-600 p-[5px] rounded-[5px]"
+                >
+                  Чат
+                </button>
+              )}
+            </div>
+          ));
         }
       }
     );

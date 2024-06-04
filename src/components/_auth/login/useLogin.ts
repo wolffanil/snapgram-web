@@ -18,6 +18,7 @@ export const useLogin = (reset: UseFormReset<ILogin>) => {
     mutationFn: (data: ILogin) => AuthService.login(data),
     onSuccess: (data) => {
       reset();
+
       successToast(`Добро пожаловать обратно ${data.userData.name}`);
       setUser(data.userData);
       navigate("/");

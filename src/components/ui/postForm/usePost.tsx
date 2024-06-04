@@ -50,22 +50,14 @@ export const usePost = (
     mutationKey: ["create post"],
     mutationFn: (data: IEditPost) => PostService.create(data),
     onSuccess: (post) => {
-      console.log(post, "POST");
       reset();
       successToast("Пост успешно создан");
-      queryClient.setQueryData(
-        [QUERY_KEYS.GET_POST_BY_ID, post._id],
-        () =>
-          ({
-            ...post,
-          } as IPost)
-      );
       navigate(`/posts/${post._id}`);
     },
   });
 
   const onSubmit = async (data: IEditPost & { file: File[] }) => {
-    if (data?.file.length < 1 && !data?.imageUrl) {
+    if (data?.file.length < 1 && action === "Create") {
       setError("file", { message: "Фото обязательны" });
       return;
     }
@@ -86,16 +78,14 @@ export const usePost = (
       let imageUrl = data.imageUrl;
 
       if (hasFileToUpdate) {
-        imageUrl = (await uploadPhoto(data.file)) || "";
+        imageUrl = await uploadPhoto(data.file);
 
         if (!imageUrl) {
           errorToast("Что-то пошло не так");
           return;
         }
 
-        deletePhoto(imageUrl);
-
-        return imageUrl;
+        // deletePhoto(imageUrl);
       }
       updatePost({ ...data, imageUrl, tags });
     } else return;

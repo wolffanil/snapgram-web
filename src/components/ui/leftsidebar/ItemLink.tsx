@@ -46,7 +46,7 @@ function ItemLink({
         />
         {label}
         {isNotificationLink && count !== 0 && (
-          <div className=" absolute right-[10px] top-[auto] bottom-[auto] w-[20px] h-[20px] main-color text-white text-[12px] font-semibold flex-center pt-[2px] rounded-[4px]">
+          <div className=" absolute right-[10px] top-[auto] bottom-[auto] w-[20px] h-[20px] main-color text-white text-[12px] font-semibold flex-center pt-[2px] rounded-[4px] max-lgt:right-[-6px]">
             {count}
           </div>
         )}

@@ -45,7 +45,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
                   : fileUrl
               }
               alt="image"
-              className={cn("file_uploader-img", {
+              className={cn("file_uploader-img object-cover", {
                 "!fill-black": !isDarkMode,
               })}
             />
@@ -61,6 +61,7 @@ const FileUploader = ({ fieldChange, mediaUrl }: IFileUploader) => {
             alt="file-upload"
             width={96}
             height={77}
+            className="object-cover"
           />
 
           <h3 className="base-medium text-main-color mb-2 mt-6">

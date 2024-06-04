@@ -94,7 +94,10 @@ export const useNotification = () => {
   // give from socket
   const getNewNotification = (notification: INotification) => {
     console.log(location, location.pathname === "/notifications");
-    if (location.pathname === "/notifications") {
+    if (
+      location.pathname === "/notifications" ||
+      location.pathname === "notifications"
+    ) {
       let fixNotificaton = { ...notification, isView: true };
       queryClient.setQueryData(
         [QUERY_KEYS.GET_NOTIFICATION],
