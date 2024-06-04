@@ -56,7 +56,7 @@ function MessageItem({
             className={`${
               isMyMessage
                 ? "fill-primary-600 dark:fill-primary-500"
-                : "fill-light-5 dark:fill-dark-4 max-sm:!fill-[#EFEFEF]"
+                : "fill-light-5 dark:fill-dark-4 max-sm:fill-[#EFEFEF]"
             }`}
           />
         </svg>
@@ -65,7 +65,7 @@ function MessageItem({
           className={`rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px] max-sm:max-w-[80%] max-sm:min-w-[80px] ${
             isMyMessage
               ? "message-my-bg-color ml-[10px]"
-              : "message-companion-bg-color max-sm:!bg-[#EFEFEF]"
+              : "message-companion-bg-color max-sm:bg-[#EFEFEF]"
           }`}
         >
           {content && (
