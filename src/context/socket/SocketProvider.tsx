@@ -70,7 +70,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       socket.off("online");
     };
-  }, []);
+  }, [selectedChat]);
 
   // emit online
   useEffect(() => {
