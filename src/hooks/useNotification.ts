@@ -7,7 +7,6 @@ import {
   INotification,
 } from "../shared/types/notification.interface";
 import { useLocation } from "react-router-dom";
-import { useMemo } from "react";
 import { useSocket } from "./useSocket";
 import { useAuth } from "./useAuth";
 
@@ -93,7 +92,6 @@ export const useNotification = () => {
 
   // give from socket
   const getNewNotification = (notification: INotification) => {
-    console.log(location, location.pathname === "/notifications");
     if (
       location.pathname === "/notifications" ||
       location.pathname === "notifications"
@@ -103,7 +101,7 @@ export const useNotification = () => {
         [QUERY_KEYS.GET_NOTIFICATION],
         (notifications: INotification[]) => [fixNotificaton, ...notifications]
       );
-      setIsViewNotificatoins();
+      // setIsViewNotificatoins();
     } else {
       queryClient.setQueryData(
         [QUERY_KEYS.GET_NOTIFICATION],
@@ -161,38 +159,24 @@ export const useNotification = () => {
   };
 
   // clieck to move to notifications
-  const needToSetIsView = () => {
+  const needToSetIsView = (isNewNotification?: boolean) => {
     const notifications: INotification[] | [] =
       queryClient.getQueryData([QUERY_KEYS.GET_NOTIFICATION]) || [];
 
     const isNeed = notifications?.some((n) => n.isView === false);
 
-    console.log(isNeed, "isNeed");
-    if (isNeed) {
+    if (isNeed || isNewNotification) {
       setIsViewNotificatoins();
     }
-
-    return;
   };
 
-  return useMemo(
-    () => ({
-      getNewNotification,
-      deleteNotification,
-      createNotification,
-      removeNotification,
-      isLoadingNotifications,
-      needToSetIsView,
-      notifications,
-    }),
-    [
-      getNewNotification,
-      deleteNotification,
-      removeNotification,
-      createNotification,
-      isLoadingNotifications,
-      needToSetIsView,
-      location,
-    ]
-  );
+  return {
+    getNewNotification,
+    deleteNotification,
+    createNotification,
+    removeNotification,
+    isLoadingNotifications,
+    needToSetIsView,
+    notifications,
+  };
 };

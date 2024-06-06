@@ -6,7 +6,7 @@ function Bottombar() {
   const { pathname } = useLocation();
   const { selectedChat } = useAuth();
 
-  if (selectedChat?._id) return null;
+  if (selectedChat?._id && pathname === "/chats") return null;
 
   return (
     <section className="bottom-bar">

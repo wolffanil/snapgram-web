@@ -20,7 +20,7 @@ function Register() {
 
   return (
     <div>
-      <div className="sm:w-420 flex-center flex-col">
+      <div className=" max-sm:max-w-[290px] flex-center flex-col">
         <h2 className="h3-bold md:h2-bold text-main-color">
           Создать новый аккаунт{" "}
         </h2>

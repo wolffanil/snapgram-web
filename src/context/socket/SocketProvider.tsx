@@ -29,7 +29,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { chats: existChats } = useMyChats();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { getNewNotification, deleteNotification } = useNotification();
+  const { getNewNotification, deleteNotification, needToSetIsView } =
+    useNotification();
 
   // connect
   useEffect(() => {
@@ -216,7 +217,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         if (pathname !== "/chats") {
           if (pathname === "chats") return;
           toast((t) => (
-            <div className="flex justify-between items-center w-[200px] max-h-[50px] max-sm:max-h-[30px] max-sm:max-w-[150px]">
+            <div className="flex justify-between items-center w-[200px] max-h-[50px] max-sm:max-h-[30px] max-sm:max-w-[180px]">
               <img
                 src={getMedia(message?.sender?.imageUrl || "")}
                 alt="photoProfile"
@@ -225,8 +226,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
               <div className="text-[20px] max-sm:text-[18px] text-white p-[5px]">
                 {!currentChat
                   ? "У вас новый собеседник"
-                  : message?.content?.length > 10
-                  ? message?.content?.slice(1, 10) + "..."
+                  : message?.content?.length > 8
+                  ? message?.content?.slice(1, 8) + "..."
                   : message.content}
               </div>
               {currentChat && (
@@ -274,7 +275,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.emit(SOCKET_KEYS.OFFLINE, { users, id: user?._id });
       socket.emit(SOCKET_KEYS.LEAVE_ROOM, user?._id);
     };
-    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("blur", handleUnload);
 
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
@@ -342,13 +343,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       (notification: INotification) => {
         if (!notification) return;
         getNewNotification(notification);
+        if (pathname === "/notifications") {
+          needToSetIsView(true);
+        }
       }
     );
 
     return () => {
       socket.off(SOCKET_KEYS.GET_NEW_NOTIFICATION);
     };
-  }, []);
+  }, [pathname]);
 
   // on delete notification
   useEffect(() => {

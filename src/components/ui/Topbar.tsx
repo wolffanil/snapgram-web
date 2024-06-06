@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import Logo from "./Logo";
 import { getMedia } from "../../utils";
@@ -17,12 +17,13 @@ function Topbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { notifications, needToSetIsView } = useNotification();
+  const { pathname } = useLocation();
   const { logout, isLogoutLoading } = useLogout();
 
   const countNotifications =
     notifications?.filter((n) => n.isView === false)?.length || 0;
 
-  if (selectedChat?._id) return null;
+  if (selectedChat?._id && pathname === "/chats") return null;
 
   const handleClose = () => setIsOpen((o) => !o);
 

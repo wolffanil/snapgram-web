@@ -70,7 +70,7 @@ function MessageItem({
         >
           {content && (
             <p
-              className={`text-[16px] text-main-color font-medium  text-wrap max-sm:text-[12px] w-full max-xl:max-w-[300px]  ${
+              className={`text-[16px] text-main-color font-medium  text-wrap max-sm:text-[16px] w-full max-xl:max-w-[300px]  ${
                 isMyMessage && "!text-white"
               }`}
             >

@@ -27,7 +27,7 @@ function Notification() {
       </div>
       <div className="flex w-full flex-col items-start justify-start max-h-full custom-scrollbar-without overflow-y-scroll">
         {!notifications?.length ? (
-          <div className="flex-center text-main-color text-[24px]">
+          <div className="flex-center text-main-color text-[20px]">
             Нету уведомлений
           </div>
         ) : (
