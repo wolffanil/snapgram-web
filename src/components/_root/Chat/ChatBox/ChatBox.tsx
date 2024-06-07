@@ -1,6 +1,6 @@
 import { useAuth } from "../../../../hooks/useAuth";
 import { useAllMessages } from "./useAllMessages";
-import { getMedia, getСompanion } from "../../../../utils";
+import { formatDateString, getMedia, getСompanion } from "../../../../utils";
 import MessageItem from "./MessageItem";
 import WriteMessage from "./writeMessage/WriteMessage";
 import { Link } from "react-router-dom";
@@ -62,7 +62,11 @@ function ChatBox() {
             {companion?.name}
           </p>
           <p className="text-[14px] text-light-3 max-sm:text-[12px]">
-            {companion?.isOnline ? "Онлайн" : "Оффлайн"}
+            {companion?.isOnline
+              ? "Онлайн"
+              : `последнее посещение в ${formatDateString(
+                  companion.updatedAt
+                )}`}
           </p>
         </div>
       </div>

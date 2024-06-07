@@ -91,6 +91,17 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socket.emit(SOCKET_KEYS.ONLINE, { users, id: user?._id });
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible")
+        socket.emit(SOCKET_KEYS.ONLINE, { users, id: user?._id });
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [existChats, selectedChat]);
 
   // on offline
@@ -105,7 +116,13 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
             const fixChat = {
               ...chat,
               users: chat.users.map((user) =>
-                user._id === id ? { ...user, isOnline: false } : user
+                user._id === id
+                  ? {
+                      ...user,
+                      isOnline: false,
+                      updatedAt: new Date().toISOString(),
+                    }
+                  : user
               ),
             };
             if (selectedChat?._id === chat._id) {

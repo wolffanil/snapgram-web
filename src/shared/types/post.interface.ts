@@ -26,6 +26,7 @@ export interface IEditPost
 
 export interface IGetPosts {
   posts: IPost[];
-  hasMore: boolean;
+
+  // hasMore: boolean;
   page: number;
 }

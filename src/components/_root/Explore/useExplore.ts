@@ -28,9 +28,10 @@ export const useExplore = () => {
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: ({ pageParam = 1 }) => PostService.getAll({ pageParam }),
     getNextPageParam: (lastPage, _allPages) => {
-      return lastPage.hasMore ? lastPage.page + 1 : null;
+      return lastPage.posts.length > 0 ? lastPage.page + 1 : null;
     },
     initialPageParam: 1,
+    staleTime: 1 * 60 * 1000,
   });
 
   const shouldShowPosts =
