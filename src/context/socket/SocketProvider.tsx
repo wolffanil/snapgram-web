@@ -91,17 +91,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     });
 
     socket.emit(SOCKET_KEYS.ONLINE, { users, id: user?._id });
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible")
-        socket.emit(SOCKET_KEYS.ONLINE, { users, id: user?._id });
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
   }, [existChats, selectedChat]);
 
   // on offline
@@ -292,7 +281,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.emit(SOCKET_KEYS.OFFLINE, { users, id: user?._id });
       socket.emit(SOCKET_KEYS.LEAVE_ROOM, user?._id);
     };
-    window.addEventListener("blur", handleUnload);
+    window.addEventListener("beforeunload", handleUnload);
 
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
