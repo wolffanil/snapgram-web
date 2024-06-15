@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useGetUsers } from "../../../hooks/useGetUsers";
 import ButtonLoader from "../ButtonLoader";
 import UserCard from "../UserCard";
+import { memo } from "react";
 
 const deleteOnTablet = ["saved", "profile", "chats", "posts", "explore"];
 
@@ -11,7 +12,6 @@ function RightSidebar() {
 
   const isDelete = deleteOnTablet.includes(pathname.split("/")[1]);
 
-  console.log(pathname.split("/")[1]);
   return (
     <div
       className={`rightsidebar sidebar-bg-color ${
@@ -19,7 +19,7 @@ function RightSidebar() {
       } ${isDelete && "max-lgt:hidden"}`}
     >
       <div className="flex flex-col gap-[40px]">
-        <p className="h3-bold text-main-color">Рекомендаций</p>
+        <p className="h3-bold text-main-color">Рекомендации</p>
 
         {isUsersLoading && !users ? (
           <ButtonLoader />
@@ -37,4 +37,4 @@ function RightSidebar() {
   );
 }
 
-export default RightSidebar;
+export default memo(RightSidebar);

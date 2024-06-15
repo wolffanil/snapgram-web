@@ -47,7 +47,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     if (!socket) return;
     socket.on("online", (id: string) => {
       queryClient.setQueryData([QUERY_KEYS.GET_MY_CHATS], (chats: IChat[]) => {
-        return chats.map((chat) => {
+        return chats?.map((chat) => {
           const hasUser = chat.users.some((user) => user._id === id);
 
           if (hasUser) {

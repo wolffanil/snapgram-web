@@ -1,6 +1,7 @@
-import { getSaveUrl } from "../config/api.config";
+import { getGraphQlUrl, getSaveUrl } from "../config/api.config";
 import { ISave } from "../shared/types/save.interface";
 import { request } from "./api/reguest.api";
+import { getMySaves } from "./graphql/query";
 
 export const SaveService = {
   async save(postId: string) {
@@ -19,9 +20,15 @@ export const SaveService = {
   },
 
   async getAll() {
-    return request<ISave[]>({
-      url: getSaveUrl(""),
-      method: "GET",
+    const saves = await request<ISave[]>({
+      url: getGraphQlUrl(),
+      method: "POST",
+      data: {
+        query: getMySaves,
+      },
     });
+
+    //@ts-ignore
+    return saves?.data?.getMySaves;
   },
 };

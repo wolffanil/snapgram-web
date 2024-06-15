@@ -10,7 +10,7 @@ export const useGetUsers = () => {
     queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: () => UserService.getUsers(),
     staleTime: 60 * 1000,
-    select: (data) => data.filter((u) => u?._id !== user?._id),
+    select: (data) => data.filter((u) => u?._id !== user?._id).slice(0, 6),
   });
 
   return useMemo(

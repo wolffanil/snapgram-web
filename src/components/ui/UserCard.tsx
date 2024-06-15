@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { IUser } from "../../shared/types/user.interface";
 import { getMedia } from "../../utils";
@@ -11,12 +11,14 @@ function UserCard({ user }: { user: IUser }) {
   );
 
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isAllUsersPage = pathname === "/all-users";
 
+  // to={`/profile/${user._id}`}
+
   return (
-    <Link
-      to={`/profile/${user._id}`}
-      className={`user-card border-main-color sidebar-bg-color ${
+    <div
+      className={`user-card border-main-color sidebar-bg-color cursor-pointer ${
         isAllUsersPage && "lg:w-[303px] lg:h-[319px]"
       }`}
     >
@@ -26,6 +28,7 @@ function UserCard({ user }: { user: IUser }) {
         className={`rounded-full w-14 h-14 object-cover ${
           isAllUsersPage && "lg:w-[92px] lg:h-[92px]"
         }`}
+        onClick={() => navigate(`/profile/${user._id}`)}
       />
 
       <div className="flex-center flex-col gap-1">
@@ -51,7 +54,7 @@ function UserCard({ user }: { user: IUser }) {
       >
         чат
       </Button>
-    </Link>
+    </div>
   );
 }
 

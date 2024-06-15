@@ -6,7 +6,7 @@ function RootLayout() {
   return (
     <Protect isProtect>
       <SocketProvider>
-        <div className="w-full md:flex">
+        <div className="w-full md:flex ">
           <Topbar />
           <LeftSidebar />
 

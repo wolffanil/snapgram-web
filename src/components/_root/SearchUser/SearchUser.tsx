@@ -13,7 +13,7 @@ function SearchUser() {
   const creators = searchTerm !== "" ? searchUsers : users;
 
   return (
-    <div className="common-container lg:!px-[80px] 2xl:!px-[338px]">
+    <div className="common-container lg:!px-[80px] ">
       <div className="user-container">
         <div className=" flex-start gap-3 justify-start w-full">
           <img

@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { IMessage } from "../../../../shared/types/message.interface";
 import { formatDateString, getMedia } from "../../../../utils";
 
@@ -13,24 +12,18 @@ function MessageItem({
   myId,
   message: { _id, createdAt, content, imageUrl, sender },
 }: IMessageItem) {
-  const scroll = useRef<HTMLLIElement>(null);
-  useEffect(() => {
-    scroll.current?.scrollIntoView({ behavior: "smooth" });
-  }, [_id]);
-
   const isMyMessage = sender?._id === myId;
 
   return (
     <li
       className={cn(
-        `flex flex-col mb-[20px] max-sm:mb-[15px] items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4 max-w-[83%]`,
+        `flex flex-col mt-[20px] max-sm:mt-[15px] items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4 max-w-[83%]`,
         {
           "!items-end": isMyMessage,
           "ml-[auto]": isMyMessage,
           "mr-[auto] ": !isMyMessage,
         }
       )}
-      ref={scroll}
     >
       <div
         className={cn(

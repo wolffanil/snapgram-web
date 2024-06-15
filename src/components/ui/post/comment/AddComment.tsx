@@ -7,6 +7,8 @@ import { IPost } from "../../../../shared/types/post.interface";
 import { useParams } from "react-router-dom";
 import { getMedia } from "../../../../utils";
 import { useNotification } from "../../../../hooks/useNotification";
+import { create } from "mutative";
+import { IComment } from "../../../../shared/types/comment.interface";
 
 function AddComment({ post }: { post: IPost }) {
   const [comment, setComment] = useState("");
@@ -23,14 +25,14 @@ function AddComment({ post }: { post: IPost }) {
       setComment("");
       queryClient.setQueryData(
         [QUERY_KEYS.GET_POST_BY_ID, comment.postId],
-        (oldPost: IPost) =>
-          ({
-            ...oldPost,
-            comments: [
-              ...oldPost.comments,
-              { ...comment, author: { ...user } },
-            ],
-          } as IPost)
+        (oldPost: IPost) => {
+          return create(oldPost, (draft) => {
+            draft.comments.push({
+              ...comment,
+              author: { ...user },
+            } as IComment);
+          });
+        }
       );
 
       if (post?.creator?._id === user?._id) return;
@@ -43,6 +45,11 @@ function AddComment({ post }: { post: IPost }) {
       });
     },
   });
+
+  const handleCreateComment = () => {
+    if (comment === "") return;
+    createComment();
+  };
 
   return (
     <div className="flex gap-[11px] mt-10 items-center">
@@ -66,7 +73,7 @@ function AddComment({ post }: { post: IPost }) {
           src="/assets/icons/send.svg"
           alt="send"
           className="!text-black dark:!invert-white"
-          onClick={() => createComment()}
+          onClick={handleCreateComment}
         />
       </div>
     </div>

@@ -110,7 +110,7 @@ function Topbar() {
             alt="logout"
             className="invert-white h-[14px] w-[13px]"
           />
-          Выйти
+          {isLogoutLoading ? "Загрузка..." : "Выйти"}
         </button>
       </div>
     </section>

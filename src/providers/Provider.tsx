@@ -3,15 +3,12 @@ import { Toaster } from "react-hot-toast";
 import { ReactNode } from "react";
 import AuthProvider from "../context/auth/AuthProvider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import ThemeProvider from "../context/theme/ThemeProvider";
-import { useTheme } from "../hooks/useTheme";
 
 const queryClient = new QueryClient();
 
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <AuthProvider>{children}</AuthProvider>
 
       <Toaster

@@ -6,6 +6,7 @@ import ItemLink from "./ItemLink";
 import SettingsButtons from "./SettingsButtons";
 import { getMedia } from "../../../utils";
 import { useNotification } from "../../../hooks/useNotification";
+import { memo } from "react";
 
 function LeftSidebar() {
   const { user } = useAuth();
@@ -16,8 +17,8 @@ function LeftSidebar() {
     notifications?.filter((n) => n.isView === false)?.length || 0;
 
   return (
-    <nav className="leftsidebar sidebar-bg-color max-lgt:min-w-[290px] max-xl:min-w-[unset]">
-      <div className="flex flex-col gap-11">
+    <nav className="leftsidebar sidebar-bg-color max-lgt:min-w-[290px] max-xl:min-w-[unset] pt-1">
+      <div className="flex flex-col gap-11 max-lg:max-h-[100%]">
         <Link to="/" className="flex gap-3 items-center">
           <Logo className="w-[170px] h-[36px]" />
         </Link>
@@ -39,26 +40,28 @@ function LeftSidebar() {
           </div>
         </Link>
 
-        <ul className="flex flex-col gap-[16px] max-xl:gap-[20px]">
-          {sidebarLinks.map((link) => {
-            const isActive = pathname === link.route;
+        <ul className="flex flex-col gap-[16px] max-xl:gap-[20px] max-lg:overflow-y-scroll max-lg:custom-scrollbar max-lg:max-h-[80%] max-lg:pr-2">
+          <>
+            {sidebarLinks.map((link) => {
+              const isActive = pathname === link.route;
 
-            return (
-              <ItemLink
-                key={link.route}
-                isActive={isActive}
-                handleForNotfication={needToSetIsView}
-                count={countNotifications}
-                {...link}
-              />
-            );
-          })}
+              return (
+                <ItemLink
+                  key={link.route}
+                  isActive={isActive}
+                  handleForNotfication={needToSetIsView}
+                  count={countNotifications}
+                  {...link}
+                />
+              );
+            })}
+
+            <SettingsButtons />
+          </>
         </ul>
       </div>
-
-      <SettingsButtons />
     </nav>
   );
 }
 
-export default LeftSidebar;
+export default memo(LeftSidebar);

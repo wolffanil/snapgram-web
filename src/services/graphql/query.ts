@@ -17,6 +17,7 @@ export const getAllPosts = `query getPosts($page: Int, $limit: Int, $q:String) {
     imageUrl
     createdAt
     updatedAt
+    commentsCount
     saves {
       _id
       postId
@@ -83,3 +84,45 @@ query getPost($postId: String) {
     }
   }
 }`;
+
+export const getMySaves = `
+  query getAllMyPosts {
+    getMySaves {
+      _id
+      post {
+        _id
+        creator {
+          _id
+          name
+          email
+          imageUrl
+          createdAt
+          updatedAt
+        }
+        caption
+        countRepost
+        tags
+        location
+        imageUrl
+        createdAt
+        updatedAt
+        saves {
+          _id
+          postId
+          userId
+          createdAt
+          updatedAt
+        }
+        commentsCount
+        likes {
+          _id
+          userId
+          postId
+        }
+      }
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;

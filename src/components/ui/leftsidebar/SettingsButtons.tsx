@@ -7,7 +7,9 @@ function SettingsButtons({ className }: { className?: string }) {
   const { logout, isLogoutLoading } = useLogout();
 
   return (
-    <div className={cn("flex flex-col gap-[33px] ml-[18px]", className)}>
+    <div
+      className={cn("flex flex-col gap-[33px] ml-[18px] mt-[48px] ", className)}
+    >
       <button className="shad-button_ghost" onClick={() => toggleDarkMode()}>
         <img
           src={`/assets/icons/${isDarkMode ? "dark.svg" : "light.svg"}`}
@@ -32,7 +34,7 @@ function SettingsButtons({ className }: { className?: string }) {
           className="svg-color"
         />
         <p className="small-medium max-lg:base-medium text-main-color !font-bold !text-[18px]">
-          выход
+          {isLogoutLoading ? "Загрузка..." : "Выйти"}
         </p>
       </button>
     </div>

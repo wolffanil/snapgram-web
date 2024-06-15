@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { create } from "mutative";
+import { useState } from "react";
 import { useAuth } from "../../../../../hooks/useAuth";
 import { MessageService } from "../../../../../services/message.service";
 import { IMessage } from "../../../../../shared/types/message.interface";
@@ -42,7 +43,10 @@ export const useWriteMessage = () => {
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
         (oldMessages: IMessage[]) => {
-          return [...oldMessages, newMessage];
+          if (!oldMessages) return [...oldMessages, newMessage];
+          return create(oldMessages, (draft) => {
+            draft.push(newMessage);
+          });
         }
       );
 
@@ -56,28 +60,17 @@ export const useWriteMessage = () => {
     },
     onSuccess: (message: IMessage, variables) => {
       queryClient.setQueryData([QUERY_KEYS.GET_MY_CHATS], (chats: IChat[]) => {
-        const updatedChats = chats.map((chat) =>
-          chat._id === chatId
-            ? {
-                ...chat,
-                latestMessage: {
-                  ...chat.latestMessage,
-                  content: message.content,
-                },
-              }
-            : chat
-        );
+        return create(chats, (draft) => {
+          draft.forEach((chat, index) => {
+            if (chat._id === chatId) {
+              chat.latestMessage = chat.latestMessage || {};
+              chat.latestMessage.content = message.content;
 
-        const targetIndex = updatedChats.findIndex(
-          (chat) => chat._id === chatId
-        );
-
-        if (targetIndex !== -1) {
-          const targetChat = updatedChats.splice(targetIndex, 1)[0];
-          updatedChats.unshift(targetChat);
-        }
-
-        return updatedChats;
+              const [targetChat] = draft.splice(index, 1);
+              draft.unshift(targetChat);
+            }
+          });
+        });
       });
     },
   });
@@ -86,20 +79,19 @@ export const useWriteMessage = () => {
     if (message.length < 1) return;
 
     setMessage("");
-    const newMessage = await sendMessage({
-      content: message,
-    });
-
     const newMessageData: IMessage = {
-      content: newMessage.content,
+      content: message,
       chat: chatId,
-      createdAt: newMessage.createdAt,
+      createdAt: new Date().toISOString(),
       sender: {
         ...user,
       },
     } as IMessage;
 
     sendMessageToSocket(newMessageData);
+    const newMessage = await sendMessage({
+      content: message,
+    });
   };
 
   // useEffect(() => {

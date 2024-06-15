@@ -4,11 +4,21 @@ import { formatDateString, getMedia, getСompanion } from "../../../../utils";
 import MessageItem from "./MessageItem";
 import WriteMessage from "./writeMessage/WriteMessage";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { IMessage } from "../../../../shared/types/message.interface";
+import ScrollableFeed from "react-scrollable-feed";
 
 function ChatBox() {
   const { selectedChat, user, setSelectedChat } = useAuth();
   const { messages, isLoadingMessages } = useAllMessages(
     selectedChat?._id || ""
+  );
+
+  const Row = useMemo(
+    () => (i: number, m: IMessage) => {
+      return <MessageItem key={i} message={m} myId={user?._id || ""} />;
+    },
+    []
   );
 
   if (!selectedChat?._id)
@@ -17,6 +27,7 @@ function ChatBox() {
         Веберите чат
       </div>
     );
+
   const n = getСompanion(selectedChat?.users || [], user?._id || "");
 
   const companion = selectedChat?.users[n];
@@ -27,7 +38,7 @@ function ChatBox() {
     <div
       className={`${
         selectedChat?._id ? "flex" : "hidden"
-      } xl:flex flex-col xl:max-w-[666px]  w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px]`}
+      } xl:flex flex-col xl:max-w-[666px]  w-full border rounded-[20px] border-main-color sidebar-bg-color pl-[27px] pr-[40px] pt-[27px] pb-[38px]  max-sm:bg-main-color max-sm:border-[0px] max-sm:rounded-[0px] max-sm:pl-[0px] max-sm:pr-[0px] max-sm:py-[0px] `}
     >
       <div
         className="flex items-center gap-x-[16px]
@@ -64,23 +75,21 @@ function ChatBox() {
           <p className="text-[14px] text-light-3 max-sm:text-[12px]">
             {companion?.isOnline
               ? "Онлайн"
-              : `последнее посещение в ${formatDateString(
-                  companion.updatedAt
-                )}`}
+              : `последнее посещение ${formatDateString(companion.updatedAt)}`}
           </p>
         </div>
       </div>
 
       <div className="w-full h-[1px] bg-light-3 mt-[27px] max-sm:mt-[13px]" />
 
-      <div className="flex flex-col min-h-[550px] max-h-[550px] max-sm:min-h-[72%] max-sm:max-h-[72%] mt-[57px] max-sm:mt-[24px] overflow-y-scroll custom-scrollbar-without w-full">
-        {isLoadingMessages ? (
-          <p className="text-main-color flex-center">Загрузка сообщений...</p>
-        ) : (
-          messages?.map((m, i) => (
-            <MessageItem key={i} message={m} myId={user?._id || ""} />
-          ))
-        )}
+      <div className="flex flex-col  max-sm:min-h-[72%] max-sm:max-h-[72%] mt-[57px] max-sm:mt-[24px]  custom-scrollbar-without flex-1 overflow-y-auto ">
+        <ScrollableFeed className="custom-scrollbar-without !min-h-full flex-1">
+          {isLoadingMessages ? (
+            <p className="text-main-color flex-center">Загрузка сообщений...</p>
+          ) : (
+            messages?.length && messages.map((m, i) => Row(i, m))
+          )}
+        </ScrollableFeed>
       </div>
 
       <div className="w-full h-[1px] bg-light-3 mb-[30px] max-sm:mb-[20px]" />
