@@ -1,6 +1,6 @@
-import { IChat } from "../../../../shared/types/chat.interface";
+import { IChat } from "@/shared/types/chat.interface";
+import { getMedia } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
-import { getMedia } from "../../../../utils";
 
 interface IChatItem {
   chat: IChat;

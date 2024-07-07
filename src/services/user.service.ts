@@ -1,3 +1,4 @@
+import { IToken } from "@/shared/types/token.interface";
 import { getUserUrl } from "../config/api.config";
 import { IPost } from "../shared/types/post.interface";
 import {
@@ -39,6 +40,20 @@ export const UserService = {
       url: getUserUrl("/update-profile"),
       method: "PATCH",
       data,
+    });
+  },
+
+  async getTokens() {
+    return request<IToken[]>({
+      url: getUserUrl("/my-tokens"),
+      method: "GET",
+    });
+  },
+
+  async deleteToken(tokenId: string) {
+    return request<{ status: string }>({
+      url: getUserUrl(`/deleteMyToken/${tokenId}`),
+      method: "DELETE",
     });
   },
 };

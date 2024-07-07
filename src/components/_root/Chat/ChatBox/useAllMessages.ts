@@ -1,6 +1,6 @@
+import { MessageService } from "@/services/message.service";
+import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "../../../../shared/enums/queryKeys";
-import { MessageService } from "../../../../services/message.service";
 
 export const useAllMessages = (chatId: string) => {
   const { data: messages, isPending: isLoadingMessages } = useQuery({

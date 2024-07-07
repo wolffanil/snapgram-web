@@ -35,6 +35,7 @@ module.exports = {
         "light-3": "#7878A3",
         "light-4": "#5C5C7B",
         "light-5": "#F6F6F6",
+        backdrop: "rgba(255, 255, 255, 0.1)",
       },
       screens: {
         xs: "480px",

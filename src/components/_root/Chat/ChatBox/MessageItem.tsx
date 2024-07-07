@@ -1,6 +1,5 @@
-import { IMessage } from "../../../../shared/types/message.interface";
-import { formatDateString, getMedia } from "../../../../utils";
-
+import { IMessage } from "@/shared/types/message.interface";
+import { formatDateString, getMedia } from "@/utils";
 import cn from "clsx";
 
 interface IMessageItem {

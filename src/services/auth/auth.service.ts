@@ -21,8 +21,6 @@ export const AuthService = {
       },
     });
 
-    console.log(response, "SIGN");
-
     if (response.accessToken)
       saveAccessToken({ accessToken: response.accessToken });
 

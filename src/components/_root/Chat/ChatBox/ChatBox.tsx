@@ -1,12 +1,12 @@
-import { useAuth } from "../../../../hooks/useAuth";
 import { useAllMessages } from "./useAllMessages";
-import { formatDateString, getMedia, getСompanion } from "../../../../utils";
 import MessageItem from "./MessageItem";
 import WriteMessage from "./writeMessage/WriteMessage";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
-import { IMessage } from "../../../../shared/types/message.interface";
 import ScrollableFeed from "react-scrollable-feed";
+import { useAuth } from "@/hooks/useAuth";
+import { IMessage } from "@/shared/types/message.interface";
+import { formatDateString, getMedia, getСompanion } from "@/utils";
 
 function ChatBox() {
   const { selectedChat, user, setSelectedChat } = useAuth();

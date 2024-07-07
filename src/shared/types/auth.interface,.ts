@@ -10,6 +10,9 @@ export interface ITokens {
 
 export interface IAuthResponse extends ITokens {
   userData: IUser;
+  session: {
+    id: string;
+  };
 }
 
 export interface IRegister extends Pick<IUser, "name" | "email"> {

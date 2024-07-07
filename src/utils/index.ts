@@ -48,7 +48,7 @@ export const multiFormatDateString = (timestamp: string = ""): string => {
       return `${Math.floor(diffInDays)} дней назад`;
     case Math.floor(diffInHours) >= 1:
       return `${Math.floor(diffInHours)} 
-      несколько часов назад`;
+       часов назад`;
     case Math.floor(diffInMinutes) >= 1:
       return `${Math.floor(diffInMinutes)} минут назад`;
     default:
@@ -67,7 +67,7 @@ export function getСompanion(users: IUser[], myId: string): number {
   return Number(users[0]?._id === myId);
 }
 
-function formatTodayDate(date: Date): string {
+export function formatTodayDate(date: Date): string {
   const now = new Date();
 
   // Проверяем, совпадают ли годы, месяцы и дни

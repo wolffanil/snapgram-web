@@ -10,7 +10,7 @@ import { useToast } from "../../../hooks/useToast";
 
 export const useLogin = (reset: UseFormReset<ILogin>) => {
   const { loadingToast, successToast, errorToast } = useToast();
-  const { setUser } = useAuth();
+  const { setUser, setSessionId } = useAuth();
   const navigate = useNavigate();
 
   const { mutate: login, isPending: isLoginLoading } = useMutation({
@@ -21,6 +21,7 @@ export const useLogin = (reset: UseFormReset<ILogin>) => {
 
       successToast(`Добро пожаловать обратно ${data.userData.name}`);
       setUser(data.userData);
+      setSessionId(data.session.id);
       navigate("/");
     },
     onError: (error: string) => {

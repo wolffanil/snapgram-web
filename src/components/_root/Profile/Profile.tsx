@@ -1,12 +1,13 @@
 import { Link, Outlet, Route, Routes, useLocation } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
 import { useProfile } from "./useProfile";
 import { Loader } from "lucide-react";
-import { getMedia } from "../../../utils";
 import StatBlock from "./StackBlock";
-import { GridPostList } from "../../ui";
+import { GridPostList, Modal, WrapperModal } from "../../ui";
 import LikedPosts from "./likedPosts/LikedPosts";
-import { useCreateChat } from "../../../hooks/useCreateChat";
+import Devices from "./devies/Deviсes";
+import { useAuth } from "@/hooks/useAuth";
+import { useCreateChat } from "@/hooks/useCreateChat";
+import { getMedia } from "@/utils";
 
 function Profile() {
   const { user: currentUser } = useAuth();
@@ -67,7 +68,7 @@ function Profile() {
             </p>
           </div>
 
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col justify-center gap-4">
             {currentUser._id === user._id ? (
               <div className={`${user._id !== currentUser._id && "hidden"}`}>
                 <Link
@@ -86,6 +87,24 @@ function Profile() {
                     Редактировать профиль
                   </p>
                 </Link>
+
+                <Modal>
+                  <Modal.Open opens="devices">
+                    <button className="blue-color flex text-white small-medium  h-12 justify-center items-center w-[234px] rounded-lg mt-[20px] gap-x-[8px]">
+                      <img src="/assets/icons/devices.svg" alt="devices" />
+                      устройства
+                    </button>
+                  </Modal.Open>
+
+                  <Modal.Window name="devices">
+                    <WrapperModal
+                      title="Активные устройства"
+                      containerStyle="w-[600px]"
+                    >
+                      <Devices />
+                    </WrapperModal>
+                  </Modal.Window>
+                </Modal>
               </div>
             ) : (
               <button

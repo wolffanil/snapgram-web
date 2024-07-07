@@ -1,13 +1,13 @@
+import { useAuth } from "@/hooks/useAuth";
+import { useSocket } from "@/hooks/useSocket";
+import { MessageService } from "@/services/message.service";
+import { QUERY_KEYS } from "@/shared/enums/queryKeys";
+import { IChat } from "@/shared/types/chat.interface";
+import { IMessage } from "@/shared/types/message.interface";
+import { IUser } from "@/shared/types/user.interface";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { create } from "mutative";
 import { useState } from "react";
-import { useAuth } from "../../../../../hooks/useAuth";
-import { MessageService } from "../../../../../services/message.service";
-import { IMessage } from "../../../../../shared/types/message.interface";
-import { QUERY_KEYS } from "../../../../../shared/enums/queryKeys";
-import { IUser } from "../../../../../shared/types/user.interface";
-import { IChat } from "../../../../../shared/types/chat.interface";
-import { useSocket } from "../../../../../hooks/useSocket";
 
 export const useWriteMessage = () => {
   const [message, setMessage] = useState("");

@@ -1,22 +1,23 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useMyChats } from "../../hooks/useMyChats";
-import { createContext, useEffect } from "react";
+import { useMyChats } from "@/hooks/useMyChats";
+import { createContext, useCallback, useEffect } from "react";
 import io from "socket.io-client";
-import { QUERY_KEYS } from "../../shared/enums/queryKeys";
-import { IChat } from "../../shared/types/chat.interface";
-import { IUser } from "../../shared/types/user.interface";
-import { SOCKET_KEYS } from "../../shared/enums/socketKeys";
+import { QUERY_KEYS } from "@/shared/enums/queryKeys";
+import { IChat } from "@/shared/types/chat.interface";
+import { IUser } from "@/shared/types/user.interface";
+import { SOCKET_KEYS } from "@/shared/enums/socketKeys";
 import toast from "react-hot-toast";
-import { IMessage } from "../../shared/types/message.interface";
+import { IMessage } from "@/shared/types/message.interface";
 import {
   ISocketProvider,
   removeFromGroupType,
 } from "./socket-provider.interface";
-import { useNotification } from "../../hooks/useNotification";
-import { INotification, type } from "../../shared/types/notification.interface";
-import { getMedia } from "../../utils";
+import { useNotification } from "@/hooks/useNotification";
+import { INotification, type } from "@/shared/types/notification.interface";
+import { getMedia } from "@/utils";
+import { EnumLocalStorage } from "@/shared/types/auth.interface,";
 
 let socket: string;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
@@ -24,7 +25,14 @@ const ENPOINT = import.meta.env.VITE_SOCKET_URL;
 export const SocketContext = createContext({} as ISocketProvider);
 
 const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, selectedChat, setSelectedChat, setUser } = useAuth();
+  const {
+    user,
+    selectedChat,
+    setSelectedChat,
+    setUser,
+    sessionId: currentSessionId,
+    setSessionId,
+  } = useAuth();
   const queryClient = useQueryClient();
   const { chats: existChats } = useMyChats();
   const navigate = useNavigate();
@@ -135,37 +143,37 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     if (!socket) return;
 
     socket.on(SOCKET_KEYS.SIGNIN, (sessionId: string) => {
-      if (!localStorage.getItem("sessionId")) return;
-      if (sessionId === localStorage.getItem("sessionId")) return;
-      //   toast.success("Вошли в твой аккаунт");
-      //   queryClient.refetchQueries([QUERY_KEYS.GET_MY_TOKENS]);
+      if (!currentSessionId) return;
+      if (currentSessionId === sessionId) return;
+      toast.success("Вошли в твой аккаунт");
+      queryClient.invalidateQueries([QUERY_KEYS.GET_MY_TOKENS]);
     });
 
     return () => {
       socket.off(SOCKET_KEYS.SIGNIN);
     };
-  }, []);
+  }, [currentSessionId]);
 
   // on deleteMyDevice
   useEffect(() => {
     if (!socket) return;
 
     socket.on(SOCKET_KEYS.DELETEMYDEVICE, (sessionId: string) => {
-      if (sessionId !== localStorage.getItem("sessionId")) return;
+      if (currentSessionId !== sessionId) return;
 
       setUser(null);
       setSelectedChat(null);
+      setSessionId("");
       queryClient.clear();
-      localStorage.removeItem("token");
-      localStorage.removeItem("sessionId");
-      navigate("/signin");
+      localStorage.removeItem(EnumLocalStorage.ACCESS_TOKEN);
+      navigate("/login");
       toast.success("Вас удалил из устройств");
     });
 
     return () => {
       socket.off(SOCKET_KEYS.DELETEMYDEVICE);
     };
-  }, []);
+  }, [currentSessionId]);
 
   // on new message
   useEffect(() => {
@@ -414,6 +422,23 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
+  /// on say hello
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(SOCKET_KEYS.ACCEPT_SAY_HELLO, (sessionId: string) => {
+      if (currentSessionId !== sessionId) return;
+      toast("Привет", {
+        icon: "👋",
+      });
+    });
+
+    return () => {
+      socket.off(SOCKET_KEYS.ACCEPT_SAY_HELLO);
+    };
+  }, [currentSessionId]);
+
   // emit offline
   const handleLogoutFromSocket = () => {
     let users: IUser[] | [] = [];
@@ -437,7 +462,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const handleDeleteDevice = (sessionId: string) => {
     if (!socket) return;
 
-    socket.emit(SOCKET_KEYS.DELETEMYDEVICE, { myId: user?._id, sessionId });
+    socket.emit(SOCKET_KEYS.DELETEDEVICE, { myId: user?._id, sessionId });
   };
 
   // emit message
@@ -526,6 +551,15 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.emit(SOCKET_KEYS.SEND_REMOVE_NOTICATION, { to, postId, type });
   };
 
+  const handleSayHello = useCallback(
+    (sessionId: string) => {
+      if (!socket) return;
+
+      socket.emit(SOCKET_KEYS.SEND_SAY_HELLO, { myId: user?._id, sessionId });
+    },
+    [socket, user]
+  );
+
   return (
     <SocketContext.Provider
       value={{
@@ -537,6 +571,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         sendMessageToSocket,
         handleSendNewNotificationToSocket,
         handleDeleteNotificationSocket,
+        handleSayHello,
       }}
     >
       {children}

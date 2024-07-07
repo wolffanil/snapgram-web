@@ -6,7 +6,9 @@ export enum SOCKET_KEYS {
   SIGNIN = "signin",
   DELETEMYDEVICE = "deleteMyDevice",
   LEAVE_ROOM = "leaveRoom",
-
+  DELETEDEVICE = "deleteDevice",
+  SEND_SAY_HELLO = "sendSayHello",
+  ACCEPT_SAY_HELLO = "acceptSayHello",
   // MESSAGE
   MESSAGE_RECIEVED = "message recieved",
   NEW_MESSAGE = "new message",

@@ -41,4 +41,5 @@ export interface ISocketProvider {
     notificaion: INotification;
     to: string;
   }) => void;
+  handleSayHello: (sessionId: string) => void;
 }

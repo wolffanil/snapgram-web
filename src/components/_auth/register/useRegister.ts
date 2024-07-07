@@ -10,7 +10,7 @@ import { useMemo } from "react";
 
 export const useRegister = (reset: UseFormReset<IRegister>) => {
   const { loadingToast, successToast, errorToast } = useToast();
-  const { setUser } = useAuth();
+  const { setUser, setSessionId } = useAuth();
   const navigate = useNavigate();
 
   const { mutate: register, isPending: isRegisterLoading } = useMutation({
@@ -20,6 +20,8 @@ export const useRegister = (reset: UseFormReset<IRegister>) => {
       reset();
       successToast("Вы успешно зарегистрировались");
       setUser(data.userData);
+      setSessionId(data.session.id);
+
       navigate("/");
     },
     onError: (error: string) => {

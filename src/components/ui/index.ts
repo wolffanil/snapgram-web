@@ -22,3 +22,6 @@ export { default as PostDetails } from "./post/PostDetails";
 export { default as GridPostList } from "./grid/GridPostList";
 
 export { default as ProfileUploader } from "./form-elements/profileUploader/ProfileUploader";
+
+export { default as Modal } from "./Modal";
+export { default as WrapperModal } from "./WrapperModal";

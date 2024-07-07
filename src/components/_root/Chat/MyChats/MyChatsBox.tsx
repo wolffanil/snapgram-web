@@ -1,9 +1,9 @@
-import { useTheme } from "../../../../hooks/useTheme";
 import cn from "clsx";
 import ChatItem from "./ChatItem";
-import { useAuth } from "../../../../hooks/useAuth";
-import { getСompanion } from "../../../../utils";
-import { useMyChats } from "../../../../hooks/useMyChats";
+import { useMyChats } from "@/hooks/useMyChats";
+import { useTheme } from "@/hooks/useTheme";
+import { useAuth } from "@/hooks/useAuth";
+import { getСompanion } from "@/utils";
 
 function MyChatsBox() {
   const { chats, isLoadingChats } = useMyChats();
