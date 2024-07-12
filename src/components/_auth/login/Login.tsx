@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import { ILogin } from "../../../shared/types/auth.interface,";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SigninValidation } from "../../../shared/validation";
 import { useLogin } from "./useLogin";
-import { Button, ButtonLoader, Field, Logo } from "../../ui";
 import { Link } from "react-router-dom";
+import { SigninValidation } from "@/shared/validation";
+import { ILogin } from "@/shared/types/auth.interface,";
+import { Button, ButtonLoader, Field, Logo, ResetCode } from "@/components/ui";
 
 function Login() {
-  const { control, handleSubmit, reset } = useForm<ILogin>({
+  const { control, handleSubmit, reset, watch } = useForm<ILogin>({
     resolver: zodResolver(SigninValidation),
     defaultValues: {
       email: "",
@@ -15,7 +15,9 @@ function Login() {
     },
   });
 
-  const { isLoginLoading, onLogin } = useLogin(reset);
+  const dataUser = watch(["email", "password"]);
+
+  const { isLoginLoading, onLogin, openIsFormCode } = useLogin(reset);
 
   return (
     <>
@@ -33,14 +35,32 @@ function Login() {
           onSubmit={handleSubmit(onLogin)}
           className="flex flex-col w-full mt-[31px] gap-[20px]"
         >
-          <Field<ILogin> name="email" label="Email" control={control} />
+          <Field<ILogin>
+            name="email"
+            label="Email"
+            control={control}
+            disabled={openIsFormCode}
+          />
 
           <Field<ILogin>
             name="password"
             label="Пароль"
             control={control}
             type="password"
+            disabled={openIsFormCode}
           />
+
+          {openIsFormCode && (
+            <ResetCode
+              control={control}
+              name="code"
+              label="Код"
+              dataUser={{
+                email: dataUser[0],
+                password: dataUser[1],
+              }}
+            />
+          )}
 
           <Button type="submit" disabled={isLoginLoading} className="mt-[10px]">
             {isLoginLoading ? <ButtonLoader /> : "Войти"}

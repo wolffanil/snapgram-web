@@ -17,8 +17,14 @@ export interface IAuthResponse extends ITokens {
 
 export interface IRegister extends Pick<IUser, "name" | "email"> {
   password: string;
+  code?: string;
 }
 
 export interface ILogin extends Pick<IUser, "email"> {
+  password: string;
+  code?: string;
+}
+
+export interface IResetCode extends Pick<IUser, "email"> {
   password: string;
 }

@@ -5,6 +5,7 @@ export { default as ButtonLoader } from "./ButtonLoader";
 export { default as Button } from "./Button";
 
 export { default as Field } from "./form-elements/Field";
+export { default as ResetCode } from "./form-elements/resetCode/ResetCode";
 
 export { default as Logo } from "./Logo";
 

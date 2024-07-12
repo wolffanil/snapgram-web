@@ -10,8 +10,6 @@ interface ISearchResults {
 const SearchResults = ({ isSearchFetching, searchedPosts }: ISearchResults) => {
   if (isSearchFetching) return <Loader />;
 
-  console.log(searchedPosts, "sarchPosts");
-  console.log(searchedPosts.length, "search");
   if (searchedPosts && searchedPosts.length > 0) {
     return (
       <ul className="grid-container">

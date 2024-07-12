@@ -3,6 +3,7 @@ import {
   IAuthResponse,
   ILogin,
   IRegister,
+  IResetCode,
 } from "../../shared/types/auth.interface,";
 import { getMyIp } from "../api/getMyIp";
 import { request } from "../api/reguest.api";
@@ -38,11 +39,19 @@ export const AuthService = {
       },
     });
 
-    if (response.accessToken) {
+    if (response?.accessToken) {
       saveAccessToken({ accessToken: response.accessToken });
     }
     return response;
   },
+  async resetCode(data: IResetCode) {
+    await request({
+      url: getAuthUrl("/reset-code"),
+      method: "POST",
+      data,
+    });
+  },
+
   async logout() {
     await request({
       url: getAuthUrl("/logout"),

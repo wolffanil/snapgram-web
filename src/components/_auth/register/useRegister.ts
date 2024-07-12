@@ -1,14 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { AuthService } from "../../../services/auth/auth.service";
-import { IRegister } from "../../../shared/types/auth.interface,";
-import { useAuth } from "../../../hooks/useAuth";
 import { UseFormReset } from "react-hook-form";
-import { useToast } from "../../../hooks/useToast";
 import { useNavigate } from "react-router-dom";
-import { getErrorMessage } from "../../../services/api/getErrorMessage";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { IRegister } from "@/shared/types/auth.interface,";
+import { useToast } from "@/hooks/useToast";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthService } from "@/services/auth/auth.service";
+import { getErrorMessage } from "@/services/api/getErrorMessage";
 
 export const useRegister = (reset: UseFormReset<IRegister>) => {
+  const [openIsFormCode, setIsOpenFormCode] = useState(false);
   const { loadingToast, successToast, errorToast } = useToast();
   const { setUser, setSessionId } = useAuth();
   const navigate = useNavigate();
@@ -17,6 +18,12 @@ export const useRegister = (reset: UseFormReset<IRegister>) => {
     mutationKey: ["register"],
     mutationFn: (data: IRegister) => AuthService.register(data),
     onSuccess: (data) => {
+      if (!openIsFormCode) {
+        successToast("Код отправлен на почту");
+        setIsOpenFormCode(true);
+        return;
+      }
+
       reset();
       successToast("Вы успешно зарегистрировались");
       setUser(data.userData);
@@ -30,6 +37,7 @@ export const useRegister = (reset: UseFormReset<IRegister>) => {
   });
 
   const onRegister = (data: IRegister) => {
+    if (openIsFormCode && !data.code?.length) return;
     loadingToast("Регистрация...");
     register(data);
   };
@@ -38,7 +46,8 @@ export const useRegister = (reset: UseFormReset<IRegister>) => {
     () => ({
       onRegister,
       isRegisterLoading,
+      openIsFormCode,
     }),
-    [isRegisterLoading, onRegister]
+    [isRegisterLoading, onRegister, openIsFormCode]
   );
 };

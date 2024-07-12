@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignupValidation } from "../../../shared/validation";
-import { IRegister } from "../../../shared/types/auth.interface,";
 import { useRegister } from "./useRegister";
-import { Button, ButtonLoader, Field } from "../../ui";
 import { Link } from "react-router-dom";
+import { IRegister } from "@/shared/types/auth.interface,";
+import { SignupValidation } from "@/shared/validation";
+import { Button, ButtonLoader, Field, ResetCode } from "@/components/ui";
 
 function Register() {
-  const { control, handleSubmit, reset } = useForm<IRegister>({
+  const { control, handleSubmit, reset, watch } = useForm<IRegister>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
       email: "",
@@ -16,7 +16,9 @@ function Register() {
     },
   });
 
-  const { onRegister, isRegisterLoading } = useRegister(reset);
+  const { onRegister, isRegisterLoading, openIsFormCode } = useRegister(reset);
+
+  const dataUser = watch(["email", "password"]);
 
   return (
     <div>
@@ -33,16 +35,39 @@ function Register() {
           onSubmit={handleSubmit(onRegister)}
           className="flex flex-col w-full mt-[31px] gap-[25px]"
         >
-          <Field<IRegister> name="name" label="Имя" control={control} />
+          <Field<IRegister>
+            name="name"
+            label="Имя"
+            control={control}
+            disabled={openIsFormCode}
+          />
 
-          <Field<IRegister> name="email" label="Email" control={control} />
+          <Field<IRegister>
+            name="email"
+            label="Email"
+            control={control}
+            disabled={openIsFormCode}
+          />
 
           <Field<IRegister>
             name="password"
             label="Пароль"
             control={control}
             type="password"
+            disabled={openIsFormCode}
           />
+
+          {openIsFormCode && (
+            <ResetCode
+              control={control}
+              name="code"
+              label="Код"
+              dataUser={{
+                email: dataUser[0],
+                password: dataUser[1],
+              }}
+            />
+          )}
 
           <Button
             type="submit"

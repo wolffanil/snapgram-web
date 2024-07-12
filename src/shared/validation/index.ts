@@ -7,6 +7,7 @@ export const SignupValidation = z.object({
   password: z
     .string()
     .min(8, { message: "Пароль должен быть не менее 8 символов." }),
+  code: z.custom<string>(),
 });
 
 export const ProfileValidation = z.object({
@@ -24,6 +25,7 @@ export const SigninValidation = z.object({
   password: z
     .string()
     .min(8, { message: "Пароль должен быть не менее 8 символов." }),
+  code: z.custom<string>(),
 });
 
 export const PostValidation = z.object({
