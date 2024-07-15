@@ -28,3 +28,20 @@ export interface ILogin extends Pick<IUser, "email"> {
 export interface IResetCode extends Pick<IUser, "email"> {
   password: string;
 }
+
+export interface IResetPassword {
+  code: string;
+  newPassword: string;
+}
+
+export interface IResetPasswordForm extends IResetPassword {
+  email: string;
+  confirmNewPassword: string;
+}
+
+export interface IForgotPassword extends Pick<IUser, "email"> {}
+
+export interface IResResetPassword {
+  message: string;
+  userId: string;
+}

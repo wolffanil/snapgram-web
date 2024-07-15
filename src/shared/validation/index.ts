@@ -24,7 +24,8 @@ export const SigninValidation = z.object({
   email: z.string().email({ message: "Почта должна быть каретной" }),
   password: z
     .string()
-    .min(8, { message: "Пароль должен быть не менее 8 символов." }),
+    .min(8, { message: "Пароль должен быть не менее 8 символов." })
+    .max(20, { message: "Превышенна длина пароля" }),
   code: z.custom<string>(),
 });
 
@@ -42,3 +43,16 @@ export const PostValidation = z.object({
     .string({ message: "Теги обязательны" })
     .min(2, { message: "Строка должна содержать не менее 2 символов" }),
 });
+
+export const ResetPasswordValidation = z
+  .object({
+    email: z.string().email({ message: "Почта должна быть каретной" }),
+    code: z.custom<string>(),
+    newPassword: z.custom<string>(),
+
+    confirmNewPassword: z.custom<string>(),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Пароли не совпадают",
+    path: ["confirmNewPassword"],
+  });

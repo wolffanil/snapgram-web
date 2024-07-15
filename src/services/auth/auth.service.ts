@@ -1,9 +1,12 @@
 import { getAuthUrl } from "../../config/api.config";
 import {
   IAuthResponse,
+  IForgotPassword,
   ILogin,
   IRegister,
   IResetCode,
+  IResetPassword,
+  IResResetPassword,
 } from "../../shared/types/auth.interface,";
 import { getMyIp } from "../api/getMyIp";
 import { request } from "../api/reguest.api";
@@ -50,6 +53,24 @@ export const AuthService = {
       method: "POST",
       data,
     });
+  },
+
+  async forgotPassword(data: IForgotPassword) {
+    await request({
+      url: getAuthUrl("/forgot-password"),
+      method: "POST",
+      data,
+    });
+  },
+
+  async resetPassword(data: IResetPassword) {
+    const response = await request<IResResetPassword>({
+      url: getAuthUrl("/reset-password"),
+      method: "POST",
+      data,
+    });
+
+    return response;
   },
 
   async logout() {
