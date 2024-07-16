@@ -7,18 +7,20 @@ import { useForgot } from "./useForgot";
 import { IChangeForm } from "../openResetForm.interface";
 
 function ForgotLogin({ setIsChangeForm }: IChangeForm) {
-  const { control, reset, handleSubmit } = useForm<IResetPasswordForm>({
-    resolver: zodResolver(ResetPasswordValidation),
-    defaultValues: {
-      email: "",
-      code: "",
-      confirmNewPassword: "",
-      newPassword: "",
-    },
-  });
+  const { control, reset, handleSubmit, setError } =
+    useForm<IResetPasswordForm>({
+      resolver: zodResolver(ResetPasswordValidation),
+      defaultValues: {
+        email: "",
+        code: "",
+        confirmNewPassword: "",
+        newPassword: "",
+      },
+    });
 
   const { openIsFormReset, isLoading, onSubmit } = useForgot(
     setIsChangeForm,
+    setError,
     reset
   );
 

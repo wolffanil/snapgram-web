@@ -27,3 +27,9 @@ export enum SOCKET_KEYS {
   NEW_USER_IN_GROUP = "newUserInGroup",
   DELETE_USER_IN_GROUP = "deleteUserInGroup",
 }
+
+export enum SOCKET_AUTH_KEYS {
+  TRY_SIGN_IN = "trySignIn",
+  RESET_PASSWORD = "resetPassword",
+  TRY_SIGN_IN_YOUR_ACCOUNT = "trySignInYourAccount",
+}

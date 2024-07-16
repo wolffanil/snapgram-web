@@ -5,10 +5,11 @@ import { AuthService } from "@/services/auth/auth.service";
 import { IResetPasswordForm } from "@/shared/types/auth.interface,";
 import { useMutation } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useMemo, useState } from "react";
-import { UseFormReset } from "react-hook-form";
+import { UseFormReset, UseFormSetError } from "react-hook-form";
 
 export const useForgot = (
   setIsChangeForm: Dispatch<SetStateAction<boolean>>,
+  setError: UseFormSetError<IResetPasswordForm>,
   reset: UseFormReset<IResetPasswordForm>
 ) => {
   const { successToast, errorToast, loadingToast } = useToast();
@@ -51,8 +52,14 @@ export const useForgot = (
   });
 
   const onSubmit = async (data: IResetPasswordForm) => {
-    loadingToast("Загрузка...");
+    if (openIsFormReset && data.newPassword?.length < 8) {
+      setError("newPassword", {
+        message: "Пароль должен быть минимум 8 символов",
+      });
+      return;
+    }
 
+    loadingToast("Загрузка...");
     if (openIsFormReset) {
       resetPassword(data);
     } else {

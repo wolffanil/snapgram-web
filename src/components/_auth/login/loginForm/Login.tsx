@@ -66,16 +66,13 @@ function Login({ setIsChangeForm }: IChangeForm) {
           {isLoginLoading ? <ButtonLoader /> : "Войти"}
         </Button>
 
-        <p className="text-small-regular text- text-center mt-[5px] text-main-color">
+        <button
+          onClick={() => setIsChangeForm(true)}
+          disabled={isLoginLoading}
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-second-color mb-[9px] underline cursor-pointer"
+        >
           Забыли пароль?
-          <button
-            className="text-blue-color text-small-semibold ml-1"
-            onClick={() => setIsChangeForm(true)}
-            disabled={isLoginLoading}
-          >
-            Вам сюда
-          </button>
-        </p>
+        </button>
 
         <p className="text-small-regular text- text-center mt-[5px] text-main-color">
           У вас нет учетной записи?

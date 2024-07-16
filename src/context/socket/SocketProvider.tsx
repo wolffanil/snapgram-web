@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { IChat } from "@/shared/types/chat.interface";
 import { IUser } from "@/shared/types/user.interface";
-import { SOCKET_KEYS } from "@/shared/enums/socketKeys";
+import { SOCKET_AUTH_KEYS, SOCKET_KEYS } from "@/shared/enums/socketKeys";
 import toast from "react-hot-toast";
 import { IMessage } from "@/shared/types/message.interface";
 import {
@@ -18,8 +18,9 @@ import { useNotification } from "@/hooks/useNotification";
 import { INotification, type } from "@/shared/types/notification.interface";
 import { getMedia } from "@/utils";
 import { EnumLocalStorage } from "@/shared/types/auth.interface,";
+import { SocketAuthHelper } from "./helpers/SocketAuth";
 
-let socket: string;
+let socket: any;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
 
 export const SocketContext = createContext({} as ISocketProvider);
@@ -29,9 +30,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     user,
     selectedChat,
     setSelectedChat,
-    setUser,
     sessionId: currentSessionId,
-    setSessionId,
+    deleteUser,
   } = useAuth();
   const queryClient = useQueryClient();
   const { chats: existChats } = useMyChats();
@@ -40,14 +40,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { getNewNotification, deleteNotification, needToSetIsView } =
     useNotification();
 
+  SocketAuthHelper(socket);
+
   // connect
   useEffect(() => {
     if (!user) return;
 
     socket = io(ENPOINT);
 
-    const sessionId = localStorage.getItem("sessionId") || "";
-    socket.emit(SOCKET_KEYS.SETUP, { userData: user, sessionId });
+    // const sessionId = localStorage.getItem("sessionId") || "";
+    socket.emit(SOCKET_KEYS.SETUP, { userData: user });
   }, [user]);
 
   // on Online
@@ -142,9 +144,16 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(SOCKET_KEYS.SIGNIN, (sessionId: string) => {
-      if (!currentSessionId) return;
-      if (currentSessionId === sessionId) return;
+    // socket.on(SOCKET_KEYS.SIGNIN, (sessionId: string) => {
+    //   if (!currentSessionId) return;
+    //   if (currentSessionId === sessionId) return;
+    //   toast.success("Вошли в твой аккаунт");
+    //   queryClient.invalidateQueries([QUERY_KEYS.GET_MY_TOKENS]);
+    // });
+
+    socket.on(SOCKET_KEYS.SIGNIN, () => {
+      // if (!currentSessionId) return;
+      // if (currentSessionId === sessionId) return;
       toast.success("Вошли в твой аккаунт");
       queryClient.invalidateQueries([QUERY_KEYS.GET_MY_TOKENS]);
     });
@@ -161,11 +170,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on(SOCKET_KEYS.DELETEMYDEVICE, (sessionId: string) => {
       if (currentSessionId !== sessionId) return;
 
-      setUser(null);
-      setSelectedChat(null);
-      setSessionId("");
+      deleteUser();
       queryClient.clear();
-      localStorage.removeItem(EnumLocalStorage.ACCESS_TOKEN);
       navigate("/login");
       toast.success("Вас удалил из устройств");
     });

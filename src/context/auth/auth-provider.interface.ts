@@ -16,4 +16,5 @@ export interface IContext {
   setSelectedChat: Dispatch<SetStateAction<TypeChatState>>;
   sessionId: string;
   setSessionId: Dispatch<SetStateAction<string>>;
+  deleteUser: () => void;
 }

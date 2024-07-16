@@ -8,6 +8,7 @@ import { IUser } from "@/shared/types/user.interface";
 import { IChat } from "@/shared/types/chat.interface";
 import { getAccessToken } from "../../services/auth/auth.helper";
 import { getNewTokens } from "../../services/api/helper.api";
+import { EnumLocalStorage } from "@/shared/types/auth.interface,";
 
 export const AuthContext = createContext({} as IContext);
 
@@ -41,6 +42,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuthCheck();
   }, []);
 
+  const deleteUser = () => {
+    setUser(null);
+    setSelectedChat(null);
+    setSessionId("");
+    setIsAuth(false);
+    localStorage.removeItem(EnumLocalStorage.ACCESS_TOKEN);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -54,6 +63,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         setSelectedChat,
         setSessionId,
         sessionId,
+        deleteUser,
       }}
     >
       {children}

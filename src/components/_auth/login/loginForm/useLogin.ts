@@ -7,33 +7,38 @@ import { ILogin } from "@/shared/types/auth.interface,";
 import { useToast } from "@/hooks/useToast";
 import { AuthService } from "@/services/auth/auth.service";
 import { getErrorMessage } from "@/services/api/getErrorMessage";
+import { useSocketAuth } from "@/context/socketAuth/SocketAuthProvider";
 
 export const useLogin = (reset: UseFormReset<ILogin>) => {
   const [openIsFormCode, setIsOpenFormCode] = useState(false);
   const { loadingToast, successToast, errorToast } = useToast();
   const { setUser, setSessionId } = useAuth();
   const navigate = useNavigate();
+  const { handleTrySignInToSocket, handleSignIn } = useSocketAuth();
 
   const { mutate: login, isPending: isLoginLoading } = useMutation({
     mutationKey: ["login"],
     mutationFn: (data: ILogin) => AuthService.login(data),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!openIsFormCode) {
         successToast("Код отправлен на почту");
         setIsOpenFormCode(true);
         return;
       }
 
-      reset();
+      handleSignIn(data.userData._id);
+      await new Promise((res) => setTimeout(res, 1000));
 
+      reset();
       successToast(`Добро пожаловать обратно ${data.userData.name}`);
       setUser(data.userData);
       setSessionId(data.session.id);
       navigate("/");
       setIsOpenFormCode(false);
     },
-    onError: (error: string) => {
+    onError: (error: string, dataForm) => {
       errorToast(getErrorMessage(error));
+      handleTrySignInToSocket(dataForm.email);
     },
   });
 
