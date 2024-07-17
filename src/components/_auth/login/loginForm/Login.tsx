@@ -6,6 +6,7 @@ import { ILogin } from "@/shared/types/auth.interface,";
 import { Button, ButtonLoader, Field, Logo, ResetCode } from "@/components/ui";
 import { useLogin } from "./useLogin";
 import { IChangeForm } from "../openResetForm.interface";
+import ButtonQr from "./ButtonQr";
 
 function Login({ setIsChangeForm }: IChangeForm) {
   const { control, handleSubmit, reset, watch } = useForm<ILogin>({
@@ -65,6 +66,8 @@ function Login({ setIsChangeForm }: IChangeForm) {
         <Button type="submit" disabled={isLoginLoading} className="mt-[10px]">
           {isLoginLoading ? <ButtonLoader /> : "Войти"}
         </Button>
+
+        <ButtonQr />
 
         <button
           onClick={() => setIsChangeForm(true)}

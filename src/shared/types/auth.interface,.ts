@@ -45,3 +45,7 @@ export interface IResResetPassword {
   message: string;
   userId: string;
 }
+
+export interface IQrToken {
+  token: string;
+}

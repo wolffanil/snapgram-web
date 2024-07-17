@@ -42,4 +42,5 @@ export interface ISocketProvider {
     to: string;
   }) => void;
   handleSayHello: (sessionId: string) => void;
+  handleSendTokenQr: (code: string, token: string) => void;
 }

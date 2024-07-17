@@ -8,6 +8,14 @@ import {
 import { ISocketAuth } from "./socket-provider.interface";
 import { io } from "socket.io-client";
 import { SOCKET_AUTH_KEYS, SOCKET_KEYS } from "@/shared/enums/socketKeys";
+import { useMutation } from "@tanstack/react-query";
+import { AuthService } from "@/services/auth/auth.service";
+import { useToast } from "@/hooks/useToast";
+import { getErrorMessage } from "@/services/api/getErrorMessage";
+import { IAuthResponse } from "@/shared/types/auth.interface,";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { useScanQr } from "./useScanQr";
 
 const SocketAuthContext = createContext({} as ISocketAuth);
 
@@ -15,8 +23,25 @@ let socket: any;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
 
 const SocketAuthProvider = ({ children }: { children: ReactNode }) => {
+  const { sendQrToken, isPending: isScaningQR } = useScanQr();
+
   useEffect(() => {
     socket = io(ENPOINT);
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(SOCKET_AUTH_KEYS.GIVE_TOKEN_QR, (token: string) => {
+      console.log(token, "GETTOKEn");
+      if (!token) return;
+      sendQrToken(token, {
+        onSuccess: async (data) => {
+          handleSignIn(data.userData._id);
+          await new Promise((res) => setTimeout(res, 1000));
+        },
+      });
+    });
   }, []);
 
   const handleResetPasswordToSocket = useCallback((userId: string) => {
@@ -35,12 +60,27 @@ const SocketAuthProvider = ({ children }: { children: ReactNode }) => {
     socket.emit(SOCKET_KEYS.SIGNIN, userId);
   }, []);
 
+  const handleCreateRoomQr = useCallback((code: string) => {
+    if (!socket) return;
+
+    socket.emit(SOCKET_AUTH_KEYS.CREATE_ROOM_QR, code);
+  }, []);
+
+  const handleDeleteRoomQR = useCallback((code: string) => {
+    if (!socket) return;
+
+    socket.emit(SOCKET_AUTH_KEYS.DELETE_ROOM_QR, code);
+  }, []);
+
   return (
     <SocketAuthContext.Provider
       value={{
         handleResetPasswordToSocket,
         handleTrySignInToSocket,
         handleSignIn,
+        handleCreateRoomQr,
+        handleDeleteRoomQR,
+        isScaningQR,
       }}
     >
       {children}

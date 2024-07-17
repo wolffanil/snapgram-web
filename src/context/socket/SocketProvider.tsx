@@ -7,7 +7,7 @@ import io from "socket.io-client";
 import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { IChat } from "@/shared/types/chat.interface";
 import { IUser } from "@/shared/types/user.interface";
-import { SOCKET_AUTH_KEYS, SOCKET_KEYS } from "@/shared/enums/socketKeys";
+import { SOCKET_KEYS } from "@/shared/enums/socketKeys";
 import toast from "react-hot-toast";
 import { IMessage } from "@/shared/types/message.interface";
 import {
@@ -17,7 +17,6 @@ import {
 import { useNotification } from "@/hooks/useNotification";
 import { INotification, type } from "@/shared/types/notification.interface";
 import { getMedia } from "@/utils";
-import { EnumLocalStorage } from "@/shared/types/auth.interface,";
 import { SocketAuthHelper } from "./helpers/SocketAuth";
 
 let socket: any;
@@ -40,7 +39,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { getNewNotification, deleteNotification, needToSetIsView } =
     useNotification();
 
-  SocketAuthHelper(socket);
+  const {handleSendTokenQr} = SocketAuthHelper(socket);
 
   // connect
   useEffect(() => {
@@ -578,6 +577,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         handleSendNewNotificationToSocket,
         handleDeleteNotificationSocket,
         handleSayHello,
+        handleSendTokenQr
       }}
     >
       {children}

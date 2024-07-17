@@ -1,6 +1,7 @@
 import { Loader } from "@/components/ui";
 import { useDevices } from "./useDevices";
 import DeviceItem from "./deviceItem/DeviceItem";
+import ButtonScanQr from "../scanQr/ButtonScanQr";
 
 function Deviсes() {
   const { devices, isLoadingDevices } = useDevices();
@@ -16,6 +17,8 @@ function Deviсes() {
           ))
         )}
       </ul>
+
+      <ButtonScanQr />
     </div>
   );
 }

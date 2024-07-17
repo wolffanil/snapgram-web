@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
-import { SOCKET_AUTH_KEYS } from "@/shared/enums/socketKeys";
+import { SOCKET_AUTH_KEYS, SOCKET_KEYS } from "@/shared/enums/socketKeys";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -45,4 +45,16 @@ export const SocketAuthHelper = (socket: any) => {
       socket.off(SOCKET_AUTH_KEYS.TRY_SIGN_IN_YOUR_ACCOUNT);
     };
   }, [socket]);
+
+  const handleSendTokenQr = useCallback(
+    (token: string, code: string) => {
+      console.log(token, code, "send");
+      if (!socket || !token) return;
+
+      socket.emit(SOCKET_KEYS.SCAN_QR, { key: code, token });
+    },
+    [socket]
+  );
+
+  return { handleSendTokenQr };
 };

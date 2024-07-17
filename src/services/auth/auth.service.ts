@@ -3,6 +3,7 @@ import {
   IAuthResponse,
   IForgotPassword,
   ILogin,
+  IQrToken,
   IRegister,
   IResetCode,
   IResetPassword,
@@ -47,6 +48,32 @@ export const AuthService = {
     }
     return response;
   },
+
+  async generateQrToken() {
+    return request<IQrToken>({
+      url: getAuthUrl("/generate-token"),
+      method: "POST",
+    });
+  },
+
+  async scanToken(token: string) {
+    const ip = await getMyIp();
+
+    const response = await request<IAuthResponse>({
+      url: getAuthUrl("/scan-token"),
+      method: "POST",
+      data: {
+        token,
+        ip,
+      },
+    });
+
+    if (response?.accessToken) {
+      saveAccessToken({ accessToken: response.accessToken });
+    }
+    return response;
+  },
+
   async resetCode(data: IResetCode) {
     await request({
       url: getAuthUrl("/reset-code"),

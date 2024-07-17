@@ -3,7 +3,7 @@ import { FC, ReactNode } from "react";
 interface IWrapperModal {
   onCloseModal?: () => void;
   title: string;
-  containerStyle: string;
+  containerStyle?: string;
   children: ReactNode;
 }
 
