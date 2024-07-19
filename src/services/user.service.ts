@@ -3,6 +3,7 @@ import { getUserUrl } from "../config/api.config";
 import { IPost } from "../shared/types/post.interface";
 import {
   IEditUser,
+  IUpdatePassword,
   IUser,
   IUserAndPosts,
 } from "../shared/types/user.interface";
@@ -54,6 +55,14 @@ export const UserService = {
     return request<{ status: string }>({
       url: getUserUrl(`/deleteMyToken/${tokenId}`),
       method: "DELETE",
+    });
+  },
+
+  async updatePassword(data: IUpdatePassword) {
+    return request({
+      url: getUserUrl("/update-password"),
+      method: "POST",
+      data,
     });
   },
 };

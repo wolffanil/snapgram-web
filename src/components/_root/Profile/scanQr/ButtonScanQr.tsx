@@ -8,10 +8,11 @@ import { Loader } from "lucide-react";
 function ButtonScanQr() {
   const { qrcode, setQrcode, isPending, sendTokenQr } = useScanQr();
   const [clickButton, setClickButton] = useState(false);
+  let scanner;
 
   useEffect(() => {
-    try {
-      const scanner = new Html5QrcodeScanner(
+    if (clickButton) {
+      scanner = new Html5QrcodeScanner(
         "reader",
         {
           qrbox: {
@@ -26,22 +27,31 @@ function ButtonScanQr() {
 
       scanner.render(handleScan, handleError);
 
-      function handleScan(data: string) {
+      function handleScan(data) {
         if (data) {
-          scanner.clear();
           setQrcode(data);
           sendTokenQr();
+          scanner.clear();
         }
       }
 
-      function handleError(error: string) {
+      function handleError(error) {
         // toast.error(error);
       }
-    } catch (error) {}
+    }
+
+    // Очистка ресурса при размонтировании компонента или закрытии модала
+    return () => {
+      if (scanner) {
+        scanner.clear().catch((error) => {
+          console.error("Scanner cleaning failed", error);
+        });
+      }
+    };
   }, [clickButton]);
 
   return (
-    <Modal>
+    <Modal handleClose={() => setClickButton((o) => !o)}>
       <Modal.Open opens="scanqrcode">
         <button
           className="blue-color flex text-white small-medium  h-12 justify-center items-center w-full rounded-lg mt-[30px] gap-x-[8px] max-sm:h-[40px]"
@@ -50,7 +60,6 @@ function ButtonScanQr() {
           Войти по Qrcode
         </button>
       </Modal.Open>
-
       <Modal.Window name="scanqrcode">
         <WrapperModal title="сканирование" containerStyle="max-sm:w-[310px]">
           <div className="w-full h-full">

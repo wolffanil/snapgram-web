@@ -16,10 +16,19 @@ interface IModalContext {
 
 const ModalContext = createContext({} as IModalContext);
 
-const Modal = ({ children }: { children: React.ReactNode }) => {
+const Modal = ({
+  handleClose,
+  children,
+}: {
+  handleClose?: () => void;
+  children: React.ReactNode;
+}) => {
   const [openName, setOpenName] = useState("");
 
-  const close = () => setOpenName("");
+  const close = () => {
+    setOpenName("");
+    handleClose?.();
+  };
   const open = setOpenName;
 
   return (

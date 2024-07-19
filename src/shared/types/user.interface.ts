@@ -19,3 +19,9 @@ export interface IEditUser
 export interface IUserAndPosts extends IUser {
   posts: IPost[];
 }
+
+export interface IUpdatePassword {
+  passwordCurrent: string;
+  newPassword: string;
+  sessionId: string;
+}

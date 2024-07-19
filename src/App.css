@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 767px) {
+  .grecaptcha-badge {
+    visibility: hidden;
+  }
+}
+
 @layer base {
   * {
     @apply box-border list-none p-0 m-0 scroll-smooth;

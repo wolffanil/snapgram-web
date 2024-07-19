@@ -1,11 +1,12 @@
 import { Controller, useForm } from "react-hook-form";
-import { IEditUser } from "../../../shared/types/user.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ProfileValidation } from "../../../shared/validation";
 import { useUpdateProfile } from "./useUpdatProfile";
-import { useAuth } from "../../../hooks/useAuth";
-import { useTheme } from "../../../hooks/useTheme";
-import { Button, ButtonLoader, Field, ProfileUploader } from "../../ui";
+import UpdatePassword from "./updatePassword/UpdatePassword";
+import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/hooks/useTheme";
+import { IEditUser } from "@/shared/types/user.interface";
+import { ProfileValidation } from "@/shared/validation";
+import { Button, ButtonLoader, Field, ProfileUploader } from "@/components/ui";
 
 function UpdateProfile() {
   const { user } = useAuth();
@@ -92,11 +93,11 @@ function UpdateProfile() {
               className=" whitespace-nowrap"
               disabled={isUpdatingProfile}
             >
-              {isUpdatingProfile && <ButtonLoader />}
-              Обновить
+              {isUpdatingProfile ? <ButtonLoader /> : "Обновить"}
             </Button>
           </div>
         </form>
+        <UpdatePassword />
       </div>
     </div>
   );

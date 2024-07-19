@@ -8,8 +8,13 @@ import { useToast } from "@/hooks/useToast";
 import { AuthService } from "@/services/auth/auth.service";
 import { getErrorMessage } from "@/services/api/getErrorMessage";
 import { useSocketAuth } from "@/context/socketAuth/SocketAuthProvider";
+import useRecaptchaV3 from "@/hooks/useRecaptchaV3";
+
+const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 export const useLogin = (reset: UseFormReset<ILogin>) => {
+  const executeRecaptcha = useRecaptchaV3(recaptchaKey);
+
   const [openIsFormCode, setIsOpenFormCode] = useState(false);
   const { loadingToast, successToast, errorToast } = useToast();
   const { setUser, setSessionId } = useAuth();
@@ -42,11 +47,13 @@ export const useLogin = (reset: UseFormReset<ILogin>) => {
     },
   });
 
-  const onLogin = (data: ILogin) => {
+  const onLogin = async (data: ILogin) => {
     if (openIsFormCode && !data.code?.length) return;
     loadingToast("Вход...");
 
-    login(data);
+    const recaptchaToken = await executeRecaptcha("auth");
+
+    login({ ...data, token: recaptchaToken });
   };
 
   return useMemo(

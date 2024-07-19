@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-import { IPost } from "../../../../shared/types/post.interface";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
+import { IPost } from "@/shared/types/post.interface";
+import { useAuth } from "@/hooks/useAuth";
+import { formatDateString, getMedia } from "@/utils";
 import PostStats from "../../postStats/PostStats";
-import { formatDateString, getMedia } from "../../../../utils";
-import { useAuth } from "../../../../hooks/useAuth";
 
 function PostCard({ post }: { post: IPost }) {
   const { user } = useAuth();
@@ -57,12 +60,14 @@ function PostCard({ post }: { post: IPost }) {
           </ul>
         </div>
 
-        <img
-          src={
-            getMedia(post.imageUrl) || "/assets/icons/profile-placeholder.svg"
-          }
-          alt="post image"
+        <LazyLoadImage
+          alt="post-image"
+          src={getMedia(post.imageUrl)}
           className="post-card_img"
+          effect="blur"
+          wrapperProps={{
+            style: { transitionDelay: "0.3s" },
+          }}
         />
       </Link>
 

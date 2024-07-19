@@ -1,7 +1,9 @@
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import { Link } from "react-router-dom";
-import { IPost } from "../../../../shared/types/post.interface";
 import PostStats from "../../postStats/PostStats";
-import { getMedia } from "../../../../utils";
+import { IPost } from "@/shared/types/post.interface";
+import { getMedia } from "@/utils";
 
 interface IPostCardV2 {
   post: IPost;
@@ -14,10 +16,14 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
   return (
     <li key={post._id} className="relative min-w-80 h-80">
       <Link to={`/posts/${post._id}`} className="grid-post_link">
-        <img
+        <LazyLoadImage
+          alt="post-image"
           src={getMedia(post.imageUrl)}
-          alt="post"
-          className="h-full w-full object-cover"
+          className="post-card_img"
+          effect="blur"
+          wrapperProps={{
+            style: { transitionDelay: "0.2s" },
+          }}
         />
       </Link>
 

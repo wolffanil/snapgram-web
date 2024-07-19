@@ -56,3 +56,19 @@ export const ResetPasswordValidation = z
     message: "Пароли не совпадают",
     path: ["confirmNewPassword"],
   });
+
+export const UpdatePasswordValidation = z
+  .object({
+    passwordCurrent: z
+      .string()
+      .min(8, { message: "Пароль должен быть не менее 8 символов." })
+      .max(20, { message: "Превышенна длина пароля" }),
+    newPassword: z
+      .string()
+      .min(8, { message: "Пароль должен быть не менее 8 символов." })
+      .max(20, { message: "Превышенна длина пароля" }),
+  })
+  .refine((data) => data.passwordCurrent !== data.newPassword, {
+    message: "Пароли совпадают",
+    path: ["newPassword"],
+  });

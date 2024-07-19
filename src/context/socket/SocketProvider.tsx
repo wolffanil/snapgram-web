@@ -39,7 +39,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { getNewNotification, deleteNotification, needToSetIsView } =
     useNotification();
 
-  const {handleSendTokenQr} = SocketAuthHelper(socket);
+  const { handleSendTokenQr } = SocketAuthHelper(socket);
 
   // connect
   useEffect(() => {
@@ -172,7 +172,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       deleteUser();
       queryClient.clear();
       navigate("/login");
-      toast.success("Вас удалил из устройств");
+      // toast.success("Вас удалил из устройств");
     });
 
     return () => {
@@ -565,6 +565,17 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     [socket, user]
   );
 
+  const handleUpdataPasswordToSocket = useCallback(
+    (sessionIds: string[]) => {
+      if (!socket) return;
+      socket.emit(SOCKET_KEYS.UPDATE_PASSWORD, {
+        sessionIds,
+        userId: user?._id,
+      });
+    },
+    [user]
+  );
+
   return (
     <SocketContext.Provider
       value={{
@@ -577,7 +588,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         handleSendNewNotificationToSocket,
         handleDeleteNotificationSocket,
         handleSayHello,
-        handleSendTokenQr
+        handleSendTokenQr,
+        handleUpdataPasswordToSocket,
       }}
     >
       {children}

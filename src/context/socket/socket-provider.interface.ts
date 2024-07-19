@@ -43,4 +43,5 @@ export interface ISocketProvider {
   }) => void;
   handleSayHello: (sessionId: string) => void;
   handleSendTokenQr: (code: string, token: string) => void;
+  handleUpdataPasswordToSocket: (sessionIds: string[]) => void;
 }
