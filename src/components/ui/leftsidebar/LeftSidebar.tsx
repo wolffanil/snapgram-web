@@ -7,11 +7,14 @@ import SettingsButtons from "./SettingsButtons";
 import { getMedia } from "../../../utils";
 import { useNotification } from "../../../hooks/useNotification";
 import { memo } from "react";
+import { useGetUnReadChats } from "@/hooks/useGetUnReadChats";
 
 function LeftSidebar() {
   const { user } = useAuth();
   const { pathname } = useLocation();
   const { notifications, needToSetIsView } = useNotification();
+
+  const { countUnReadChats } = useGetUnReadChats();
 
   const countNotifications =
     notifications?.filter((n) => n.isView === false)?.length || 0;
@@ -51,6 +54,7 @@ function LeftSidebar() {
                   isActive={isActive}
                   handleForNotfication={needToSetIsView}
                   count={countNotifications}
+                  countUnReadChats={countUnReadChats}
                   {...link}
                 />
               );

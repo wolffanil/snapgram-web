@@ -8,6 +8,7 @@ interface IItemLink {
   isGetCount?: boolean;
   count?: number;
   handleForNotfication: () => void;
+  countUnReadChats: number;
 }
 
 function ItemLink({
@@ -17,9 +18,12 @@ function ItemLink({
   route,
   handleForNotfication,
   isGetCount,
+  countUnReadChats,
   count,
 }: IItemLink) {
   const isNotificationLink = route === "/notifications";
+
+  const isChatLink = route === "/chats";
   return (
     <li
       key={label}
@@ -48,6 +52,12 @@ function ItemLink({
         {isNotificationLink && count !== 0 && (
           <div className=" absolute right-[10px] top-[auto] bottom-[auto] w-[20px] h-[20px] main-color text-white text-[12px] font-semibold flex-center pt-[2px] rounded-[4px] max-lgt:right-[-6px]">
             {count}
+          </div>
+        )}
+
+        {isChatLink && !isActive && countUnReadChats !== 0 && (
+          <div className=" absolute right-[20px] top-[auto] bottom-[auto] w-[20px] h-[20px] main-color text-white text-[12px] font-semibold flex-center pt-[2px] rounded-[4px] max-lgt:right-[6px]">
+            {countUnReadChats > 99 ? "99+" : countUnReadChats}
           </div>
         )}
       </NavLink>

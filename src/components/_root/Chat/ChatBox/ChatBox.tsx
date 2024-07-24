@@ -16,7 +16,14 @@ function ChatBox() {
 
   const Row = useMemo(
     () => (i: number, m: IMessage) => {
-      return <MessageItem key={i} message={m} myId={user?._id || ""} />;
+      return (
+        <MessageItem
+          isGroupChat={selectedChat?.isGroupChat || false}
+          key={i}
+          message={m}
+          myId={user?._id || ""}
+        />
+      );
     },
     []
   );
@@ -73,9 +80,11 @@ function ChatBox() {
             {companion?.name}
           </p>
           <p className="text-[14px] text-light-3 max-sm:text-[12px]">
-            {companion?.isOnline
-              ? "Онлайн"
-              : `последнее посещение ${formatDateString(companion.updatedAt)}`}
+            {!selectedChat?.isTyping
+              ? companion?.isOnline
+                ? "Онлайн"
+                : `последнее посещение ${formatDateString(companion.updatedAt)}`
+              : "Печетает..."}
           </p>
         </div>
       </div>

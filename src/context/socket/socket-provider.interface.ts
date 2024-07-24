@@ -1,5 +1,5 @@
-import { IMessage } from "../../shared/types/message.interface";
-import { INotification, type } from "../../shared/types/notification.interface";
+import { IMessage } from "@/shared/types/message.interface";
+import { INotification, type } from "@/shared/types/notification.interface";
 
 export type createGroupType = {
   users: string[];
@@ -44,4 +44,14 @@ export interface ISocketProvider {
   handleSayHello: (sessionId: string) => void;
   handleSendTokenQr: (code: string, token: string) => void;
   handleUpdataPasswordToSocket: (sessionIds: string[]) => void;
+  handleReadMessages: ({
+    userId,
+    chatId,
+  }: {
+    userId: string;
+    chatId: string;
+  }) => void;
+
+  handleStopTyping: () => void;
+  handleTyping: () => void;
 }

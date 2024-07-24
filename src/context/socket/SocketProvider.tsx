@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMyChats } from "@/hooks/useMyChats";
-import { createContext, useCallback, useEffect } from "react";
+import { createContext, useCallback, useEffect, useMemo } from "react";
 import io from "socket.io-client";
 import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { IChat } from "@/shared/types/chat.interface";
@@ -18,6 +18,8 @@ import { useNotification } from "@/hooks/useNotification";
 import { INotification, type } from "@/shared/types/notification.interface";
 import { getMedia } from "@/utils";
 import { SocketAuthHelper } from "./helpers/SocketAuth";
+import { create } from "mutative";
+import { SocketChat } from "./helpers/SocketChat";
 
 let socket: any;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
@@ -40,6 +42,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     useNotification();
 
   const { handleSendTokenQr } = SocketAuthHelper(socket);
+  const { handleStopTyping, handleTyping } = SocketChat(socket);
 
   // connect
   useEffect(() => {
@@ -143,16 +146,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!socket) return;
 
-    // socket.on(SOCKET_KEYS.SIGNIN, (sessionId: string) => {
-    //   if (!currentSessionId) return;
-    //   if (currentSessionId === sessionId) return;
-    //   toast.success("Вошли в твой аккаунт");
-    //   queryClient.invalidateQueries([QUERY_KEYS.GET_MY_TOKENS]);
-    // });
-
     socket.on(SOCKET_KEYS.SIGNIN, () => {
-      // if (!currentSessionId) return;
-      // if (currentSessionId === sessionId) return;
       toast.success("Вошли в твой аккаунт");
       queryClient.invalidateQueries([QUERY_KEYS.GET_MY_TOKENS]);
     });
@@ -172,7 +166,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       deleteUser();
       queryClient.clear();
       navigate("/login");
-      // toast.success("Вас удалил из устройств");
     });
 
     return () => {
@@ -189,6 +182,26 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       ({ chatId, message }: { chatId: string; message: IMessage }) => {
         let currentChat: IChat;
 
+        if (selectedChat?._id === chatId) {
+          const userId = message.sender._id;
+
+          socket.emit(SOCKET_KEYS.READ_MESSAGES, { userId, chatId });
+
+          queryClient.setQueryData(
+            [QUERY_KEYS.GET_MY_CHATS],
+            (chats: IChat[]) => {
+              return create(chats, (draft) => {
+                const newChats = draft.map((chat) =>
+                  chat._id === chatId
+                    ? { ...chat, unreadMessagesCount: 0 }
+                    : chat
+                );
+                return newChats;
+              });
+            }
+          );
+        }
+
         queryClient.setQueryData(
           [QUERY_KEYS.GET_MY_CHATS],
           (chats: IChat[]) => {
@@ -201,6 +214,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                       content: message.content,
                       sender: message.sender,
                     },
+                    unreadMessagesCount: chat.unreadMessagesCount + 1,
                   }
                 : chat
             );
@@ -271,6 +285,59 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.off(SOCKET_KEYS.MESSAGE_RECIEVED);
     };
   }, [selectedChat, pathname]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(SOCKET_KEYS.READ_MESSAGES, (chatId: string) => {
+      queryClient.setQueryData(
+        [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
+        (oldMessages: IMessage[]) => {
+          if (!oldMessages) return undefined;
+          const newMessages = oldMessages.map((m) => {
+            if (m.chat === chatId && m.sender?._id === user?._id) {
+              return { ...m, isRead: true };
+            }
+            return m;
+          });
+
+          return newMessages;
+        }
+      );
+
+      const updateChats = async () => {
+        await new Promise((res) => setTimeout(res, 2000));
+
+        queryClient.setQueryData(
+          [QUERY_KEYS.GET_MY_CHATS],
+          (chats: IChat[]) => {
+            if (!chats) return undefined;
+
+            const newChats = chats.map((chat) => {
+              if (
+                chat._id === chatId &&
+                chat.latestMessage.sender._id === user?._id &&
+                !chat.isGroupChat
+              ) {
+                return {
+                  ...chat,
+                  latestMessage: { ...chat.latestMessage, isRead: true },
+                };
+              }
+              return chat;
+            });
+            return newChats;
+          }
+        );
+      };
+
+      updateChats();
+    });
+
+    return () => {
+      socket.off(SOCKET_KEYS.READ_MESSAGES);
+    };
+  }, [user]);
 
   // emit offline
   useEffect(() => {
@@ -576,6 +643,46 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     [user]
   );
 
+  const handleReadMessages = useCallback(
+    ({ userId, chatId }: { userId: string; chatId: string }) => {
+      if (!socket) return;
+
+      socket.emit(SOCKET_KEYS.READ_MESSAGES, { userId, chatId });
+
+      queryClient.setQueryData(
+        [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
+        (messages: IMessage[]) => {
+          return messages.map((message) =>
+            message.sender._id === userId && !message.isRead
+              ? { ...message, isRead: true }
+              : message
+          );
+        }
+      );
+    },
+    []
+  );
+
+  // const value = useMemo(
+  //   () => ({
+  //     handleAddToGroupSocket,
+  //     handleCreateGroupToSocket,
+  //     handleDeleteDevice,
+  //     handleLogoutFromSocket,
+  //     handleRemoveFromGroupSocket,
+  //     sendMessageToSocket,
+  //     handleSendNewNotificationToSocket,
+  //     handleDeleteNotificationSocket,
+  //     handleSayHello,
+  //     handleSendTokenQr,
+  //     handleUpdataPasswordToSocket,
+  //     handleReadMessages,
+  //     handleStopTyping,
+  //     handleTyping,
+  //   }),
+  //   [socket]
+  // );
+
   return (
     <SocketContext.Provider
       value={{
@@ -590,7 +697,11 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         handleSayHello,
         handleSendTokenQr,
         handleUpdataPasswordToSocket,
+        handleReadMessages,
+        handleStopTyping,
+        handleTyping,
       }}
+      // value={value}
     >
       {children}
     </SocketContext.Provider>

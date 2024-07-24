@@ -10,9 +10,13 @@ export enum SOCKET_KEYS {
   SEND_SAY_HELLO = "sendSayHello",
   ACCEPT_SAY_HELLO = "acceptSayHello",
   UPDATE_PASSWORD = "updatePassword",
+
   // MESSAGE
   MESSAGE_RECIEVED = "message recieved",
   NEW_MESSAGE = "new message",
+  READ_MESSAGES = "readMessages",
+  STOP_TYPING = "stop typing",
+  TYPING = "typing",
 
   /// NOTIFICATIONS
 

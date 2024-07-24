@@ -33,7 +33,6 @@ const SocketAuthProvider = ({ children }: { children: ReactNode }) => {
     if (!socket) return;
 
     socket.on(SOCKET_AUTH_KEYS.GIVE_TOKEN_QR, (token: string) => {
-      console.log(token, "GETTOKEn");
       if (!token) return;
       sendQrToken(token, {
         onSuccess: async (data) => {

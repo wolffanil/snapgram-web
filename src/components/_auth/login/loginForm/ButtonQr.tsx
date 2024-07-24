@@ -52,7 +52,7 @@ function ButtonQr() {
               />
             ) : (
               <div>
-                <Loader className="invert-black dark:invert-white" />
+                <Loader />
               </div>
             )}
           </div>

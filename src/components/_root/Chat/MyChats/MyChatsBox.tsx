@@ -36,7 +36,7 @@ function MyChatsBox() {
       ) : chats?.length ? (
         <div className="flex flex-col gap-y-[27px] max-sm:gap-y-[8px] items-start w-full overflow-y-scroll lg:max-h-[80%] custom-scrollbar-without lg:pr-[5px]">
           {chats.map((chat, index) => {
-            const n = chat.isGroupChat
+            const n = chat?.isGroupChat
               ? 0
               : getСompanion(chat?.users, user?._id || "");
             return (

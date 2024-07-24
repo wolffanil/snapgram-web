@@ -36,6 +36,7 @@ export const useWriteMessage = () => {
         sender: {
           ...user,
         } as IUser,
+        chat: chatId,
         content,
         createdAt: String(date),
       } as IMessage;
@@ -65,6 +66,8 @@ export const useWriteMessage = () => {
             if (chat._id === chatId) {
               chat.latestMessage = chat.latestMessage || {};
               chat.latestMessage.content = message.content;
+              chat.latestMessage.sender = { ...user } || {};
+              chat.latestMessage.isRead = false;
 
               const [targetChat] = draft.splice(index, 1);
               draft.unshift(targetChat);
@@ -92,6 +95,7 @@ export const useWriteMessage = () => {
     const newMessage = await sendMessage({
       content: message,
     });
+    // sendMessageToSocket(newMessage);
   };
 
   // useEffect(() => {

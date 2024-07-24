@@ -3,6 +3,8 @@ import { IPost } from "./post.interface";
 import { ITimestamps } from "./timestamps.interface";
 import { IUser } from "./user.interface";
 
+export type typeMessage = "text" | "image" | "repost" | "answer";
+
 export interface IMessage extends ITimestamps {
   _id: string;
   sender: IUser;
@@ -11,6 +13,8 @@ export interface IMessage extends ITimestamps {
   imageUrl?: string;
   post?: IPost;
   repostText?: string;
+  isRead: boolean;
+  type: typeMessage;
 }
 
 export interface IEditMessage extends Pick<IMessage, "chat" | "content"> {}

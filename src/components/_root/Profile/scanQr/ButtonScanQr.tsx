@@ -8,7 +8,7 @@ import { Loader } from "lucide-react";
 function ButtonScanQr() {
   const { qrcode, setQrcode, isPending, sendTokenQr } = useScanQr();
   const [clickButton, setClickButton] = useState(false);
-  let scanner;
+  let scanner: any;
 
   useEffect(() => {
     if (clickButton) {

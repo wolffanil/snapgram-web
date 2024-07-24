@@ -6,7 +6,7 @@ export const useMyChats = () => {
   const { data: chats, isPending: isLoadingChats } = useQuery({
     queryKey: [QUERY_KEYS.GET_MY_CHATS],
     queryFn: () => ChatService.getAll(),
-    staleTime: 1000 * 60 * 5,
+    staleTime: 1000 * 60 * 10,
     retry: false,
   });
 

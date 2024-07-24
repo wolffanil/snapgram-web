@@ -5,11 +5,13 @@ import cn from "clsx";
 interface IMessageItem {
   message: IMessage;
   myId: string;
+  isGroupChat: boolean;
 }
 
 function MessageItem({
   myId,
-  message: { _id, createdAt, content, imageUrl, sender },
+  message: { _id, createdAt, content, imageUrl, sender, isRead },
+  isGroupChat,
 }: IMessageItem) {
   const isMyMessage = sender?._id === myId;
 
@@ -78,9 +80,18 @@ function MessageItem({
           )}
         </div>
       </div>
-      <span className="text-light-4 text-[12px] max-sm:text-[10px] mr-[-14px]">
-        {formatDateString(createdAt)}
-      </span>
+      <div className="flex items-center gap-1 mr-[-14px]">
+        <span className="text-light-4 text-[12px] max-sm:text-[10px]">
+          {formatDateString(createdAt)}
+        </span>
+        {isMyMessage && !isGroupChat && (
+          <img
+            src={`/assets/icons/read/${isRead ? "check-all.svg" : "check.svg"}`}
+            alt="status"
+            className="object-contain w-[26px] h-[26px] max-sm:w-[18px] max-sm:h-[18px]"
+          />
+        )}
+      </div>
     </li>
   );
 }

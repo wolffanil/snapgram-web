@@ -10,6 +10,8 @@ export interface IChat extends ITimestamps {
   groupAdmin: IUser;
   latestMessage: IMessage;
   background: string;
+  unreadMessagesCount: number;
+  isTyping?: boolean;
 }
 
 export interface IEditGroup {
