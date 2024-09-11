@@ -67,6 +67,8 @@ export function getСompanion(users: IUser[], myId: string): number {
   return Number(users[0]?._id === myId);
 }
 
+export const getDefaultImageProfile = "/assets/icons/profile-placeholder.svg";
+
 export function formatTodayDate(date: Date): string {
   const now = new Date();
 

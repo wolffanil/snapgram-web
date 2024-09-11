@@ -1,6 +1,6 @@
+import { SaveService } from "@/services/save.service";
+import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { useQuery } from "@tanstack/react-query";
-import { QUERY_KEYS } from "../../../shared/enums/queryKeys";
-import { SaveService } from "../../../services/save.service";
 
 export const useGetSave = () => {
   const { data: saves, isPending: isLoadingSaves } = useQuery({

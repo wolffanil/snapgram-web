@@ -1,5 +1,9 @@
 import { getMessageUrl } from "../config/api.config";
-import { IEditMessage, IMessage } from "../shared/types/message.interface";
+import {
+  IEditMessage,
+  IMessage,
+  ISendMessage,
+} from "../shared/types/message.interface";
 import { request } from "./api/reguest.api";
 
 export const MessageService = {
@@ -10,7 +14,7 @@ export const MessageService = {
     });
   },
 
-  async create(data: IEditMessage) {
+  async create(data: ISendMessage) {
     return request<IMessage>({
       url: getMessageUrl(""),
       method: "POST",

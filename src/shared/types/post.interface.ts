@@ -30,3 +30,10 @@ export interface IGetPosts {
   // hasMore: boolean;
   page: number;
 }
+
+export interface IInfinityPosts {
+  pages: {
+    posts: IPost[];
+    page: number;
+  }[];
+}

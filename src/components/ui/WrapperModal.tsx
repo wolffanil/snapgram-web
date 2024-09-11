@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { cloneElement, FC, ReactNode } from "react";
 
 interface IWrapperModal {
   onCloseModal?: () => void;
@@ -34,7 +34,9 @@ const WrapperModal: FC<IWrapperModal> = ({
           />
         </button>
       </div>
-      <div className="w-full h-full">{children}</div>
+      <div className="w-full h-full">
+        {cloneElement(children, { onCloseModal })}
+      </div>
     </div>
   );
 };

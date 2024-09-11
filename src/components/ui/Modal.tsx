@@ -4,6 +4,7 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { createPortal } from "react-dom";
@@ -54,7 +55,28 @@ const Open = ({
   const { open } = useContext(ModalContext);
 
   // return cloneElement(children, { onOpenModal: () => open(opensWindowName) });
-  return <div onClick={() => open(opensWindowName)}>{children}</div>;
+
+  useEffect(() => {
+    if (open?.length > 1) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <div
+      onClick={() => {
+        open(opensWindowName);
+      }}
+    >
+      {children}
+    </div>
+  );
 };
 
 const Window = ({
@@ -69,8 +91,14 @@ const Window = ({
   if (name !== openName) return null;
 
   return createPortal(
-    <div className="fixed top-0 left-0 w-full h-screen backdrop:blur-[10px] z-[1000] transition-all duration-500 bg-backdrop">
-      <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] transition-all duration-500">
+    <div
+      className="fixed top-0 left-0 w-full h-screen backdrop:blur-[10px] z-[1000] transition-all duration-500 bg-backdrop"
+      onClick={() => close()}
+    >
+      <div
+        className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] transition-all duration-500"
+        onClick={(e) => e.stopPropagation()}
+      >
         {cloneElement(children, { onCloseModal: close })}
       </div>
     </div>,

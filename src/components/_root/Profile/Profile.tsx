@@ -7,7 +7,9 @@ import LikedPosts from "./likedPosts/LikedPosts";
 import Devices from "./devies/Deviсes";
 import { useAuth } from "@/hooks/useAuth";
 import { useCreateChat } from "@/hooks/useCreateChat";
-import { getMedia } from "@/utils";
+import { cn, getDefaultImageProfile, getMedia } from "@/utils";
+import Subscribers from "./subscribe/Subscribers";
+import ButtonSubscribe from "./subscribe/buttonSubscribe/ButtonSubscribe";
 
 function Profile() {
   const { user: currentUser } = useAuth();
@@ -44,6 +46,7 @@ function Profile() {
               getMedia(user?.imageUrl) ||
               "/assets/icons/profile-placeholder.svg"
             }
+            onError={(e) => (e.target.src = getDefaultImageProfile)}
             alt="profile"
             className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
           />
@@ -57,10 +60,9 @@ function Profile() {
               </p>
             </div>
 
-            <div className="flex gap-8 mt-10 items-center justify-center xl:justify-start flex-wrap z-20">
+            <div className="flex gap-x-10 mt-10 items-center justify-center xl:justify-start flex-wrap z-20 max-sm:!gap-x-[13px]">
               <StatBlock value={user.posts.length} label="Посты" />
-              {/* <StatBlock value={20} label="Followers" />
-              <StatBlock value={20} label="Following" /> */}
+              <Subscribers />
             </div>
 
             <p className="small-medium md:base-medium text-start xl:text-left mt-7 max-w-screen-sm text-main-color max-sm:w-[320px] text-wrap">
@@ -68,7 +70,11 @@ function Profile() {
             </p>
           </div>
 
-          <div className="flex flex-col justify-center gap-4">
+          <div
+            className={cn("flex justify-center gap-4 max-sm:flex-col", {
+              "lg:flex-col": currentUser._id === user._id,
+            })}
+          >
             {currentUser._id === user._id ? (
               <div className={`${user._id !== currentUser._id && "hidden"}`}>
                 <Link
@@ -107,13 +113,16 @@ function Profile() {
                 </Modal>
               </div>
             ) : (
-              <button
-                className="h-[37px] blue-color text-white text-[14px] px-[42px]  flex-center gap-2 rounded-lg"
-                onClick={handleCreateChat}
-                disabled={isCreatingChat}
-              >
-                Написать сообщение
-              </button>
+              <>
+                <ButtonSubscribe />
+                <button
+                  className="h-[37px] blue-color text-white text-[14px] px-[42px]  flex-center gap-2 rounded-lg"
+                  onClick={handleCreateChat}
+                  disabled={isCreatingChat}
+                >
+                  Написать сообщение
+                </button>
+              </>
             )}
             {/* <div className={`${user.id === id && "hidden"}`}>
             <Button type="button" className="shad-button_primary px-8">

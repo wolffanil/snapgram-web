@@ -11,5 +11,6 @@ export const getUserUrl = (string: string) => `/users${string}`;
 export const getChatUrl = (string: string) => `/chats${string}`;
 export const getMessageUrl = (string: string) => `/messages${string}`;
 export const getNotificationUrl = (string: string) => `/notifications${string}`;
+export const getSubscribeUrl = (string: string) => `/subscribers${string}`;
 
 export const getGraphQlUrl = () => "/graphql";

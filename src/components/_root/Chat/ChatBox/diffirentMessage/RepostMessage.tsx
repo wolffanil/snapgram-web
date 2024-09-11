@@ -1,0 +1,59 @@
+import { IPost } from "@/shared/types/post.interface";
+import { formatDateString, getDefaultImageProfile, getMedia } from "@/utils";
+import { Link } from "react-router-dom";
+
+interface IRepostMessage {
+  isMyMessage: boolean;
+  post: IPost;
+  repostText: string;
+}
+
+function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
+  return (
+    <div
+      className={`flex flex-1 flex-col justify-between py-[12px] w-[337px] max-sm:w-[239px] ${
+        isMyMessage ? "!text-white" : "text-black dark:text-white"
+      }`}
+    >
+      <div className="flex justify-start items-center gap-x-[10px] pl-[17px] max-sm:pl-0">
+        <Link to={`/profile/${post?.creator._id}`}>
+          <img
+            src={getMedia(post?.creator.imageUrl || "")}
+            alt="logo"
+            onError={(e) => (e.currentTarget.src = getDefaultImageProfile)}
+            className="size-[37px] rounded-full object-cover cursor-pointer"
+          />
+        </Link>
+        <div className="flex flex-col items-start">
+          <p className="text-[17px] font-semibold max-sm:text-[11px]">
+            {post?.creator.name}
+          </p>
+          <p className="text-[12px] font-medium max-sm:text-[10px] line-clamp-1">
+            {formatDateString(post?.createdAt || "")} - {post?.location}
+          </p>
+        </div>
+      </div>
+      <img
+        src={getMedia(post?.imageUrl || "")}
+        alt="image"
+        className="w-full h-[260px] max-sm:h-[215px] object-cover mt-[12px] mb-[5px]"
+      />
+      {repostText && (
+        <p className="pl-[17px] text-[16px] font-medium max-sm:text-[11px] pr-[17px] max-sm:pl-0">
+          Текст пользователя: {repostText}
+        </p>
+      )}
+      <p className="font-semibold text-[16px] pl-[17px] max-sm:text-[12px] max-sm:pl-0">
+        {post?.location}
+      </p>
+      <Link
+        to={`/posts/${post?._id}`}
+        className="text-[14px] max-sm:text-[10px] underline font-medium pl-[17px] max-sm:pl-0"
+      >
+        ссылка на пост
+      </Link>
+    </div>
+  );
+}
+
+export default RepostMessage;

@@ -17,7 +17,7 @@ function NotificationItem({ notificaion }: { notificaion: INotification }) {
   return (
     <li className="flex items-center gap-x-[40px] h-[110px] w-full pl-[20px] pt-[20px] pb-[30px] max-sm:flex-row-reverse max-sm:pr-[13px] max-sm:gap-x-[10px] border-b border-main-color max-sm:pb-[9px] max-sm:pt-[9px] max-sm:h-[74px]">
       <div className="w-[36px] h-[36px] rounded-[51px] max-sm:min-w-[34px] max-sm:min-h-[30px] bg-light-2 dark:bg-dark-4 flex-center">
-        <img src={iconUrl} alt="icon" />
+        <img src={iconUrl} alt="icon" className="w-[60%] h-[60%] " />
       </div>
       <div className="flex items-center gap-x-[11px] max-sm:gap-x-[8px]">
         <Link to={"/profile/" + notificaion?.user?._id}>

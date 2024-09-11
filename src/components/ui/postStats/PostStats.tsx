@@ -4,6 +4,9 @@ import { IPost } from "../../../shared/types/post.interface";
 import { useSave } from "./useSave";
 import { useLocation } from "react-router-dom";
 import cn from "clsx";
+import Modal from "../Modal";
+import RepostModal from "./repostModal/RepostModal";
+import WrapperModal from "../WrapperModal";
 
 interface IPostStats {
   post: IPost;
@@ -69,18 +72,28 @@ function PostStats({ post }: IPostStats) {
         </div>
 
         {!change && (
-          <div className="flex gap-2 mr-5 lg:mr-[32px]">
-            <img
-              src="/assets/icons/repost.svg"
-              alt="repost"
-              width={20}
-              height={20}
-            />
+          <Modal>
+            <Modal.Open opens="repost">
+              <div className="flex gap-2 mr-5 lg:mr-[32px] cursor-pointer">
+                <img
+                  src="/assets/icons/repost.svg"
+                  alt="repost"
+                  width={20}
+                  height={20}
+                />
 
-            <p className="small-medium lg:base-medium text-main-color">
-              {post?.countRepost || 0}
-            </p>
-          </div>
+                <p className="small-medium lg:base-medium text-main-color">
+                  {post?.countRepost || 0}
+                </p>
+              </div>
+            </Modal.Open>
+
+            <Modal.Window name="repost">
+              <WrapperModal title="Репост" containerStyle="w-[600px]">
+                <RepostModal post={post} />
+              </WrapperModal>
+            </Modal.Window>
+          </Modal>
         )}
       </div>
 

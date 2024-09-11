@@ -28,3 +28,5 @@ export { default as Modal } from "./Modal";
 export { default as WrapperModal } from "./WrapperModal";
 
 export { default as UnReadMessage } from "./unReadMessage";
+
+export { default as Skeleton } from "./Skeleton";

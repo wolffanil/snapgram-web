@@ -19,7 +19,7 @@ export const useWriteMessage = () => {
   const { mutateAsync: sendMessage } = useMutation({
     mutationKey: ["send message"],
     mutationFn: ({ content }: { content: string }) =>
-      MessageService.create({ chat: chatId, content }),
+      MessageService.create({ chat: chatId, content, type: "text" }),
     onMutate: ({ content }: { content: string }) => {
       const oldMessages: IMessage[] =
         queryClient.getQueryData([
@@ -68,6 +68,7 @@ export const useWriteMessage = () => {
               chat.latestMessage.content = message.content;
               chat.latestMessage.sender = { ...user } || {};
               chat.latestMessage.isRead = false;
+              chat.latestMessage.type = "text";
 
               const [targetChat] = draft.splice(index, 1);
               draft.unshift(targetChat);

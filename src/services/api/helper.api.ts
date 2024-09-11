@@ -6,6 +6,7 @@ import { getMyIp } from "./getMyIp";
 
 export const getNewTokens = async () => {
   try {
+    await new Promise((res) => setTimeout(res, 200));
     const ip = await getMyIp();
     const response = await axios.post<string, { data: IAuthResponse }>(
       API_URL + getAuthUrl("/refresh"),

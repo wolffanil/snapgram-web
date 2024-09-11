@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LikeService } from "../services/like.service";
 import { QUERY_KEYS } from "../shared/enums/queryKeys";
 import { useNotification } from "./useNotification";
-import { IPost } from "../shared/types/post.interface";
+import { IInfinityPosts, IPost } from "../shared/types/post.interface";
 
 export const useLike = (
   id: string,
@@ -67,14 +67,40 @@ export const useLike = (
     mutationKey: ["delete like"],
     mutationFn: (likeId: string) => LikeService.delete(likeId),
     onSuccess: async () => {
-      //@ts-ignore
-      await queryClient.invalidateQueries([QUERY_KEYS.GET_LIKED_POSTS]);
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_LIKED_POSTS],
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_POST_BY_ID, id],
+      });
 
       //@ts-ignore
-      await queryClient.invalidateQueries([QUERY_KEYS.GET_POST_BY_ID, id]);
+      // await queryClient.invalidateQueries([QUERY_KEYS.GET_INFINITE_POSTS]);
 
-      //@ts-ignore
-      await queryClient.invalidateQueries([QUERY_KEYS.GET_INFINITE_POSTS]);
+      queryClient.setQueryData(
+        [QUERY_KEYS.GET_INFINITE_POSTS],
+        (oldData: IInfinityPosts) => {
+          if (!oldData) return oldData;
+
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+              posts: page.posts.map((currentPost) =>
+                currentPost._id === post?._id
+                  ? {
+                      ...currentPost,
+                      likes: currentPost.likes.filter(
+                        (like) => like?.userId !== user?._id
+                      ),
+                    }
+                  : currentPost
+              ),
+            })),
+          };
+        }
+      );
 
       if (creator === user?._id) return;
       //@ts-ignore

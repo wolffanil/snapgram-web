@@ -36,4 +36,10 @@ export enum QUERY_KEYS {
   GET_COMMENT_BY_ID = "getCommentById",
 
   GET_COMMENTS_BY_POSTID = "getCommentsByPostId",
+
+  /// SUBSCRIBERS
+
+  GET_SUBSCRIBERS_BY_USERID = "getSubscribersByUserId",
+
+  GET_SUBSCRIPTIONS_BY_USERID = "getSubscriptionsByUserId",
 }

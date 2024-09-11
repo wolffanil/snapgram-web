@@ -1,3 +1,4 @@
+import { IChat } from "@/shared/types/chat.interface";
 import { IMessage } from "@/shared/types/message.interface";
 import { INotification, type } from "@/shared/types/notification.interface";
 
@@ -19,7 +20,7 @@ export type addToGroupType = {
 };
 
 export interface ISocketProvider {
-  sendMessageToSocket: (message: IMessage) => void;
+  sendMessageToSocket: (message: IMessage, chat?: IChat) => void;
   handleLogoutFromSocket: () => void;
   handleDeleteDevice: (sessionId: string) => void;
   handleCreateGroupToSocket: (data: createGroupType) => void;

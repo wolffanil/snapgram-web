@@ -43,7 +43,7 @@ function SearchUser() {
               <input
                 type="text"
                 placeholder="Константин @user"
-                className="input-search explore-search bg-third-color text-light-3"
+                className="input-search explore-search bg-third-color text-light-3 w-full"
                 value={value || ""}
                 onChange={onChange}
               />

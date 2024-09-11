@@ -24,6 +24,7 @@ export const useCreateChat = (userId: string, name: string) => {
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MY_CHATS],
         (oldChats: IChat[]) => {
+          if (!oldChats?.length) return [newChat];
           return create(oldChats, (draft) => {
             if (draft.find((chat) => chat._id === newChat._id)) return;
             return [newChat, ...oldChats];

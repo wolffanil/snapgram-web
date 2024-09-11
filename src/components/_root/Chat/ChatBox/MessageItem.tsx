@@ -1,6 +1,8 @@
 import { IMessage } from "@/shared/types/message.interface";
-import { formatDateString, getMedia } from "@/utils";
+import { formatDateString, getDefaultImageProfile, getMedia } from "@/utils";
 import cn from "clsx";
+import { Link } from "react-router-dom";
+import RepostMessage from "./diffirentMessage/RepostMessage";
 
 interface IMessageItem {
   message: IMessage;
@@ -10,7 +12,17 @@ interface IMessageItem {
 
 function MessageItem({
   myId,
-  message: { _id, createdAt, content, imageUrl, sender, isRead },
+  message: {
+    _id,
+    createdAt,
+    content,
+    imageUrl,
+    sender,
+    isRead,
+    post,
+    repostText,
+    type,
+  },
   isGroupChat,
 }: IMessageItem) {
   const isMyMessage = sender?._id === myId;
@@ -18,11 +30,12 @@ function MessageItem({
   return (
     <li
       className={cn(
-        `flex flex-col mt-[20px] max-sm:mt-[15px] items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4 max-w-[83%]`,
+        `flex flex-col mt-[20px] max-sm:mt-[15px] items-start gap-y-[7px] max-sm:gap-y-[3px] pr-4 `,
         {
           "!items-end": isMyMessage,
           "ml-[auto]": isMyMessage,
           "mr-[auto] ": !isMyMessage,
+          "max-w-[83%]": type !== "repost",
         }
       )}
     >
@@ -56,11 +69,18 @@ function MessageItem({
         </svg>
 
         <div
-          className={`rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px] max-sm:max-w-[80%] max-sm:min-w-[80px] ${
-            isMyMessage
-              ? "message-my-bg-color ml-[10px]"
-              : "message-companion-bg-color max-sm:bg-[#EFEFEF]"
-          }`}
+          className={cn(
+            `rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px]  max-sm:min-w-[80px] ${
+              isMyMessage
+                ? "message-my-bg-color ml-[10px]"
+                : "message-companion-bg-color max-sm:bg-[#EFEFEF]"
+            } 
+          `,
+            {
+              "px-0": type === "repost",
+              "max-sm:max-w-[80%]": type !== "repost",
+            }
+          )}
         >
           {content && (
             <p
@@ -76,6 +96,13 @@ function MessageItem({
               src={getMedia(imageUrl)}
               alt="photo"
               className="w-full max-h-[300px] max-sm:max-h-[200px] object-cover"
+            />
+          )}
+          {type === "repost" && (
+            <RepostMessage
+              isMyMessage={isMyMessage}
+              post={post}
+              repostText={repostText || ""}
             />
           )}
         </div>

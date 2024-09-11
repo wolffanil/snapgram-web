@@ -257,11 +257,12 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                 className="rounded-[60px] min-w-[40px] max-w-[40px] max-h-[40px] object-cover"
               />
               <div className="text-[20px] max-sm:text-[18px] text-white p-[5px]">
-                {!currentChat
+                {/* {!currentChat
                   ? "У вас новый собеседник"
                   : message?.content?.length > 8
                   ? message?.content?.slice(1, 8) + "..."
-                  : message.content}
+                  : message.content} */}
+                {!currentChat ? "У вас новый собеседник" : "Новое сообщение"}
               </div>
               {currentChat && (
                 <button
@@ -538,11 +539,11 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // emit message
-  const sendMessageToSocket = (message: IMessage) => {
+  const sendMessageToSocket = (message: IMessage, chat?: IChat) => {
     if (!socket) return;
     socket.emit(SOCKET_KEYS.NEW_MESSAGE, {
       newMessage: message,
-      chat: selectedChat,
+      chat: chat?._id ? chat : selectedChat,
     });
   };
 

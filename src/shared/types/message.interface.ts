@@ -11,10 +11,21 @@ export interface IMessage extends ITimestamps {
   content?: string;
   chat: IChat | string;
   imageUrl?: string;
-  post?: IPost;
+  post?: Pick<
+    IPost,
+    "_id" | "creator" | "caption" | "imageUrl" | "location" | "createdAt"
+  >;
   repostText?: string;
   isRead: boolean;
   type: typeMessage;
 }
 
 export interface IEditMessage extends Pick<IMessage, "chat" | "content"> {}
+
+export interface ISendMessage
+  extends Omit<
+    IMessage,
+    "_id" | "sender" | "isRead" | "post" | "createdAt" | "updatedAt"
+  > {
+  post?: string;
+}

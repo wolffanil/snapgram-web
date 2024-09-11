@@ -35,7 +35,9 @@ function ChatItem({ chat, n, setSelectedChat }: IChatItem) {
         </p>
         <div className="flex items-center gap-x-1">
           <p className="text-[16px] text-light-3 max-sm:text-[12px] font-normal">
-            {!chat?.isTyping
+            {chat?.latestMessage?.type === "repost" && !chat.isTyping
+              ? "Запись"
+              : !chat?.isTyping
               ? chat?.latestMessage?.content!?.length > 15
                 ? chat?.latestMessage.content?.slice(0, 15) + "..." || ""
                 : chat?.latestMessage?.content || ""

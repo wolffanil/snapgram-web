@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { IPost } from "../../../shared/types/post.interface";
-import { formatDateString, getMedia } from "../../../utils";
+import {
+  formatDateString,
+  getDefaultImageProfile,
+  getMedia,
+} from "../../../utils";
 import Actions from "./actions/Actions";
 import PostStats from "../postStats/PostStats";
 import Comments from "./comment/Comments";
@@ -14,6 +18,7 @@ function PostDetails({ post }: { post: IPost }) {
           src={getMedia(post.imageUrl)}
           alt="post"
           className="post_details-img bg-third-color "
+          onError={(e) => (e.currentTarget.src = getDefaultImageProfile)}
         />
 
         <div className="post_details-info bg-third-color">

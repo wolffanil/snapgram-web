@@ -99,4 +99,14 @@ export const PostService = {
     //@ts-ignore
     return posts.data.posts;
   },
+
+  async updateCountRepost(postId: string) {
+    return request({
+      url: getPostUrl("/update-count-repost"),
+      method: "PATCH",
+      data: {
+        postId,
+      },
+    });
+  },
 };
