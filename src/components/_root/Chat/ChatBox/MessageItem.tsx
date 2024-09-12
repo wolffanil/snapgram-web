@@ -1,8 +1,8 @@
 import { IMessage } from "@/shared/types/message.interface";
-import { formatDateString, getDefaultImageProfile, getMedia } from "@/utils";
+import { formatDateString, getMedia } from "@/utils";
 import cn from "clsx";
-import { Link } from "react-router-dom";
 import RepostMessage from "./diffirentMessage/RepostMessage";
+import Settings from "./Settings";
 
 interface IMessageItem {
   message: IMessage;
@@ -10,9 +10,8 @@ interface IMessageItem {
   isGroupChat: boolean;
 }
 
-function MessageItem({
-  myId,
-  message: {
+function MessageItem({ myId, message, isGroupChat }: IMessageItem) {
+  const {
     _id,
     createdAt,
     content,
@@ -22,9 +21,7 @@ function MessageItem({
     post,
     repostText,
     type,
-  },
-  isGroupChat,
-}: IMessageItem) {
+  } = message;
   const isMyMessage = sender?._id === myId;
 
   return (
@@ -53,7 +50,7 @@ function MessageItem({
           viewBox="0 0 19 19"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className={`h-[23px] w-[28px] mr-[-17px] max-sm:mr-[-11px] max-sm:mb-[-6px] max-sm:h-[30px] max-sm:w-[17px]   ${
+          className={`h-[23px] w-[28px] mr-[-22px] max-sm:mr-[-14px] max-sm:mb-[-6px] max-sm:h-[30px] max-sm:w-[17px]   ${
             isMyMessage && "ml-[-15px] max-sm:ml-[-11px]"
           }`}
         >
@@ -70,15 +67,16 @@ function MessageItem({
 
         <div
           className={cn(
-            `rounded-[10px] px-[24px] max-sm:px-[15px] flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px]  max-sm:min-w-[80px] ${
+            `rounded-[10px]  flex flex-center gap-y-[10px] min-h-[50px] max-sm:min-h-[34px] max-w-full min-w-[70px]  max-sm:min-w-[80px]  ${
               isMyMessage
                 ? "message-my-bg-color ml-[10px]"
-                : "message-companion-bg-color max-sm:bg-[#EFEFEF]"
+                : "message-companion-bg-color max-sm:bg-[#EFEFEF] ml-[7px] max-sm:ml-[4px]"
             } 
           `,
             {
               "px-0": type === "repost",
-              "max-sm:max-w-[80%]": type !== "repost",
+              "max-sm:max-w-[80%] px-[24px] max-sm:px-[15px]":
+                type !== "repost",
             }
           )}
         >
@@ -106,6 +104,8 @@ function MessageItem({
             />
           )}
         </div>
+
+        {isMyMessage && <Settings message={message} />}
       </div>
       <div className="flex items-center gap-1 mr-[-14px]">
         <span className="text-light-4 text-[12px] max-sm:text-[10px]">

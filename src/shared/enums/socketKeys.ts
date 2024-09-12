@@ -17,6 +17,7 @@ export enum SOCKET_KEYS {
   READ_MESSAGES = "readMessages",
   STOP_TYPING = "stop typing",
   TYPING = "typing",
+  ACTION_MESSAGE = "action message",
 
   /// NOTIFICATIONS
 

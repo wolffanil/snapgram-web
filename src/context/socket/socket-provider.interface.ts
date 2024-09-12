@@ -19,6 +19,12 @@ export type addToGroupType = {
   chatName: string;
 };
 
+export type ActionMessage = {
+  type: "delete" | "update";
+  messageId: string;
+  text: string;
+};
+
 export interface ISocketProvider {
   sendMessageToSocket: (message: IMessage, chat?: IChat) => void;
   handleLogoutFromSocket: () => void;
@@ -55,4 +61,5 @@ export interface ISocketProvider {
 
   handleStopTyping: () => void;
   handleTyping: () => void;
+  handleActionMessage: ({ messageId, text, type }: ActionMessage) => void;
 }

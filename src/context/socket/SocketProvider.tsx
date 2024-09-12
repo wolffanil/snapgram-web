@@ -42,7 +42,8 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     useNotification();
 
   const { handleSendTokenQr } = SocketAuthHelper(socket);
-  const { handleStopTyping, handleTyping } = SocketChat(socket);
+  const { handleStopTyping, handleTyping, handleActionMessage } =
+    SocketChat(socket);
 
   // connect
   useEffect(() => {
@@ -701,6 +702,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
         handleReadMessages,
         handleStopTyping,
         handleTyping,
+        handleActionMessage,
       }}
       // value={value}
     >

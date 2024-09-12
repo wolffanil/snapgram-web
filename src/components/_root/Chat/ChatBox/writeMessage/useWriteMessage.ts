@@ -5,7 +5,7 @@ import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { IChat } from "@/shared/types/chat.interface";
 import { IMessage } from "@/shared/types/message.interface";
 import { IUser } from "@/shared/types/user.interface";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Query, useMutation, useQueryClient } from "@tanstack/react-query";
 import { create } from "mutative";
 import { useState } from "react";
 
@@ -31,8 +31,10 @@ export const useWriteMessage = () => {
 
       date.toISOString();
 
+      const idMessage = String(Date.now());
+
       const newMessage: IMessage = {
-        _id: String(Date.now()),
+        _id: idMessage,
         sender: {
           ...user,
         } as IUser,
@@ -51,15 +53,15 @@ export const useWriteMessage = () => {
         }
       );
 
-      return { oldMessages };
+      return { oldMessages, idMessage };
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
-        context
+        context?.oldMessages
       );
     },
-    onSuccess: (message: IMessage, variables) => {
+    onSuccess: (message: IMessage, variables, context) => {
       queryClient.setQueryData([QUERY_KEYS.GET_MY_CHATS], (chats: IChat[]) => {
         return create(chats, (draft) => {
           draft.forEach((chat, index) => {
@@ -76,6 +78,17 @@ export const useWriteMessage = () => {
           });
         });
       });
+
+      queryClient.setQueryData(
+        [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, message.chat],
+        (oldMessage: IMessage[]) => {
+          return oldMessage.map((currentMessage) =>
+            currentMessage._id === context.idMessage
+              ? { ...currentMessage, _id: message._id }
+              : currentMessage
+          );
+        }
+      );
     },
   });
 
@@ -92,11 +105,11 @@ export const useWriteMessage = () => {
       },
     } as IMessage;
 
-    sendMessageToSocket(newMessageData);
+    // sendMessageToSocket(newMessageData);
     const newMessage = await sendMessage({
       content: message,
     });
-    // sendMessageToSocket(newMessage);
+    sendMessageToSocket({ ...newMessage, sender: { ...user } });
   };
 
   // useEffect(() => {

@@ -9,13 +9,15 @@ interface IRepostMessage {
 }
 
 function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
+  console.log(post, "post");
+
   return (
     <div
       className={`flex flex-1 flex-col justify-between py-[12px] w-[337px] max-sm:w-[239px] ${
         isMyMessage ? "!text-white" : "text-black dark:text-white"
       }`}
     >
-      <div className="flex justify-start items-center gap-x-[10px] pl-[17px] max-sm:pl-0">
+      <div className="flex justify-start items-center gap-x-[10px] pl-[17px]">
         <Link to={`/profile/${post?.creator._id}`}>
           <img
             src={getMedia(post?.creator.imageUrl || "")}
@@ -39,16 +41,16 @@ function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
         className="w-full h-[260px] max-sm:h-[215px] object-cover mt-[12px] mb-[5px]"
       />
       {repostText && (
-        <p className="pl-[17px] text-[16px] font-medium max-sm:text-[11px] pr-[17px] max-sm:pl-0">
+        <p className="pl-[17px] text-[16px] font-medium max-sm:text-[14px] pr-[17px]">
           Текст пользователя: {repostText}
         </p>
       )}
-      <p className="font-semibold text-[16px] pl-[17px] max-sm:text-[12px] max-sm:pl-0">
-        {post?.location}
+      <p className="font-semibold text-[16px] pl-[17px] max-sm:text-[15px] ">
+        {post?.caption}
       </p>
       <Link
         to={`/posts/${post?._id}`}
-        className="text-[14px] max-sm:text-[10px] underline font-medium pl-[17px] max-sm:pl-0"
+        className="text-[14px] max-sm:text-[13px] underline font-medium pl-[17px]"
       >
         ссылка на пост
       </Link>

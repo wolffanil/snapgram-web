@@ -29,3 +29,12 @@ export interface ISendMessage
   > {
   post?: string;
 }
+
+export interface IDeleteMessage {
+  chatId: string;
+}
+
+export interface IUpdateMessage {
+  type: "repost" | "text";
+  text: string;
+}

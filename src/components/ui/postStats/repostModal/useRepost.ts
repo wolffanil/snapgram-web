@@ -8,7 +8,7 @@ import { IChat } from "@/shared/types/chat.interface";
 import { IMessage, ISendMessage } from "@/shared/types/message.interface";
 import { IInfinityPosts, IPost } from "@/shared/types/post.interface";
 import { IUser } from "@/shared/types/user.interface";
-import { Query, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { create } from "mutative";
 import { Dispatch, SetStateAction, useMemo } from "react";
 
@@ -48,8 +48,10 @@ export const useRepost = (
 
       date.toISOString();
 
+      const idMessage = String(Date.now());
+
       const newMessage: IMessage = {
-        _id: String(Date.now()),
+        _id: idMessage,
         ...data,
         post: {
           _id: post._id,
@@ -67,20 +69,19 @@ export const useRepost = (
           ...user,
         } as IUser,
         createdAt: String(date),
+        isRead: false,
       } as IMessage;
 
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, newMessage.chat],
         (oldMessages: IMessage[]) => {
-          if (!oldMessages) return undefined;
-          //   return create(oldMessages, (draft) => {
-          //     draft.push(newMessage);
-          //   });
+          if (!oldMessages?.length) return undefined;
+
           return [...oldMessages, { ...newMessage }];
         }
       );
 
-      return { oldMessages };
+      return { oldMessages, idMessage };
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(
@@ -88,17 +89,10 @@ export const useRepost = (
         context
       );
     },
-    onSuccess: (message: IMessage, variables) => {
+    onSuccess: (message: IMessage, variables, context) => {
       setRepostText("");
 
       updateCountRepost();
-
-      //@ts-ignore
-      createNotification({
-        to: post.creator._id,
-        type: "repost",
-        postId: post,
-      });
 
       queryClient.setQueryData(
         [QUERY_KEYS.GET_POST_BY_ID, post._id],
@@ -109,6 +103,19 @@ export const useRepost = (
             ...oldPost,
             countRepost: oldPost.countRepost + 1,
           } as IPost;
+        }
+      );
+
+      queryClient.setQueryData(
+        [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, message.chat],
+        (oldMessage: IMessage[]) => {
+          if (!oldMessage?.length) undefined;
+
+          return oldMessage?.map((currentMessage) =>
+            currentMessage._id === context.idMessage
+              ? { ...currentMessage, _id: message._id }
+              : currentMessage
+          );
         }
       );
 
@@ -146,6 +153,15 @@ export const useRepost = (
           });
         });
       });
+
+      if (post.creator._id === user?._id) return;
+
+      //@ts-ignore
+      createNotification({
+        to: post.creator._id,
+        type: "repost",
+        postId: post,
+      });
     },
   });
 
@@ -167,13 +183,32 @@ export const useRepost = (
       type: "repost",
     } as IMessage;
 
-    sendMessageToSocket(newMessageData, chatRepost);
+    // sendMessageToSocket(newMessageData, chatRepost);
     const newMessage = await sendRepost({
       chat: newMessageData.chat,
       type: "repost",
       post: newMessageData.post?._id,
       repostText: newMessageData.repostText,
     });
+
+    sendMessageToSocket(
+      {
+        ...newMessage,
+        post: {
+          _id: post._id,
+          caption: post.caption,
+          creator: post.creator,
+          imageUrl: post.imageUrl,
+          location: post.location,
+          createdAt: new Date().toISOString(),
+        },
+        createdAt: new Date().toISOString(),
+        sender: {
+          ...user,
+        },
+      },
+      chatRepost
+    );
   };
 
   return useMemo(

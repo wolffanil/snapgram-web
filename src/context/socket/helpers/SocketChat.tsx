@@ -6,6 +6,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { create } from "mutative";
 import { useCallback, useEffect } from "react";
 import { getСompanion } from "@/utils";
+import { IMessage } from "@/shared/types/message.interface";
+import { ActionMessage } from "../socket-provider.interface";
+import { Action } from "@remix-run/router";
 
 export const SocketChat = (socket: any) => {
   const { selectedChat, setSelectedChat, user } = useAuth();
@@ -62,6 +65,66 @@ export const SocketChat = (socket: any) => {
     };
   }, [socket, selectedChat]);
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(
+      SOCKET_KEYS.ACTION_MESSAGE,
+      ({
+        chatId,
+        type,
+        messageId,
+        text,
+      }: ActionMessage & { chatId: string }) => {
+        if (type === "delete") {
+          queryClient.setQueryData(
+            [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
+            (oldMessages: IMessage[]) => {
+              if (!oldMessages?.length) return undefined;
+
+              return oldMessages.filter((message) => message._id !== messageId);
+            }
+          );
+
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_MY_CHATS],
+          });
+
+          return;
+        }
+
+        if (type === "update") {
+          queryClient.setQueryData(
+            [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
+            (oldMessages: IMessage[]) => {
+              if (!oldMessages?.length) return undefined;
+
+              return oldMessages.map((message) =>
+                message._id === messageId
+                  ? message.type === "repost"
+                    ? { ...message, repostText: text }
+                    : { ...message, content: text }
+                  : message
+              );
+            }
+          );
+
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_MY_CHATS],
+          });
+
+          return;
+        }
+      }
+    );
+
+    return () => {
+      if (!socket) return;
+
+      socket.off(SOCKET_KEYS.ACTION_MESSAGE);
+    };
+  }, [socket]);
+
   const handleStopTyping = useCallback(() => {
     if (!socket) return;
     const n = getСompanion(selectedChat?.users || [], user?._id || "");
@@ -73,6 +136,21 @@ export const SocketChat = (socket: any) => {
       chatId: selectedChat?._id,
     });
   }, [socket, selectedChat, user]);
+
+  const handleActionMessage = useCallback(
+    ({ type, messageId, text }: ActionMessage) => {
+      if (!socket) return;
+
+      socket.emit(SOCKET_KEYS.ACTION_MESSAGE, {
+        chat: selectedChat,
+        userId: user?._id,
+        type,
+        messageId,
+        text,
+      });
+    },
+    [socket, selectedChat, user]
+  );
 
   const handleTyping = useCallback(() => {
     if (!socket) return;
@@ -86,5 +164,5 @@ export const SocketChat = (socket: any) => {
     });
   }, [socket, selectedChat, user]);
 
-  return { handleStopTyping, handleTyping };
+  return { handleStopTyping, handleTyping, handleActionMessage };
 };
