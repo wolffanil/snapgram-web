@@ -70,7 +70,8 @@ export const useRepost = (
         } as IUser,
         createdAt: String(date),
         isRead: false,
-      } as IMessage;
+        status: "pending",
+      } as IMessage & { status: string };
 
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, newMessage.chat],
@@ -109,11 +110,11 @@ export const useRepost = (
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, message.chat],
         (oldMessage: IMessage[]) => {
-          if (!oldMessage?.length) undefined;
+          if (!oldMessage?.length) return undefined;
 
           return oldMessage?.map((currentMessage) =>
             currentMessage._id === context.idMessage
-              ? { ...currentMessage, _id: message._id }
+              ? { ...currentMessage, _id: message._id, status: "ready" }
               : currentMessage
           );
         }
@@ -205,7 +206,7 @@ export const useRepost = (
         createdAt: new Date().toISOString(),
         sender: {
           ...user,
-        },
+        } as IUser,
       },
       chatRepost
     );

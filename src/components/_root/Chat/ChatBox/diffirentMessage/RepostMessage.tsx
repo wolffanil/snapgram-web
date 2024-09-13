@@ -9,8 +9,6 @@ interface IRepostMessage {
 }
 
 function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
-  console.log(post, "post");
-
   return (
     <div
       className={`flex flex-1 flex-col justify-between py-[12px] w-[337px] max-sm:w-[239px] ${

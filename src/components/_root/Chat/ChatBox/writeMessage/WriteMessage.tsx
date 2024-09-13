@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { useWriteMessage } from "./useWriteMessage";
 import { useSocket } from "@/hooks/useSocket";
+import InputEmoji from "react-input-emoji";
+import { useTheme } from "@/hooks/useTheme";
 
 function WriteMessage() {
   const { handleSendMessage, message, setMessage } = useWriteMessage();
   const { handleTyping, handleStopTyping } = useSocket();
+
+  const { isDarkMode } = useTheme();
 
   const [typing, setTyping] = useState(false);
 
@@ -65,16 +69,15 @@ function WriteMessage() {
           placeholder={`${
             isMobile ? "Напишите сообщение" : "Напишите свое сообщение здесь..."
           }`}
-          className="w-full text-[16px] font-normal text-light-3 placeholder:text-light-3  border-[0px] bg-main-color"
+          className="w-[90%] text-[16px] font-normal text-light-3 placeholder:text-light-3  border-[0px] bg-main-color"
           onKeyDown={handleClickKeyboard}
         />
       </div>
       <button
         onClick={() => {
-          // socket.emit("stop typing", selectedChat._id);
           handleSendMessage();
         }}
-        className="flex-center w-[54px] h-full main-color  rounded-[10px]"
+        className="flex-center  w-[54px] h-full main-color  rounded-[10px]"
       >
         <img src="/assets/icons/send.svg" alt="send" />
       </button>

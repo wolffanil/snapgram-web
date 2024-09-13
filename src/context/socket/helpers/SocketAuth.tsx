@@ -48,7 +48,6 @@ export const SocketAuthHelper = (socket: any) => {
 
   const handleSendTokenQr = useCallback(
     (token: string, code: string) => {
-      console.log(token, code, "send");
       if (!socket || !token) return;
 
       socket.emit(SOCKET_KEYS.SCAN_QR, { key: code, token });

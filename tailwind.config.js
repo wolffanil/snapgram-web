@@ -31,7 +31,7 @@ module.exports = {
         "dark-5": "#0D0D0D",
         "dark-6": "#1C1C1F",
         "light-1": "#FFFFFF",
-        "light-2": "#EFEFEF",
+        "light-2": "#E8E8E8",
         "light-3": "#7878A3",
         "light-4": "#5C5C7B",
         "light-5": "#F6F6F6",

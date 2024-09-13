@@ -24,7 +24,6 @@ export const useUpdateProfile = (
 
   useEffect(() => {
     if (!user) return;
-    console.log(user, "USEr");
     setValue("name", user?.name);
     setValue("nick", user?.nick ? user.nick : "");
     setValue("bio", user?.bio ? user.bio : "");

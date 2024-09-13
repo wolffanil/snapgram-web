@@ -3,9 +3,10 @@ import { formatDateString, getMedia } from "@/utils";
 import cn from "clsx";
 import RepostMessage from "./diffirentMessage/RepostMessage";
 import Settings from "./Settings";
+import { IPost } from "@/shared/types/post.interface";
 
 interface IMessageItem {
-  message: IMessage;
+  message: IMessage & { status: string };
   myId: string;
   isGroupChat: boolean;
 }
@@ -21,6 +22,7 @@ function MessageItem({ myId, message, isGroupChat }: IMessageItem) {
     post,
     repostText,
     type,
+    status,
   } = message;
   const isMyMessage = sender?._id === myId;
 
@@ -99,7 +101,7 @@ function MessageItem({ myId, message, isGroupChat }: IMessageItem) {
           {type === "repost" && (
             <RepostMessage
               isMyMessage={isMyMessage}
-              post={post}
+              post={post as IPost}
               repostText={repostText || ""}
             />
           )}
@@ -113,9 +115,18 @@ function MessageItem({ myId, message, isGroupChat }: IMessageItem) {
         </span>
         {isMyMessage && !isGroupChat && (
           <img
-            src={`/assets/icons/read/${isRead ? "check-all.svg" : "check.svg"}`}
+            src={
+              status !== "pending"
+                ? `/assets/icons/read/${isRead ? "check-all.svg" : "check.svg"}`
+                : "/assets/icons/pending.svg"
+            }
             alt="status"
-            className="object-contain w-[26px] h-[26px] max-sm:w-[18px] max-sm:h-[18px]"
+            className={cn("object-contain ", {
+              "w-[16px] h-[16px] max-sm:w-[11px] max-sm:h-[11px]":
+                status === "pending",
+              "w-[26px] h-[26px] max-sm:w-[18px] max-sm:h-[18px]":
+                status !== "pending",
+            })}
           />
         )}
       </div>

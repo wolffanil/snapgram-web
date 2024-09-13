@@ -181,6 +181,17 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on(
       SOCKET_KEYS.MESSAGE_RECIEVED,
       ({ chatId, message }: { chatId: string; message: IMessage }) => {
+        const messages: IMessage[] | undefined = queryClient.getQueryData([
+          QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID,
+          chatId,
+        ]);
+
+        if (
+          (messages?.length && messages?.some((m) => m._id === message._id)) ||
+          (message.type === "repost" && message.sender._id === user?._id)
+        )
+          return;
+
         let currentChat: IChat;
 
         if (selectedChat?._id === chatId) {
@@ -214,6 +225,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                       ...chat.latestMessage,
                       content: message.content,
                       sender: message.sender,
+                      type: message.type === "repost" ? "repost" : "text",
                     },
                     unreadMessagesCount: chat.unreadMessagesCount + 1,
                   }
@@ -664,26 +676,6 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     },
     []
   );
-
-  // const value = useMemo(
-  //   () => ({
-  //     handleAddToGroupSocket,
-  //     handleCreateGroupToSocket,
-  //     handleDeleteDevice,
-  //     handleLogoutFromSocket,
-  //     handleRemoveFromGroupSocket,
-  //     sendMessageToSocket,
-  //     handleSendNewNotificationToSocket,
-  //     handleDeleteNotificationSocket,
-  //     handleSayHello,
-  //     handleSendTokenQr,
-  //     handleUpdataPasswordToSocket,
-  //     handleReadMessages,
-  //     handleStopTyping,
-  //     handleTyping,
-  //   }),
-  //   [socket]
-  // );
 
   return (
     <SocketContext.Provider

@@ -76,7 +76,17 @@ export const SocketChat = (socket: any) => {
         messageId,
         text,
       }: ActionMessage & { chatId: string }) => {
+        const curMessages: IMessage[] | undefined = queryClient.getQueryData([
+          QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID,
+          chatId,
+        ]);
+
         if (type === "delete") {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_MY_CHATS],
+          });
+          if (!curMessages?.some((m) => m._id === messageId)) return;
+
           queryClient.setQueryData(
             [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
             (oldMessages: IMessage[]) => {
@@ -86,14 +96,23 @@ export const SocketChat = (socket: any) => {
             }
           );
 
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.GET_MY_CHATS],
-          });
-
           return;
         }
 
         if (type === "update") {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.GET_MY_CHATS],
+          });
+
+          if (
+            curMessages?.some(
+              (m) =>
+                m._id === messageId &&
+                (m?.repostText === text || m?.content === text)
+            )
+          )
+            return;
+
           queryClient.setQueryData(
             [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
             (oldMessages: IMessage[]) => {
@@ -108,10 +127,6 @@ export const SocketChat = (socket: any) => {
               );
             }
           );
-
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.GET_MY_CHATS],
-          });
 
           return;
         }

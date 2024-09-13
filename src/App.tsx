@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import AuthLayout from "./components/_auth/AuthLayout";
 import { Suspense } from "react";
-import { Login, Register } from "./components/_auth";
+import { Login, Politic, Register } from "./components/_auth";
 import { Loader } from "./components/ui";
 import RootLayout from "./components/_root/RootLayout";
 import {
@@ -42,6 +42,8 @@ function App() {
             }
           />
         </Route>
+
+        <Route path="/politic" element={<Politic />} />
 
         <Route element={<RootLayout />}>
           <Route

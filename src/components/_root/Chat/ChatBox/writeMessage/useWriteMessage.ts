@@ -41,7 +41,8 @@ export const useWriteMessage = () => {
         chat: chatId,
         content,
         createdAt: String(date),
-      } as IMessage;
+        status: "pending",
+      } as IMessage & { status: string };
 
       queryClient.setQueryData(
         [QUERY_KEYS.GET_MESSAGES_BY_CHAT_ID, chatId],
@@ -84,7 +85,7 @@ export const useWriteMessage = () => {
         (oldMessage: IMessage[]) => {
           return oldMessage.map((currentMessage) =>
             currentMessage._id === context.idMessage
-              ? { ...currentMessage, _id: message._id }
+              ? { ...currentMessage, _id: message._id, status: "ready" }
               : currentMessage
           );
         }

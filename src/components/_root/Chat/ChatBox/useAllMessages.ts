@@ -24,7 +24,6 @@ export const useAllMessages = (chatId: string) => {
       messages?.filter(
         (message) => message.sender._id !== user?._id && !message.isRead
       ) ?? [];
-    // console.log(existUnReadMessages, "getmessages");
 
     if (existUnReadMessages?.length) {
       handleReadMessages({
