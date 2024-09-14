@@ -226,7 +226,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                       content: message.content,
                       sender: message.sender,
                       type: message.type === "repost" ? "repost" : "text",
-                      isRead: message.sender._id === user?._id && "false",
+                      isRead: message.sender._id === user?._id ? false : null,
                     },
                     unreadMessagesCount:
                       message.sender._id !== user?._id
