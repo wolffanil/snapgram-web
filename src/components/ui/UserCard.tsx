@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { IUser } from "../../shared/types/user.interface";
-import { getMedia } from "../../utils";
+import { getDefaultProfileImage, getMedia } from "../../utils";
 import { useCreateChat } from "../../hooks/useCreateChat";
 
 function UserCard({ user }: { user: IUser }) {
@@ -29,6 +29,7 @@ function UserCard({ user }: { user: IUser }) {
           isAllUsersPage && "lg:w-[92px] lg:h-[92px]"
         }`}
         onClick={() => navigate(`/profile/${user._id}`)}
+        onError={getDefaultProfileImage}
       />
 
       <div className="flex-center flex-col gap-1">

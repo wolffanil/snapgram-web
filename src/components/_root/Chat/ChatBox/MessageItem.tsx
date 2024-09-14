@@ -98,7 +98,7 @@ function MessageItem({ myId, message, isGroupChat }: IMessageItem) {
               className="w-full max-h-[300px] max-sm:max-h-[200px] object-cover"
             />
           )}
-          {type === "repost" && (
+          {type === "repost" && post?._id && (
             <RepostMessage
               isMyMessage={isMyMessage}
               post={post as IPost}

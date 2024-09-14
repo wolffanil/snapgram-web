@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
-import { INotification } from "../../../shared/types/notification.interface";
-import { getMedia, multiFormatDateString } from "../../../utils";
+import { INotification } from "@/shared/types/notification.interface";
+import {
+  getDefaultProfileImage,
+  getMedia,
+  multiFormatDateString,
+} from "@/utils";
 
 const typeNotification = {
   like: "/assets/icons/like.svg | лайкнул твой пост",
@@ -25,6 +29,7 @@ function NotificationItem({ notificaion }: { notificaion: INotification }) {
             src={getMedia(notificaion?.user?.imageUrl || "")}
             alt="photoProfile"
             className="w-[60px] h-[60px] object-cover rounded-[41px] max-sm:min-w-[56px] max-sm:h-[56px]"
+            onError={getDefaultProfileImage}
           />
         </Link>
         <div className="flex flex-col items-start gap-y-[5px] max-sm:gap-y-[2px]">

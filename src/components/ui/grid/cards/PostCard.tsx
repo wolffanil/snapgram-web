@@ -4,7 +4,12 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 
 import { IPost } from "@/shared/types/post.interface";
 import { useAuth } from "@/hooks/useAuth";
-import { formatDateString, getMedia } from "@/utils";
+import {
+  formatDateString,
+  getDefaultPostImage,
+  getDefaultProfileImage,
+  getMedia,
+} from "@/utils";
 import PostStats from "../../postStats/PostStats";
 
 function PostCard({ post }: { post: IPost }) {
@@ -20,6 +25,7 @@ function PostCard({ post }: { post: IPost }) {
               src={getMedia(post.creator?.imageUrl || "")}
               alt="creator"
               className="rounded-full w-[54px] h-[54px]"
+              onError={getDefaultProfileImage}
             />
           </Link>
 
@@ -68,6 +74,7 @@ function PostCard({ post }: { post: IPost }) {
           wrapperProps={{
             style: { transitionDelay: "0.3s" },
           }}
+          onError={getDefaultPostImage}
         />
       </Link>
 

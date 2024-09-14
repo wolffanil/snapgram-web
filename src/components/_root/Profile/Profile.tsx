@@ -7,7 +7,7 @@ import LikedPosts from "./likedPosts/LikedPosts";
 import Devices from "./devies/Deviсes";
 import { useAuth } from "@/hooks/useAuth";
 import { useCreateChat } from "@/hooks/useCreateChat";
-import { cn, getDefaultImageProfile, getMedia } from "@/utils";
+import { cn, getDefaultProfileImage, getMedia } from "@/utils";
 import Subscribers from "./subscribe/Subscribers";
 import ButtonSubscribe from "./subscribe/buttonSubscribe/ButtonSubscribe";
 
@@ -46,7 +46,7 @@ function Profile() {
               getMedia(user?.imageUrl) ||
               "/assets/icons/profile-placeholder.svg"
             }
-            onError={(e) => (e.target.src = getDefaultImageProfile)}
+            onError={getDefaultProfileImage}
             alt="profile"
             className="w-28 h-28 lg:h-36 lg:w-36 rounded-full"
           />

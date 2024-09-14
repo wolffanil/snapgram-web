@@ -3,7 +3,7 @@ import "react-lazy-load-image-component/src/effects/blur.css";
 import { Link } from "react-router-dom";
 import PostStats from "../../postStats/PostStats";
 import { IPost } from "@/shared/types/post.interface";
-import { getMedia } from "@/utils";
+import { getDefaultPostImage, getDefaultProfileImage, getMedia } from "@/utils";
 
 interface IPostCardV2 {
   post: IPost;
@@ -14,7 +14,7 @@ interface IPostCardV2 {
 function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
   if (!post) return;
   return (
-    <li key={post._id} className="relative min-w-80 h-80">
+    <li key={post._id} className="relative min-w-75 h-80">
       <Link to={`/posts/${post._id}`} className="grid-post_link">
         <LazyLoadImage
           alt="post-image"
@@ -22,8 +22,9 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
           className="post-card_img"
           effect="blur"
           wrapperProps={{
-            style: { transitionDelay: "0.2s" },
+            style: { transitionDelay: "0.2s", width: "100%" },
           }}
+          onError={getDefaultPostImage}
         />
       </Link>
 
@@ -34,6 +35,7 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
               src={getMedia(post.creator.imageUrl || "")}
               alt="creator"
               className="h-8 w-8 rounded-full"
+              onError={getDefaultProfileImage}
             />
             <p className="line-clamp-1 text-white">{post.creator.name}</p>
           </div>

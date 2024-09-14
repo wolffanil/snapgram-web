@@ -1,5 +1,10 @@
 import { IPost } from "@/shared/types/post.interface";
-import { formatDateString, getDefaultImageProfile, getMedia } from "@/utils";
+import {
+  formatDateString,
+  getDefaultPostImage,
+  getDefaultProfileImage,
+  getMedia,
+} from "@/utils";
 import { Link } from "react-router-dom";
 
 interface IRepostMessage {
@@ -20,7 +25,7 @@ function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
           <img
             src={getMedia(post?.creator.imageUrl || "")}
             alt="logo"
-            onError={(e) => (e.currentTarget.src = getDefaultImageProfile)}
+            onError={getDefaultProfileImage}
             className="size-[37px] rounded-full object-cover cursor-pointer"
           />
         </Link>
@@ -37,6 +42,7 @@ function RepostMessage({ isMyMessage, post, repostText }: IRepostMessage) {
         src={getMedia(post?.imageUrl || "")}
         alt="image"
         className="w-full h-[260px] max-sm:h-[215px] object-cover mt-[12px] mb-[5px]"
+        onError={getDefaultPostImage}
       />
       {repostText && (
         <p className="pl-[17px] text-[16px] font-medium max-sm:text-[14px] pr-[17px]">

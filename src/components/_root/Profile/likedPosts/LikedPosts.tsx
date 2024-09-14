@@ -1,16 +1,10 @@
-import { Loader } from "lucide-react";
 import { useGetLikedPosts } from "./useLikedPosts";
-import { GridPostList } from "../../../ui";
+import { GridPostList, SkeletonPostV2 } from "@/components/ui";
 
 function LikedPosts() {
   const { posts, isLoadingPosts } = useGetLikedPosts();
 
-  if (isLoadingPosts)
-    return (
-      <div className="flex-center w-full h-full">
-        <Loader />
-      </div>
-    );
+  if (isLoadingPosts) return <SkeletonPostV2 numberOfPosts={3} />;
   return (
     <>
       {!posts?.length && (

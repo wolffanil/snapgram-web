@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { IPost } from "../../../shared/types/post.interface";
+import { IPost } from "@/shared/types/post.interface";
 import {
   formatDateString,
-  getDefaultImageProfile,
+  getDefaultPostImage,
+  getDefaultProfileImage,
   getMedia,
-} from "../../../utils";
+} from "@/utils";
 import Actions from "./actions/Actions";
 import PostStats from "../postStats/PostStats";
 import Comments from "./comment/Comments";
@@ -18,7 +19,7 @@ function PostDetails({ post }: { post: IPost }) {
           src={getMedia(post.imageUrl)}
           alt="post"
           className="post_details-img bg-third-color "
-          onError={(e) => (e.currentTarget.src = getDefaultImageProfile)}
+          onError={getDefaultPostImage}
         />
 
         <div className="post_details-info bg-third-color">
@@ -31,6 +32,7 @@ function PostDetails({ post }: { post: IPost }) {
                 src={getMedia(post?.creator?.imageUrl || "")}
                 alt="creator"
                 className="rounded-full w-8 h-8 lg:h-12 lg:w-12 max-sm:h-[32px] max-sm:min-w-[32px]"
+                onError={getDefaultProfileImage}
               />
 
               <div className="flex flex-col">

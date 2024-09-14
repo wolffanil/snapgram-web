@@ -1,5 +1,5 @@
 import { Loader } from "lucide-react";
-import { GridPostList } from "../../ui";
+import { GridPostList, SkeletonPost } from "../../ui";
 import { useHome } from "./useHome";
 
 function Home() {
@@ -18,7 +18,7 @@ function Home() {
           </h2>
 
           {!posts ? (
-            <Loader />
+            <SkeletonPost numberOfPosts={2} />
           ) : (
             <ul className="flex flex-col flex-1 gap-9 w-full">
               {posts?.pages.map((item, index) => (

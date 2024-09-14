@@ -51,8 +51,8 @@ function ButtonQr() {
                 style={{ width: "100%", height: "100%" }}
               />
             ) : (
-              <div>
-                <Loader />
+              <div className="text-main-color text-[20px] text-center max-sm:text-[13px]">
+                Загрузка...
               </div>
             )}
           </div>

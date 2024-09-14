@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useAuth } from "../../../../hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { CommentService } from "../../../../services/comment.service";
-import { QUERY_KEYS } from "../../../../shared/enums/queryKeys";
-import { IPost } from "../../../../shared/types/post.interface";
+import { CommentService } from "@/services/comment.service";
+import { QUERY_KEYS } from "@/shared/enums/queryKeys";
+import { IPost } from "@/shared/types/post.interface";
 import { useParams } from "react-router-dom";
-import { getMedia } from "../../../../utils";
-import { useNotification } from "../../../../hooks/useNotification";
+import { getDefaultProfileImage, getMedia } from "@/utils";
+import { useNotification } from "@/hooks/useNotification";
 import { create } from "mutative";
-import { IComment } from "../../../../shared/types/comment.interface";
+import { IComment } from "@/shared/types/comment.interface";
 
 function AddComment({ post }: { post: IPost }) {
   const [comment, setComment] = useState("");
@@ -57,6 +57,7 @@ function AddComment({ post }: { post: IPost }) {
         src={getMedia(user?.imageUrl || "")}
         alt="profile"
         className="h-[40px] min-w-[40px] rounded-full object-cover max-sm:min-w-[32px] max-sm:h-[32px]"
+        onError={getDefaultProfileImage}
       />
 
       <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color bg-main-color">
@@ -72,7 +73,8 @@ function AddComment({ post }: { post: IPost }) {
         <img
           src="/assets/icons/send.svg"
           alt="send"
-          className="!text-black dark:!invert-white"
+          className="!text-black dark:!invert-white cursor-pointer"
+          role="button"
           onClick={handleCreateComment}
         />
       </div>

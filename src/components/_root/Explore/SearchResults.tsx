@@ -1,6 +1,5 @@
-import { Loader } from "lucide-react";
 import { IPost } from "../../../shared/types/post.interface";
-import { GridPostList } from "../../ui";
+import { GridPostList, SkeletonPostV2 } from "@/components/ui";
 
 interface ISearchResults {
   isSearchFetching: boolean;
@@ -8,7 +7,7 @@ interface ISearchResults {
 }
 
 const SearchResults = ({ isSearchFetching, searchedPosts }: ISearchResults) => {
-  if (isSearchFetching) return <Loader />;
+  if (isSearchFetching) return <SkeletonPostV2 numberOfPosts={3} />;
 
   if (searchedPosts && searchedPosts.length > 0) {
     return (

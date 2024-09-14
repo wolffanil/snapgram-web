@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { useLike } from "../../../../hooks/useLike";
-import { IComment } from "../../../../shared/types/comment.interface";
-import { getMedia } from "../../../../utils";
+import { useLike } from "@/hooks/useLike";
+import { IComment } from "@/shared/types/comment.interface";
+import { getDefaultProfileImage, getMedia } from "../../../../utils";
 
 interface ICommentItem {
   comment: IComment;
@@ -9,7 +8,6 @@ interface ICommentItem {
 }
 
 function CommentItem({ comment, isParent }: ICommentItem) {
-  const navigate = useNavigate();
   const { count, isLike, onLike } = useLike(
     comment._id,
     comment.likes,
@@ -29,6 +27,7 @@ ${isParent ? "bg-slate-400" : ""} `}
           src={getMedia(comment.author?.imageUrl || "")}
           alt="profile"
           className="h-6 w-6 rounded-full"
+          onError={getDefaultProfileImage}
         />
 
         <div className="flex flex-col gap-y-1">

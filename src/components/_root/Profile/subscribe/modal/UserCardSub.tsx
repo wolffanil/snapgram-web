@@ -12,7 +12,7 @@ function UserCardSub({ user, onCloseModal }: IUserCardSub) {
 
   return (
     <li
-      className={`flex flex-col items-center w-full py-[18px] gap-y-[9px]  h-[140px] md:py-[23px] md:gap-y-[12px] rounded-[20px]  border-[2px] !bg-main-color !sidebar-bg-color cursor-pointer max-sm:h-[110px]`}
+      className={`flex flex-col items-center w-full py-[18px] gap-y-[9px]  h-[140px] md:py-[23px] md:gap-y-[12px] rounded-[20px]  border-[2px] !bg-main-color !sidebar-bg-color cursor-pointer max-sm:h-[110px] border-[#7878A3]`}
       onClick={() => {
         onCloseModal?.();
         navigate(`/profile/${user._id}`);

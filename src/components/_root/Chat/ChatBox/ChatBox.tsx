@@ -6,7 +6,14 @@ import { useMemo } from "react";
 import ScrollableFeed from "react-scrollable-feed";
 import { useAuth } from "@/hooks/useAuth";
 import { IMessage } from "@/shared/types/message.interface";
-import { formatDateString, getMedia, getСompanion } from "@/utils";
+import {
+  formatDateString,
+  getDefaultPostImage,
+  getDefaultProfileImage,
+  getMedia,
+  getСompanion,
+} from "@/utils";
+import SkeletonMessage from "./SkeletonMessage";
 
 function ChatBox() {
   const { selectedChat, user, setSelectedChat } = useAuth();
@@ -68,6 +75,7 @@ function ChatBox() {
                 src={getMedia(companion?.imageUrl || "")}
                 alt="photoProfile"
                 className="h-[70px] w-[70px] max-sm:h-[60px] max-sm:min-w-[60px] object-cover rounded-[45px] max-sm:rounded-[43px]"
+                onError={getDefaultProfileImage}
               />
               {companion?.isOnline && (
                 <div className="absolute w-[15px] h-[15px] bg-[#00ff75] border-[1.5px] border-white right-0 bottom-0 rounded-[24px]" />
@@ -93,7 +101,7 @@ function ChatBox() {
 
       <div className="flex flex-col  max-sm:min-h-[72%] max-sm:max-h-[72%] mt-[57px] max-sm:mt-[24px]  custom-scrollbar-without flex-1 overflow-y-auto ">
         {isLoadingMessages ? (
-          <p className="text-main-color flex-center">Загрузка сообщений...</p>
+          <SkeletonMessage numberOfMessage={5} />
         ) : messages?.length ? (
           <ScrollableFeed className="custom-scrollbar-without !min-h-full flex-1">
             {messages?.length && messages.map((m, i) => Row(i, m))}

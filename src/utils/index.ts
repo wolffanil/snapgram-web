@@ -67,7 +67,13 @@ export function getСompanion(users: IUser[], myId: string): number {
   return Number(users[0]?._id === myId);
 }
 
-export const getDefaultImageProfile = "/assets/icons/profile-placeholder.svg";
+export const getDefaultProfileImage = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>
+) => (e.currentTarget.src = getMedia("upload/profile/default.svg"));
+
+export const getDefaultPostImage = (
+  e: React.SyntheticEvent<HTMLImageElement, Event>
+) => (e.currentTarget.src = getMedia("upload/post/default.jpg"));
 
 export function formatTodayDate(date: Date): string {
   const now = new Date();

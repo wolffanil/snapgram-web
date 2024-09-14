@@ -1,11 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { sidebarLinks } from "../../../constants";
-import { useAuth } from "../../../hooks/useAuth";
+import { sidebarLinks } from "@/constants";
+import { useAuth } from "@/hooks/useAuth";
 import Logo from "../Logo";
 import ItemLink from "./ItemLink";
 import SettingsButtons from "./SettingsButtons";
-import { getMedia } from "../../../utils";
-import { useNotification } from "../../../hooks/useNotification";
+import { getDefaultProfileImage, getMedia } from "../../../utils";
+import { useNotification } from "@/hooks/useNotification";
 import { memo } from "react";
 import { useGetUnReadChats } from "@/hooks/useGetUnReadChats";
 
@@ -34,6 +34,7 @@ function LeftSidebar() {
             src={getMedia(user?.imageUrl || "")}
             alt="profile"
             className="h-14 w-14 rounded-full"
+            onError={getDefaultProfileImage}
           />
           <div className="flex flex-col">
             <p className="body-bold text-main-color">{user?.name}</p>

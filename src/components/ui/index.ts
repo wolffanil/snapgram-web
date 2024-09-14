@@ -30,3 +30,5 @@ export { default as WrapperModal } from "./WrapperModal";
 export { default as UnReadMessage } from "./unReadMessage";
 
 export { default as Skeleton } from "./Skeleton";
+export { default as SkeletonPost } from "./post/loader/SkeletonPost";
+export { default as SkeletonPostV2 } from "./post/loader/SkeletonPostV2";

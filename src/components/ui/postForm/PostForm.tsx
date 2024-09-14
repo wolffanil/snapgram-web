@@ -25,6 +25,7 @@ function PostForm({ post, action }: IPostForm) {
       tags: post ? post?.tags.join(",") : "",
       imageUrl: post ? post?.imageUrl : "",
     },
+    mode: "onSubmit",
   });
 
   const { onSubmit, isLoading } = usePost(action, reset, setError, post?._id);

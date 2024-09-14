@@ -8,7 +8,7 @@ import { Loader } from "lucide-react";
 function ButtonScanQr() {
   const { qrcode, setQrcode, isPending, sendTokenQr } = useScanQr();
   const [clickButton, setClickButton] = useState(false);
-  let scanner: any;
+  let scanner: Html5QrcodeScanner | null = null;
 
   useEffect(() => {
     if (clickButton) {
@@ -31,16 +31,17 @@ function ButtonScanQr() {
         if (data) {
           setQrcode(data);
           sendTokenQr();
-          scanner.clear();
+          if (scanner) {
+            scanner.clear().catch((error) => {
+              console.error("Scanner cleaning failed", error);
+            });
+          }
         }
       }
 
-      function handleError(error) {
-        // toast.error(error);
-      }
+      function handleError(error) {}
     }
 
-    // Очистка ресурса при размонтировании компонента или закрытии модала
     return () => {
       if (scanner) {
         scanner.clear().catch((error) => {
@@ -48,7 +49,7 @@ function ButtonScanQr() {
         });
       }
     };
-  }, [clickButton]);
+  }, [clickButton, setQrcode, sendTokenQr]);
 
   return (
     <Modal handleClose={() => setClickButton((o) => !o)}>

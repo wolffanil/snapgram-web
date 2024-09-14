@@ -13,7 +13,7 @@ function Post() {
       </div>
     );
 
-  if (!post) return <Navigate to="/" />;
+  if (!post?._id) return <Navigate to="/" />;
   return <PostDetails post={post} />;
 }
 
