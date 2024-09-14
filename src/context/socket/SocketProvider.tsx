@@ -194,7 +194,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
         let currentChat: IChat;
 
-        if (selectedChat?._id === chatId) {
+        if (selectedChat?._id === chatId && message.sender._id !== user?._id) {
           const userId = message.sender._id;
 
           socket.emit(SOCKET_KEYS.READ_MESSAGES, { userId, chatId });
@@ -226,8 +226,12 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
                       content: message.content,
                       sender: message.sender,
                       type: message.type === "repost" ? "repost" : "text",
+                      isRead: message.sender._id === user?._id && "false",
                     },
-                    unreadMessagesCount: chat.unreadMessagesCount + 1,
+                    unreadMessagesCount:
+                      message.sender._id !== user?._id
+                        ? chat.unreadMessagesCount + 1
+                        : chat.unreadMessagesCount,
                   }
                 : chat
             );
