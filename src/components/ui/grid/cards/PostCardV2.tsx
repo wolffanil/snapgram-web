@@ -19,7 +19,7 @@ function PostCardV2({ post, showStats, showUser }: IPostCardV2) {
         <LazyLoadImage
           alt="post-image"
           src={getMedia(post.imageUrl)}
-          className="post-card_img"
+          className="post-card_img max-sm:h-full"
           effect="blur"
           wrapperProps={{
             style: { transitionDelay: "0.2s", width: "100%" },
