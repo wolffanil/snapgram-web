@@ -8,7 +8,6 @@ import { useCallback, useEffect } from "react";
 import { getСompanion } from "@/utils";
 import { IMessage } from "@/shared/types/message.interface";
 import { ActionMessage } from "../socket-provider.interface";
-import { Action } from "@remix-run/router";
 
 export const SocketChat = (socket: any) => {
   const { selectedChat, setSelectedChat, user } = useAuth();

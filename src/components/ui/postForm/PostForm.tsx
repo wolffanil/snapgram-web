@@ -35,7 +35,12 @@ function PostForm({ post, action }: IPostForm) {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-9 w-full max-w-[627px]"
     >
-      <Field<IEditPost> control={control} name="caption" label="Заголовок" />
+      <Field<IEditPost>
+        control={control}
+        name="caption"
+        label="Заголовок"
+        placeholder="Путешествия"
+      />
 
       <Controller
         control={control}
@@ -59,9 +64,15 @@ function PostForm({ post, action }: IPostForm) {
         control={control}
         name="location"
         label="Добавить местоположение"
+        placeholder="Россия"
       />
 
-      <Field<IEditPost> control={control} name="tags" label="Тэги" />
+      <Field<IEditPost>
+        control={control}
+        name="tags"
+        label="Тэги"
+        placeholder="круто, весело"
+      />
 
       <div className="flex gap-4 items-center justify-end">
         <Button type="reset" disabled={isLoading} onClick={() => navigate(-1)}>

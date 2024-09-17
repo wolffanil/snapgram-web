@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useMyChats } from "@/hooks/useMyChats";
-import { createContext, useCallback, useEffect, useMemo } from "react";
+import { createContext, useCallback, useEffect } from "react";
 import io from "socket.io-client";
 import { QUERY_KEYS } from "@/shared/enums/queryKeys";
 import { IChat } from "@/shared/types/chat.interface";
@@ -20,6 +20,7 @@ import { getMedia } from "@/utils";
 import { SocketAuthHelper } from "./helpers/SocketAuth";
 import { create } from "mutative";
 import { SocketChat } from "./helpers/SocketChat";
+
 
 let socket: any;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
@@ -264,37 +265,47 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           }
         );
 
-        if (pathname !== "/chats") {
+        if (pathname !== "/chats" && message.sender._id !== user?._id) {
           if (pathname === "chats") return;
-          toast((t) => (
-            <div className="flex justify-between items-center w-[200px] max-h-[50px] max-sm:max-h-[30px] max-sm:max-w-[180px]">
-              <img
-                src={getMedia(message?.sender?.imageUrl || "")}
-                alt="photoProfile"
-                className="rounded-[60px] min-w-[40px] max-w-[40px] max-h-[40px] object-cover"
-              />
-              <div className="text-[20px] max-sm:text-[18px] text-white p-[5px]">
-                {/* {!currentChat
-                  ? "У вас новый собеседник"
-                  : message?.content?.length > 8
-                  ? message?.content?.slice(1, 8) + "..."
-                  : message.content} */}
-                {!currentChat ? "У вас новый собеседник" : "Новое сообщение"}
+
+          const getToastId = localStorage.getItem("toastId");
+
+          const toastId = toast(
+            (t) => (
+              <div className="flex justify-between items-center w-[200px] max-h-[50px] max-sm:max-h-[30px] max-sm:max-w-[180px]">
+                <img
+                  src={getMedia(message?.sender?.imageUrl || "")}
+                  alt="photoProfile"
+                  className="rounded-[60px] min-w-[40px] max-w-[40px] max-h-[40px] object-cover"
+                />
+                <div className="text-[20px] max-sm:text-[14px] text-white p-[5px]">
+                  {/* {!currentChat
+                        ? "У вас новый собеседник"
+                        : message?.content?.length > 8
+                        ? message?.content?.slice(1, 8) + "..."
+                        : message.content} */}
+                  {!currentChat ? "У вас новый собеседник" : `Новое сообщение `}
+                </div>
+                {currentChat && (
+                  <button
+                    onClick={() => {
+                      setSelectedChat(currentChat);
+                      navigate("/chats");
+                      toast.dismiss(t.id);
+                    }}
+                    className="text-[15px] ml-[10px] bg-primary-600 p-[5px] rounded-[5px]"
+                  >
+                    Чат
+                  </button>
+                )}
               </div>
-              {currentChat && (
-                <button
-                  onClick={() => {
-                    setSelectedChat(currentChat);
-                    navigate("/chats");
-                    toast.dismiss(t.id);
-                  }}
-                  className="text-[15px] ml-[10px] bg-primary-600 p-[5px] rounded-[5px]"
-                >
-                  Чат
-                </button>
-              )}
-            </div>
-          ));
+            ),
+            {
+              id: getToastId ? getToastId : undefined,
+            }
+          );
+
+          localStorage.setItem("toastId", toastId);
         }
       }
     );
@@ -519,9 +530,15 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     socket.on(SOCKET_KEYS.ACCEPT_SAY_HELLO, (sessionId: string) => {
       if (currentSessionId !== sessionId) return;
-      toast("Привет", {
+
+      const getToastIdHello = localStorage.getItem("getToastIdHello");
+
+      const toastId = toast("Привет", {
         icon: "👋",
+        id: getToastIdHello ? getToastIdHello : undefined,
       });
+
+      localStorage.setItem("getToastIdHello", toastId);
     });
 
     return () => {

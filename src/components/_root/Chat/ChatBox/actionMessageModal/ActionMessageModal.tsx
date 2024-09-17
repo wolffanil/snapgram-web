@@ -53,14 +53,14 @@ function ActionMessageModal({ onCloseModal, message }: IActionMessageModal) {
           disabled={isLoading}
           className="flex justify-center items-center ml-auto w-[120px] h-[37px] rounded-[8px] font-semibold text-[14px] max-sm:min-w-[53px] max-sm:h-[40px] max-sm:rounded-[5px] max-sm:text-[13px] blue-color text-white"
         >
-          Редактировать
+          {isLoading ? "Загрузка..." : "Редактировать"}
         </button>
         <button
           className="flex justify-center items-center ml-auto w-[82px] h-[37px] rounded-[8px] font-semibold text-[14px] max-sm:min-w-[53px] max-sm:h-[40px] max-sm:rounded-[5px] max-sm:text-[13px] bg-red text-white"
           onClick={handleDeleteMessage}
           disabled={isLoading}
         >
-          Удалить
+          {isLoading ? "Загрузка..." : "Удалить"}
         </button>
       </div>
     </div>

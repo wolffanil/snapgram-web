@@ -26,7 +26,7 @@ const Field = <T extends Record<string, any>>({
               onBlur={onBlur}
               onChange={onChange}
               value={value || ""}
-              className="shad-input bg-second-color text-main-color "
+              className="shad-input bg-second-color text-main-color"
               {...rest}
             />
             {error && (
