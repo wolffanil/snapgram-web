@@ -14,7 +14,7 @@ export const AuthContext = createContext({} as IContext);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<TypeUserState>({} as IUser);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuth, setIsAuth] = useState(false);
   const [selectedChat, setSelectedChat] = useState<TypeChatState>({} as IChat);
   const [sessionId, setSessionId] = useState("");
@@ -40,7 +40,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (isAuth) return;
 
     checkAuthCheck();
-  }, []);
+  }, [isAuth]);
 
   const deleteUser = () => {
     setUser(null);

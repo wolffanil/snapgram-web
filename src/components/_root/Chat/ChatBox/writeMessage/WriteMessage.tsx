@@ -55,9 +55,9 @@ function WriteMessage() {
   return (
     <div className="flex items-start w-full gap-x-[7px] h-[54px] max-sm:h-[51px]">
       <div className="flex items-center px-[20px] gap-x-[10px] max-sm:gap-x-[4px] bg-main-color rounded-[10px] h-full w-full">
-        <button>
+        {/* <button>
           <img src="/assets/icons/clip.svg" alt="add" />{" "}
-        </button>
+        </button> */}
         <input
           type="text"
           value={message}
@@ -73,7 +73,7 @@ function WriteMessage() {
         onClick={() => {
           handleSendMessage();
         }}
-        className="flex-center  w-[54px] h-full main-color  rounded-[10px]"
+        className="flex-center w-[54px] h-full main-color rounded-[10px]"
       >
         <img src="/assets/icons/send.svg" alt="send" />
       </button>

@@ -21,7 +21,6 @@ import { SocketAuthHelper } from "./helpers/SocketAuth";
 import { create } from "mutative";
 import { SocketChat } from "./helpers/SocketChat";
 
-
 let socket: any;
 const ENPOINT = import.meta.env.VITE_SOCKET_URL;
 
@@ -187,10 +186,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
           chatId,
         ]);
 
-        if (
-          (messages?.length && messages?.some((m) => m._id === message._id)) ||
-          (message.type === "repost" && message.sender._id === user?._id)
-        )
+        if (messages?.length && messages?.some((m) => m._id === message._id))
           return;
 
         let currentChat: IChat;

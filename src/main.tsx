@@ -6,13 +6,13 @@ import { BrowserRouter } from "react-router-dom";
 import ThemeProvider from "./context/theme/ThemeProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <Provider>
-          <App />
-        </Provider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter>
+    <ThemeProvider>
+      <Provider>
+        <App />
+      </Provider>
+    </ThemeProvider>
+  </BrowserRouter>
+  // </React.StrictMode>
 );

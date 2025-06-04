@@ -60,12 +60,12 @@ function AddComment({ post }: { post: IPost }) {
         onError={getDefaultProfileImage}
       />
 
-      <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px] write-color bg-main-color">
+      <div className="flex justify-between px-[16px]  items-center rounded-[8px]  w-full h-[44px]  !bg-main-color">
         <input
           type="text"
           required
           placeholder="Напишите свой комментарий..."
-          className=" focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular w-full !bg-main-color"
+          className=" focus:outline-none max-sm:w-[100px] subtle-semibold lg:small-regular dark:placeholder:text-white dark:text-white text-light-4  w-full !bg-main-color"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
           disabled={isCreatingComment}

@@ -24,7 +24,7 @@ function PostCard({ post }: { post: IPost }) {
             <img
               src={getMedia(post.creator?.imageUrl || "")}
               alt="creator"
-              className="rounded-full w-[54px] h-[54px]"
+              className="rounded-full min-w-[54px] h-[54px] max-w-[54px]"
               onError={getDefaultProfileImage}
             />
           </Link>
