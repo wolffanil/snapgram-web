@@ -56,7 +56,7 @@ function AddComment({ post }: { post: IPost }) {
       <img
         src={getMedia(user?.imageUrl || "")}
         alt="profile"
-        className="h-[40px] min-w-[40px] rounded-full object-cover max-sm:min-w-[32px] max-sm:h-[32px]"
+        className="h-[40px] min-w-[40px] rounded-full object-cover max-sm:min-w-[32px] max-sm:h-[32px] max-w-[40px] max-sm:max-w-[32px]"
         onError={getDefaultProfileImage}
       />
 
