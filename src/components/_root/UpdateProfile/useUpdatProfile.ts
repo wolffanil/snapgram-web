@@ -39,7 +39,7 @@ export const useUpdateProfile = (
         errorToast(getErrorMessage(error));
       },
       onSuccess: (data) => {
-        successToast("Профиль обновлённ");
+        successToast("Профиль обновлён");
         queryClient.setQueryData(
           [QUERY_KEYS.GET_USER_BY_ID, user?._id],
           (oldUser: IUser) =>
