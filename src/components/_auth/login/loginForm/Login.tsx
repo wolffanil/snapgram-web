@@ -63,11 +63,7 @@ function Login({ setIsChangeForm }: IChangeForm) {
           />
         )}
 
-        <Button
-          type="submit"
-          disabled={openIsFormCode || isLoginLoading}
-          className="mt-[10px]"
-        >
+        <Button type="submit" disabled={isLoginLoading} className="mt-[10px]">
           {isLoginLoading ? <ButtonLoader /> : "Войти"}
         </Button>
 

@@ -71,7 +71,7 @@ function Register() {
 
           <Button
             type="submit"
-            disabled={openIsFormCode || isRegisterLoading}
+            disabled={isRegisterLoading}
             className="mt-[5px]"
           >
             {isRegisterLoading ? <ButtonLoader /> : "Зарегистрироваться"}
