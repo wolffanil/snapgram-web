@@ -7,12 +7,11 @@ import { useToast } from "@/hooks/useToast";
 import { useAuth } from "@/hooks/useAuth";
 import { AuthService } from "@/services/auth/auth.service";
 import { getErrorMessage } from "@/services/api/getErrorMessage";
-import useRecaptchaV3 from "@/hooks/useRecaptchaV3";
 
 const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 export const useRegister = (reset: UseFormReset<IRegister>) => {
-  const executeRecaptcha = useRecaptchaV3(recaptchaKey);
+  // const executeRecaptcha = useRecaptchaV3(recaptchaKey);
   const [openIsFormCode, setIsOpenFormCode] = useState(false);
   const { loadingToast, successToast, errorToast } = useToast();
   const { setUser, setSessionId } = useAuth();

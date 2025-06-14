@@ -40,7 +40,7 @@ function Login({ setIsChangeForm }: IChangeForm) {
           name="email"
           label="Email"
           control={control}
-          disabled={openIsFormCode}
+          disabled={openIsFormCode || isLoginLoading}
         />
 
         <Field<ILogin>
@@ -48,7 +48,7 @@ function Login({ setIsChangeForm }: IChangeForm) {
           label="Пароль"
           control={control}
           type="password"
-          disabled={openIsFormCode}
+          disabled={openIsFormCode || isLoginLoading}
         />
 
         {openIsFormCode && (
@@ -63,7 +63,11 @@ function Login({ setIsChangeForm }: IChangeForm) {
           />
         )}
 
-        <Button type="submit" disabled={isLoginLoading} className="mt-[10px]">
+        <Button
+          type="submit"
+          disabled={openIsFormCode || isLoginLoading}
+          className="mt-[10px]"
+        >
           {isLoginLoading ? <ButtonLoader /> : "Войти"}
         </Button>
 

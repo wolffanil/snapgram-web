@@ -13,7 +13,7 @@ import useRecaptchaV3 from "@/hooks/useRecaptchaV3";
 const recaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
 export const useLogin = (reset: UseFormReset<ILogin>) => {
-  const executeRecaptcha = useRecaptchaV3(recaptchaKey);
+  // const executeRecaptcha = useRecaptchaV3(recaptchaKey);
 
   const [openIsFormCode, setIsOpenFormCode] = useState(false);
   const { loadingToast, successToast, errorToast } = useToast();

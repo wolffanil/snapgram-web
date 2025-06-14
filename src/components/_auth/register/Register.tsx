@@ -39,14 +39,14 @@ function Register() {
             name="name"
             label="Имя"
             control={control}
-            disabled={openIsFormCode}
+            disabled={openIsFormCode || isRegisterLoading}
           />
 
           <Field<IRegister>
             name="email"
             label="Email"
             control={control}
-            disabled={openIsFormCode}
+            disabled={openIsFormCode || isRegisterLoading}
           />
 
           <Field<IRegister>
@@ -54,7 +54,7 @@ function Register() {
             label="Пароль"
             control={control}
             type="password"
-            disabled={openIsFormCode}
+            disabled={openIsFormCode || isRegisterLoading}
           />
 
           {openIsFormCode && (
@@ -71,7 +71,7 @@ function Register() {
 
           <Button
             type="submit"
-            disabled={isRegisterLoading}
+            disabled={openIsFormCode || isRegisterLoading}
             className="mt-[5px]"
           >
             {isRegisterLoading ? <ButtonLoader /> : "Зарегистрироваться"}
