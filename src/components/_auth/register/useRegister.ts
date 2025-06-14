@@ -42,9 +42,10 @@ export const useRegister = (reset: UseFormReset<IRegister>) => {
 
   const onRegister = async (data: IRegister) => {
     if (openIsFormCode && !data.code?.length) return;
-    const recaptchaToken = await executeRecaptcha("auth");
+    // const recaptchaToken = await executeRecaptcha("auth");
     loadingToast("Регистрация...");
-    register({ ...data, token: recaptchaToken });
+    // register({ ...data, token: recaptchaToken });
+    register({ ...data });
   };
 
   return useMemo(

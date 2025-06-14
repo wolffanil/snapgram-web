@@ -3,7 +3,7 @@ import * as z from "zod";
 export const SignupValidation = z.object({
   name: z.string().min(2, { message: "Слишком короткий" }),
 
-  email: z.string().email({ message: "Почта должна быть каретной" }),
+  email: z.string().email({ message: "Почта должна быть корректной" }),
   password: z
     .string()
     .min(8, { message: "Пароль должен быть не менее 8 символов." }),
@@ -21,7 +21,7 @@ export const ProfileValidation = z.object({
 });
 
 export const SigninValidation = z.object({
-  email: z.string().email({ message: "Почта должна быть каретной" }),
+  email: z.string().email({ message: "Почта должна быть корректной" }),
   password: z
     .string()
     .min(8, { message: "Пароль должен быть не менее 8 символов." })
@@ -46,7 +46,7 @@ export const PostValidation = z.object({
 
 export const ResetPasswordValidation = z
   .object({
-    email: z.string().email({ message: "Почта должна быть каретной" }),
+    email: z.string().email({ message: "Почта должна быть корректной" }),
     code: z.custom<string>(),
     newPassword: z.custom<string>(),
 

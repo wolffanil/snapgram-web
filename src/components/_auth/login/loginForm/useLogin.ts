@@ -51,9 +51,10 @@ export const useLogin = (reset: UseFormReset<ILogin>) => {
     if (openIsFormCode && !data.code?.length) return;
     loadingToast("Вход...");
 
-    const recaptchaToken = await executeRecaptcha("auth");
+    // const recaptchaToken = await executeRecaptcha("auth");
 
-    login({ ...data, token: recaptchaToken });
+    // login({ ...data, token: recaptchaToken });
+    login({ ...data });
   };
 
   return useMemo(
