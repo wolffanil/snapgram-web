@@ -399,7 +399,7 @@ const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on(SOCKET_KEYS.CREATE_GROUP, (chatName: string) => {
       //@ts-ignore
       queryClient.refetchQueries([QUERY_KEYS.GET_MY_CHATS]);
-      toast.success(`Вас добавели в группу ${chatName}`);
+      toast.success(`Вас добавили в группу ${chatName}`);
     });
 
     return () => {

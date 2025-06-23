@@ -25,7 +25,7 @@ export const SigninValidation = z.object({
   password: z
     .string()
     .min(8, { message: "Пароль должен быть не менее 8 символов." })
-    .max(20, { message: "Превышенна длина пароля" }),
+    .max(20, { message: "Превышена длина пароля" }),
   code: z.custom<string>(),
 });
 
@@ -62,11 +62,11 @@ export const UpdatePasswordValidation = z
     passwordCurrent: z
       .string()
       .min(8, { message: "Пароль должен быть не менее 8 символов." })
-      .max(20, { message: "Превышенна длина пароля" }),
+      .max(20, { message: "Превышена длина пароля" }),
     newPassword: z
       .string()
       .min(8, { message: "Пароль должен быть не менее 8 символов." })
-      .max(20, { message: "Превышенна длина пароля" }),
+      .max(20, { message: "Превышена длина пароля" }),
   })
   .refine((data) => data.passwordCurrent !== data.newPassword, {
     message: "Пароли совпадают",
