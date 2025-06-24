@@ -15,7 +15,7 @@ export const useScanQr = () => {
     mutationKey: ["send-token"],
     mutationFn: (token: string) => AuthService.scanToken(token),
     onSuccess: async (data: IAuthResponse) => {
-      successToast(`Добро пожаловать обратно ${data.userData.name}`);
+      // successToast(`Добро пожаловать обратно ${data.userData.name}`);
       setUser(data.userData);
       setSessionId(data.session.id);
       navigate("/");

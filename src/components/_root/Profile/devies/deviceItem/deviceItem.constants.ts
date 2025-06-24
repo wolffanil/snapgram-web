@@ -1,6 +1,6 @@
 export const browserType: { [key: string]: string } = {
   Chrome: "/assets/browsers/chrome.svg",
-  Mozila: "/assets/browsers/mozila.svg",
+  Firefox: "/assets/browsers/mozila.svg",
   Safari: "/assets/browsers/safari.svg",
   Edge: "/assets/browsers/edge.svg",
 };
