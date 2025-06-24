@@ -15,7 +15,7 @@ function DeviceItem({ device }: { device: IDevice }) {
   let imagePath;
   if (device.type === "browser") {
     const browser = device.browser.split(" ")[0];
-    imagePath = browserType[browser] || "Chrome";
+    imagePath = browserType[browser] || "/assets/browsers/chrome.svg";
   } else {
     const os = device.device;
     imagePath = osType[os];
